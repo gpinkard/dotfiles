@@ -1,7 +1,7 @@
 ### GABRIEL'S DOT/CONFIGURATION FILES ###
 
 Configuration files for my ever evolving linux rice. This readme primarily serves to 
-remind me what particular packages I need to grab to make sure everything runs smoothly,
+remind me what particular packages I need to get to make sure everything runs smoothly,
 but feel free to grab anything you want.
 
 1. .vimrc: Get Vundle, then do :PluginInstall 

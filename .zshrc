@@ -92,5 +92,4 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 alias i3Config="vim ~/.config/i3/config"
 alias termiteConfig="vim ~/.config/termite/config"
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+POWERLEVEL9K_HOME_ICON=''

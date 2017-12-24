@@ -242,5 +242,5 @@ exec_always feh --bg-center ~/.config/i3/wallpapers/wallpaper.jpg
 
 # start compton 
 exec compton
-exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet 
 
