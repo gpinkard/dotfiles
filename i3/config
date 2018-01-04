@@ -198,7 +198,7 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $bg-color	     #2
 
 
 bar {
-  status_command ~/.config/bumblebee-status/bumblebee-status -m load cpu memory pacman date time pasink pasource uptime battery -p time.format="%H:%M CW %V" date.format="%a, %b %d %Y" -t gruvbox-powerline
+  status_command ~/.config/bumblebee-status/bumblebee-status -m load memory pacman date time pasink pasource uptime battery -p time.format="%H:%M CW %V" date.format="%a, %b %d %Y" -t gruvbox-powerline
 
   position top
   font pango:Source Code Pro 10 

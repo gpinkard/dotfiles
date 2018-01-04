@@ -12,3 +12,7 @@ but feel free to grab anything you want.
 
 4. i3/config (i3-gaps): rofi, ranger, compton, Font-Awesome, bumblebee-status,
 python-netifaces (maybe other python modules as well).
+
+![Screenshot](/i3/wallpapers/workflow.png)
+
+![Screenshot](/i3/wallpapers/workflow2.png)
