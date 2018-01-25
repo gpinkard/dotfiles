@@ -25,7 +25,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_theme='gruvbox'
-let g:airline_solarized_bg='dark'
 let g:airline_powerline_fonts=1
 
 " gruvbox 
@@ -34,7 +33,6 @@ Plugin 'morhetz/gruvbox'
 " All plugins must end after this point :o
 call vundle#end()
 filetype plugin indent on
-
 " Basic stuff
 set number	
 set linebreak
@@ -50,7 +48,6 @@ set hlsearch
 set incsearch
 set wildmenu 
 set autoindent	
-set shiftwidth=4    
 set smartindent
 set smarttab	
 set softtabstop=4
@@ -58,10 +55,8 @@ set hidden
 set history=1000
 set wildmenu
 set title
-"set ruler
 set encoding=utf-8
 set fileencodings=utf-8
-set autowrite
 set nohlsearch
 set undolevels=1000 
 set backspace=indent,eol,start
@@ -69,34 +64,28 @@ syntax enable
 set background=dark
 colorscheme gruvbox 
 hi Normal guibg=NONE ctermbg=NONE
-" Python specific
 
+" Python specific
 autocmd FileType python inoremap ( ()<Esc>i
 autocmd FileType python inoremap " ""<Esc>i
-autocmd FileType python inoremap ' ''<Esc>i
 autocmd FileType python inoremap [ []
-autocmd FileType python inoremap : :<Esc>o
+set shiftwidth=2
 
 " Java specific
-
 autocmd FileType java inoremap ( ()<Esc>i
 autocmd FileType java inoremap { {<Esc>o}<Esc>O
 autocmd FileType java inoremap " ""<Esc>i
 autocmd FileType java inoremap ' ''<Esc>i
 autocmd FileType java inoremap [ []<Esc>i
+set shiftwidth=4    
 
 " Javascript specific
-
 autocmd FileType javascript inoremap [ []
 autocmd FileType javascript inoremap ( ()<Esc>i
 autocmd FileType javascript inoremap { {}<Esc>i
 autocmd FileType javascript inoremap " ""<Esc>i
 autocmd FileType javascript inoremap ' ''<Esc>i
-autocmd FileType javascript set shiftwidth=2
-autocmd FileType javascript set tabstop=2
-autocmd FileType javascript set smarttab
-autocmd FileType javascript set smartindent 
-autocmd FileType javascript set autoindent
+set shiftwidth=2
 
 " html specific
 "autocmd FileType html inoremap < < > <Esc>i
