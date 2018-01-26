@@ -50,7 +50,6 @@ set wildmenu
 set autoindent	
 set smartindent
 set smarttab	
-set softtabstop=4
 set hidden
 set history=1000
 set wildmenu
@@ -68,7 +67,10 @@ hi Normal guibg=NONE ctermbg=NONE
 " Python specific
 autocmd FileType python inoremap ( ()<Esc>i
 autocmd FileType python inoremap " ""<Esc>i
+autocmd FileType python inoremap { {}<Esc>i
 autocmd FileType python inoremap [ []
+autocmd FileType python inoremap : :<Esc>o
+set tabstop=2
 set shiftwidth=2
 
 " Java specific
@@ -77,6 +79,7 @@ autocmd FileType java inoremap { {<Esc>o}<Esc>O
 autocmd FileType java inoremap " ""<Esc>i
 autocmd FileType java inoremap ' ''<Esc>i
 autocmd FileType java inoremap [ []<Esc>i
+set tabstop=2
 set shiftwidth=4    
 
 " Javascript specific
@@ -84,7 +87,7 @@ autocmd FileType javascript inoremap [ []
 autocmd FileType javascript inoremap ( ()<Esc>i
 autocmd FileType javascript inoremap { {}<Esc>i
 autocmd FileType javascript inoremap " ""<Esc>i
-autocmd FileType javascript inoremap ' ''<Esc>i
+set tabstop=2
 set shiftwidth=2
 
 " html specific
