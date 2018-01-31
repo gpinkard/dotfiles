@@ -24,11 +24,11 @@ Plugin 'vim-airline/vim-airline-themes'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline_theme='gruvbox'
+let g:airline_theme='minimalist'
 let g:airline_powerline_fonts=1
 
-" gruvbox 
-Plugin 'morhetz/gruvbox'
+" dracula theme
+Plugin 'dracula/vim'
 
 " All plugins must end after this point :o
 call vundle#end()
@@ -60,8 +60,8 @@ set nohlsearch
 set undolevels=1000 
 set backspace=indent,eol,start
 syntax enable
-set background=dark
-colorscheme gruvbox 
+"set background=dark
+colorscheme dracula
 hi Normal guibg=NONE ctermbg=NONE
 
 " Python specific

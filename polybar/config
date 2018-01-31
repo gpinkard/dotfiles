@@ -1,10 +1,10 @@
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #222
+background = #0d1e2f
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
-foreground = #dfdfdf
-foreground-alt = #ebdbb2
+foreground = #55F1F9
+foreground-alt = #FFFFFF
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -12,11 +12,11 @@ alert = #bd2c40
 [bar/example]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 25
+height = 30
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 0
-fixed-center = true
+radius = 4
+fixed-center = false
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -24,8 +24,11 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-size = 0
-border-color = #ebdbb2
+border-left-size=200
+border-top-size=4
+border-right-size=200
+border-bottom-size=0
+border-color = rgba(111,111,111,0.2)
 
 padding-left = 0
 padding-right = 2
@@ -34,12 +37,14 @@ module-margin-left = 1
 module-margin-right = 2
 
 font-0 = SourceCodePro:size=10;antialias=false
-font-1 = Wuncon Siji:pixelsize=15;1;antialias=false
+font-1 = Wuncon Siji
 font-2 = FontAwesome:size=8;-2
 
 modules-left = i3 
 modules-center = mpd 
 modules-right = powermenu cpu memory wlan eth alsa battery temperature date 
+
+separator =  
 
 tray-position = right
 tray-padding = 2
@@ -78,7 +83,7 @@ label-indicator-underline = ${colors.secondary}
 
 [module/filesystem]
 type = internal/fs
-interval = 25
+interval = 0 
 
 mount-0 = /
 
@@ -117,14 +122,15 @@ wrapping-scroll = false
 ; Only show workspaces on the same output as the bar
 ;pin-workspaces = true
 
-label-mode-padding = 2
+label-mode-padding = 0
 label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
 label-focused = %index%
-label-focused-background = ${module/bspwm.label-focused-background}
+label-focused-background = ${module/bspwm.label-occupied-padding}
 label-focused-padding = ${module/bspwm.label-focused-padding}
+label-focused-underline = #FFFFFF
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %index%
@@ -141,7 +147,8 @@ label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 ; Separator in between workspaces
-label-separator = ||
+label-separator = 
+
 
 [module/mpd]
 type = internal/mpd
@@ -334,7 +341,8 @@ label-open = 
 label-open-foreground = ${colors.secondary}
 label-close =  cancel
 label-close-foreground = ${colors.secondary}
-label-separator = |
+label-separator = 
+
 label-separator-foreground = ${colors.foreground-alt}
 
 menu-0-0 = reboot
@@ -345,10 +353,10 @@ menu-0-1-exec = menu-open-2
 menu-1-0 = cancel
 menu-1-0-exec = menu-open-0
 menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
+menu-1-1-exec = shutdown -r now
 
 menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
+menu-2-0-exec = shutdown -h now
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
 
@@ -360,7 +368,7 @@ screenchange-reload = true
 ;compositing-border = over
 
 [global/wm]
-margin-top = 5
-margin-bottom = 5
+margin-top = 0
+margin-bottom = 0
 
 ; vim:ft=dosini

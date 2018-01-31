@@ -14,7 +14,7 @@ search_wrap = true
 #geometry = 640x480
 
 # "system", "on" or "off"
-cursor_blink = system 
+cursor_blink = off
 
 # "block", "underline" or "ibeam"
 cursor_shape = block
@@ -33,41 +33,42 @@ filter_unmatched_urls = true
 [colors]
 
 # special
-foreground      = #ebdbb2
-foreground_bold = #ebdbb2
-#cursor          = #ebdbb2
-background = rgba(0, 0, 0, 0.9)
+foreground      = #eff4f2
+foreground_bold = #eff4f2
+#cursor          = #aadad7
+background      = #0d161f
+#background = rgba(0.4, 0.4, 0.9, 0.85)
 
 # black
-color0  = #282a2e
-color8  = #373b41
+color0  = #0a0f14
+color8  = #10151b
 
 # red
-color1  = #cc231d
-color9  = #fb4934
+color1  = #c33027
+color9  = #d26939
 
 # green
-color2  = #98971a
-color10 = #b8bb26
+color2  = #00eb2a
+color10 = #0594ee
 
 # yellow
-color3  = #d79921
-color11 = #fabd2f
+color3  = #edb54b
+color11 = #ffffff
 
 # blue
-color4  = #458588
-color12 = #41afaa
+color4  = #00c6b5
+color12 = #f31d54
 
 # magenta
-color5  = #b16286
-color13 = #d3869b
+color5  = #4e5165
+color13 = #888ba5
 
 # cyan
-color6  = #689d6a
-color14 = #8ec07c
+color6  = #2fb046
+color14 = #599caa
 
 # white
-color7  = #928374
-color15 = #a89984
+color7  = #98d1ce
+color15 = #d3ebe9
 
 # vim: ft=dosini cms=#%s

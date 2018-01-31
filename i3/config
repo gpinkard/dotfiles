@@ -156,7 +156,7 @@ client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-co
 client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color  #2096bc
 client.urgent           $urgent-bg-color    $urgent-bg-color   $bg-color	     #2096bc
 
-exec_always --no-startup-id nm-applet 
+#exec_always --no-startup-id nm-applet 
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 # start rofi
 bindsym $mod+d exec rofi -show run -lines 15 -width 40 -padding 25 -opacity "55" -font "Source Code Pro 10"
@@ -175,6 +175,6 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 
 # wallpaper 
 exec_always feh --bg-center ~/.config/i3/wallpapers/wallpaper.jpg
-
+#exec_always xcape -e 'Caps L=Escape';
 # start compton 
 exec compton
