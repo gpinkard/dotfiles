@@ -3,29 +3,86 @@
 background = #0d1e2f
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
-foreground = #55F1F9
-foreground-alt = #FFFFFF
+;foreground = #f31d54
+foreground = #ffffff
+foreground-alt = #0d161f
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/example]
+[bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
 height = 30
+bottom = false
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 4
+radius = 5
 fixed-center = false
 
-background = ${colors.background}
+background = $rgba(111,111,111,0.2)
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = #f00
+
+border-left-size=50
+border-top-size=10
+border-right-size=50
+border-bottom-size=0
+border-color = rgba(111,111,111,0.2)
+
+padding-left = 0
+padding-right = 2
+
+module-margin-left = 1
+module-margin-right = 2
+
+font-0 = UW ttyp0:size=10;2
+font-1 = Wuncon Siji
+font-2 = FontAwesome-regular:size=11;3
+
+modules-left = i3
+modules-center = mpd 
+modules-right = wlan eth alsa battery date powermenu  
+
+tray-position = right
+tray-padding = 2
+;tray-transparent = true
+;tray-background = #0063ff
+
+;wm-restack = i3
+
+;override-redirect = true
+
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+
+; vim:ft=dosini
+[bar/bottom]
+
+;monitor = ${env:MONITOR:HDMI-1}
+width = 100%
+height = 25
+bottom = true
+;offset-x = 1%
+;offset-y = 1%
+radius = 5
+fixed-center = false
+
+#background = ${colors.background}
+background = rgba(111,111,111,0.2)
 foreground = ${colors.foreground}
 
 line-size = 3
 line-color = #f00
 
 border-left-size=200
-border-top-size=4
+border-top-size=0
 border-right-size=200
 border-bottom-size=0
 border-color = rgba(111,111,111,0.2)
@@ -36,15 +93,13 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = SourceCodePro:size=10;antialias=false
+font-0 = UW ttyp0:size=10;2
 font-1 = Wuncon Siji
-font-2 = FontAwesome:size=8;-2
+font-2 = FontAwesome-regular:size=11;3
 
-modules-left = i3 
-modules-center = mpd 
-modules-right = powermenu cpu memory wlan eth alsa battery temperature date 
-
-separator =  
+modules-left = 
+modules-center = cpu memory 
+modules-right =  
 
 tray-position = right
 tray-padding = 2
@@ -130,7 +185,8 @@ label-mode-background = ${colors.primary}
 label-focused = %index%
 label-focused-background = ${module/bspwm.label-occupied-padding}
 label-focused-padding = ${module/bspwm.label-focused-padding}
-label-focused-underline = #FFFFFF
+label-focused-underline = #ab004b
+
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %index%
@@ -147,7 +203,7 @@ label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 ; Separator in between workspaces
-label-separator = 
+label-separator = |
 
 
 [module/mpd]
@@ -188,18 +244,34 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-;format-underline = #f90000
-label = %percentage:2%%
+format = <label><ramp-coreload>
+label = CPU %percentage%% :
+lable-color = ${colors.background}
+ramp-coreload-0 = #--- 
+ramp-coreload-1 = #--- 
+ramp-coreload-2 = ##--
+ramp-coreload-3 = ##--
+ramp-coreload-4 = ###-
+ramp-coreload-5 = ###-
+ramp-coreload-6 = ####
+ramp-coreload-7 = ####
+;format-prefix = " "
 
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-;format-underline = #4bffdc
-label = %percentage_used%%
+format = <label> <bar-used>
+label = RAM:  %gb_used%/%gb_free%
+; Only applies if <bar-used> is used
+bar-used-indicator = #
+bar-used-width = 20
+bar-used-foreground-0 = #55aa55
+bar-used-foreground-1 = #557755
+bar-used-foreground-2 = #f5a70a
+bar-used-foreground-3 = #ff5555
+bar-used-fill = -
+bar-used-empty = -
+bar-used-empty-foreground = ${colors.background}
 
 [module/wlan]
 type = internal/network
@@ -216,11 +288,11 @@ format-disconnected = NO WIFI
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
 ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
@@ -229,7 +301,7 @@ interface = enp8s0
 interval = 3.0
 
 ;format-connected-underline = #55aa55
-format-connected-prefix = " "
+format-connected-prefix = "ETH "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
@@ -249,7 +321,7 @@ date-alt = " %Y-%m-%d"
 time = %H:%M
 time-alt = %H:%M:%S
 
-format-prefix = 
+format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 ;format-underline = #0a6cf5
 
@@ -259,15 +331,15 @@ label = %date% %time%
 type = internal/alsa
 
 format-volume = <label-volume> <bar-volume>
-label-volume = 
-;label-volume = ""
+;label-volume = 
+label-volume = ""
 label-volume-foreground = ${colors.foreground-alt}
 
-format-muted-prefix = " "
+format-muted-prefix = " "
 format-muted-foreground = ${colors.foreground-alt}
 label-muted = sound muted
 
-bar-volume-width = 10
+bar-volume-width = 20
 bar-volume-foreground-0 = #55aa55
 bar-volume-foreground-1 = #55aa55
 bar-volume-foreground-2 = #55aa55
@@ -276,13 +348,13 @@ bar-volume-foreground-4 = #55aa55
 bar-volume-foreground-5 = #f5a70a
 bar-volume-foreground-6 = #ff5555
 bar-volume-gradient = false
-bar-volume-indicator = |
+bar-volume-indicator = #
 bar-volume-indicator-font = 2
-bar-volume-fill = =
+bar-volume-fill = -
 bar-volume-fill-font = 2
 bar-volume-empty = - 
 bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
+bar-volume-empty-foreground = #444444 
 
 [module/battery]
 type = internal/battery
@@ -296,18 +368,18 @@ format-charging = <animation-charging> <label-charging>
 format-discharging = <ramp-capacity> <label-discharging>
 ;format-discharging-underline = ${self.format-charging-underline}
 
-format-full-prefix = " "
+format-full-prefix = " " 
 format-full-prefix-foreground = ${colors.foreground-alt}
 ;format-full-underline = ${self.format-charging-underline}
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
 ramp-capacity-foreground = ${colors.foreground-alt}
 
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
 animation-charging-foreground = ${colors.foreground-alt}
 animation-charging-framerate = 750
 
@@ -325,9 +397,9 @@ label = %temperature%
 label-warn = %temperature%
 label-warn-foreground = ${colors.secondary}
 
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
 
 [module/powermenu]
@@ -337,11 +409,11 @@ expand-right = true
 
 format-spacing = 1
 
-label-open = 
+label-open = 
 label-open-foreground = ${colors.secondary}
 label-close =  cancel
 label-close-foreground = ${colors.secondary}
-label-separator = 
+label-separator = |
 
 label-separator-foreground = ${colors.foreground-alt}
 
@@ -370,5 +442,3 @@ screenchange-reload = true
 [global/wm]
 margin-top = 0
 margin-bottom = 0
-
-; vim:ft=dosini
