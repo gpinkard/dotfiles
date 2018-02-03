@@ -20,4 +20,7 @@ of module dependencies.
 
 ![Screenshot](/i3/wallpapers/workflow.png)
 
+![Screenshot](/i3/wallpapers/browsing.png)
+
 ![Screenshot](/i3/wallpapers/workflow2.png)
+
