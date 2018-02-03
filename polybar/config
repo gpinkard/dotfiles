@@ -1,5 +1,4 @@
 [colors]
-;background = ${xrdb:color0:#222}
 background = #0d1e2f
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
@@ -13,11 +12,11 @@ alert = #bd2c40
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 30
+height = 20
 bottom = false
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 5
+;radius = 5
 fixed-center = false
 
 background = $rgba(111,111,111,0.2)
@@ -26,9 +25,9 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-left-size=50
-border-top-size=10
-border-right-size=50
+border-left-size=25
+border-top-size=3
+border-right-size=25
 border-bottom-size=0
 border-color = rgba(111,111,111,0.2)
 
@@ -38,9 +37,8 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = UW ttyp0:size=10;2
-font-1 = Wuncon Siji
-font-2 = FontAwesome-regular:size=11;3
+font-0 = UW ttyp0:size=14;2
+font-1 = FontAwesome-regular:size=11;3
 
 modules-left = i3
 modules-center = mpd 
@@ -63,15 +61,15 @@ cursor-scroll = ns-resize
 
 
 ; vim:ft=dosini
-[bar/bottom]
 
+[bar/bottom]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 25
+height = 20
 bottom = true
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 5
+;radius = 5
 fixed-center = false
 
 #background = ${colors.background}
@@ -81,9 +79,9 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-left-size=200
+border-left-size=100
 border-top-size=0
-border-right-size=200
+border-right-size=100
 border-bottom-size=0
 border-color = rgba(111,111,111,0.2)
 
@@ -93,9 +91,8 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = UW ttyp0:size=10;2
-font-1 = Wuncon Siji
-font-2 = FontAwesome-regular:size=11;3
+font-0 = UW ttyp0:size=14;2
+font-1 = FontAwesome-regular:size=11;3
 
 modules-left = 
 modules-center = cpu memory 
@@ -105,13 +102,6 @@ tray-position = right
 tray-padding = 2
 ;tray-transparent = true
 ;tray-background = #0063ff
-
-;wm-restack = i3
-
-;override-redirect = true
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -136,38 +126,6 @@ label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 label-indicator-underline = ${colors.secondary}
 
-[module/filesystem]
-type = internal/fs
-interval = 0 
-
-mount-0 = /
-
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
-label-unmounted = %mountpoint% not mounted
-label-unmounted-foreground = ${colors.foreground-alt}
-
-[module/bspwm]
-type = internal/bspwm
-
-label-focused = %index%
-label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.primary}
-label-focused-padding = 2
-
-label-occupied = %index%
-label-occupied-padding = 2
-
-label-urgent = %index%!
-label-urgent-background = ${colors.alert}
-label-urgent-padding = 2
-
-label-empty = %index%
-label-empty-foreground = ${colors.foreground-alt}
-label-empty-padding = 2
-
-; Separator in between workspaces
-; label-separator = |
-
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
@@ -185,7 +143,7 @@ label-mode-background = ${colors.primary}
 label-focused = %index%
 label-focused-background = ${module/bspwm.label-occupied-padding}
 label-focused-padding = ${module/bspwm.label-focused-padding}
-label-focused-underline = #ab004b
+label-focused-underline = ${colors.background}
 
 
 ; unfocused = Inactive workspace on any monitor
@@ -203,7 +161,8 @@ label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 ; Separator in between workspaces
-label-separator = |
+label-separator = ~
+label-separator-foreground = ffffff
 
 
 [module/mpd]
@@ -246,15 +205,23 @@ type = internal/cpu
 interval = 2
 format = <label><ramp-coreload>
 label = CPU %percentage%% :
-lable-color = ${colors.background}
-ramp-coreload-0 = #--- 
-ramp-coreload-1 = #--- 
-ramp-coreload-2 = ##--
-ramp-coreload-3 = ##--
-ramp-coreload-4 = ###-
-ramp-coreload-5 = ###-
-ramp-coreload-6 = ####
-ramp-coreload-7 = ####
+;label-foreground= #0d161f
+ramp-coreload-0 = [#|-------]
+ramp-coreload-0-foreground = #00eb2a
+ramp-coreload-1 = [##|------]
+ramp-coreload-1-foreground = #00eb2a
+ramp-coreload-2 = [###|-----]
+ramp-coreload-2-foreground = #00eb2a
+ramp-coreload-3 = [####|----]
+ramp-coreload-3-foreground = #00eb2a
+ramp-coreload-4 = [#####|---]
+ramp-coreload-4-foreground = #00eb2a
+ramp-coreload-5 = [######|--]
+ramp-coreload-5-foreground = #f5a70a
+ramp-coreload-6 = [#######|-]
+ramp-coreload-6-foreground = #f5a70a
+ramp-coreload-7 = [########|]
+ramp-coreload-7-foreground = #ff5555
 ;format-prefix = " "
 
 [module/memory]
@@ -263,13 +230,13 @@ interval = 2
 format = <label> <bar-used>
 label = RAM:  %gb_used%/%gb_free%
 ; Only applies if <bar-used> is used
-bar-used-indicator = #
+bar-used-indicator = |
 bar-used-width = 20
-bar-used-foreground-0 = #55aa55
-bar-used-foreground-1 = #557755
+bar-used-foreground-0 = #00eb2a
+bar-used-foreground-1 = #00eb2a
 bar-used-foreground-2 = #f5a70a
 bar-used-foreground-3 = #ff5555
-bar-used-fill = -
+bar-used-fill = #
 bar-used-empty = -
 bar-used-empty-foreground = ${colors.background}
 
@@ -305,7 +272,7 @@ format-connected-prefix = "ETH "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
-format-disconnected =
+format-disconnected = NO ETHERNET
 ;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
@@ -318,14 +285,14 @@ interval = 5
 date =
 date-alt = " %Y-%m-%d"
 
-time = %H:%M
-time-alt = %H:%M:%S
+time = " %H:%M"
+time-alt = " %H:%M:%S"
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 ;format-underline = #0a6cf5
 
-label = %date% %time%
+label = %time% %date%
 
 [module/alsa]
 type = internal/alsa
@@ -340,21 +307,21 @@ format-muted-foreground = ${colors.foreground-alt}
 label-muted = sound muted
 
 bar-volume-width = 20
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-0 = #00eb2a
+bar-volume-foreground-1 = #00eb2a
+bar-volume-foreground-2 = #00eb2a
+bar-volume-foreground-3 = #00eb2a
+bar-volume-foreground-4 = #00eb2a
 bar-volume-foreground-5 = #f5a70a
 bar-volume-foreground-6 = #ff5555
 bar-volume-gradient = false
-bar-volume-indicator = #
+bar-volume-indicator = |
 bar-volume-indicator-font = 2
-bar-volume-fill = -
+bar-volume-fill = #
 bar-volume-fill-font = 2
 bar-volume-empty = - 
 bar-volume-empty-font = 2
-bar-volume-empty-foreground = #444444 
+bar-volume-empty-foreground = #0d161f
 
 [module/battery]
 type = internal/battery

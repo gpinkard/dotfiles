@@ -10,11 +10,14 @@ but feel free to grab anything you want.
 
 3. termite/config: nothing special needed :o
 
-4. i3/config (i3-gaps): rofi, ranger, compton, Font-Awesome, bumblebee-status,
-python-netifaces (maybe other python modules as well).
+4. i3/config (i3-gaps): rofi, ranger, compton
 
 5. ranger: Make sure EDITOR global in /etc/profile is set to vim so it does not open
 things with nano.
+
+6. polybar: Grab FontAwesome, as well as UW ttyp0. See polybar wiki for large list
+of module dependencies. 
+
 ![Screenshot](/i3/wallpapers/workflow.png)
 
 ![Screenshot](/i3/wallpapers/workflow2.png)
