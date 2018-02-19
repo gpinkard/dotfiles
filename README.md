@@ -18,6 +18,6 @@ things with nano.
 6. polybar: Grab FontAwesome, as well as UW ttyp0. See polybar wiki for large list
 of module dependencies. 
 
-[Screenshot](/i3/wallpapers/workflow.png)
+![Screenshot](/i3/wallpapers/workflow.png)
 
-[Screenshot](/i3/wallpapers/workflow2.png)
+![Screenshot](/i3/wallpapers/workflow2.png)
