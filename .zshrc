@@ -19,13 +19,15 @@ source $ZSH/oh-my-zsh.sh
 autoload -Uz compinit
 compinit
 
-
 export EDITOR=usr/bin/vim
 export VISUAL=usr/bin/vim
+export TERM="xterm-256color"
 
-alias i3Config="vim ~/.config/i3/config"
-alias termiteConfig="vim ~/.config/termite/config"
-alias nano="vim"
-alias comptonConfig="vim ~/.config/compton.conf"
-POWERLEVEL9K_HOME_ICON=""
+alias i3Config="nvim ~/.config/i3/config"
+alias termiteConfig="nvim ~/.config/termite/config"
+alias nano="nvim"
+alias nvimConfig="nvim ~/.config/nvim/init.vim"
+alias comptonConfig="nvim ~/.config/compton.conf"
+alias polybarConfig="nvim ~/.config/polybar/config"
+#POWERLEVEL9K_HOME_ICON=""
 

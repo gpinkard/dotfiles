@@ -66,7 +66,6 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-
 # workspace name bindings
 set $workspace1 "1: hom "
 set $workspace2 "2: web "
@@ -168,13 +167,15 @@ bindsym $mod+shift+x exec i3lock -u -i ~/.config/i3/wallpapers/wallpaper.png
 bindsym $mod+g exec termite -e ranger
 
 # screen brightness and volume stuff
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym $mod+p exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym $mod+o exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym $mod+m exec --no-startup-id pactl set-sink-volume 0 -150% #decrease sound volume
+bindsym $mod+n exec --no-startup-id pactl set-sink-volume 0 +150% #decrease sound volume
+bindsym $mod+i exec xbacklight -inc 20 # increase screen brightness
+bindsym $mod+u exec xbacklight -dec 20 # decrease screen brightness
 
 # wallpaper 
-exec_always feh --bg-center ~/.config/i3/wallpapers/wallpaper.jpg
+exec_always feh --bg-center ~/.config/i3/wallpapers/wallpaper.png
 #exec_always xcape -e 'Caps L=Escape';
 # start compton 
 exec compton

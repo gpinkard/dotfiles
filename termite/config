@@ -32,43 +32,27 @@ filter_unmatched_urls = true
 #modify_other_keys = false
 [colors]
 
-# special
-foreground      = #eff4f2
-foreground_bold = #eff4f2
-#cursor          = #aadad7
-background      = #0d161f
-#background = rgba(0.4, 0.4, 0.9, 0.85)
+foreground      = #C0C5CE
+foreground_bold = #C0C5CE
+#cursor          = #C0C5CE
+background      = #1B2B34
 
-# black
-color0  = #0a0f14
-color8  = #10151b
-
-# red
-color1  = #c33027
-color9  = #d26939
-
-# green
-color2  = #00eb2a
-color10 = #0594ee
-
-# yellow
-color3  = #edb54b
-color11 = #ffffff
-
-# blue
-color4  = #00c6b5
-color12 = #f31d54
-
-# magenta
-color5  = #4e5165
-color13 = #888ba5
-
-# cyan
-color6  = #2fb046
-color14 = #599caa
-
-# white
-color7  = #98d1ce
-color15 = #d3ebe9
+# 16 color space
+color0  = #1B2B34
+color1  = #EC5f67
+color2  = #99C794
+color3  = #FAC863
+color4  = #6699CC
+color5  = #C594C5
+color6  = #5FB3B3
+color7  = #C0C5CE
+color8  = #65737E
+color9  = #EC5f67
+color10 = #99C794
+color11 = #FAC863
+color12 = #6699CC
+color13 = #C594C5
+color14 = #5FB3B3
+color15 = #D8DEE9
 
 # vim: ft=dosini cms=#%s

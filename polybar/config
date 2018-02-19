@@ -4,7 +4,7 @@ background-alt = #444
 ;foreground = ${xrdb:color7:#222}
 ;foreground = #f31d54
 foreground = #ffffff
-foreground-alt = #0d161f
+foreground-alt = #00d6ff
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -183,7 +183,7 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 ; Separator in between workspaces
 label-separator = ~
-label-separator-foreground = ffffff
+label-separator-foreground = ${colors.foreground-alt}
 
 
 [module/mpd]
@@ -228,15 +228,15 @@ format = <label><ramp-coreload>
 label = CPU %percentage%% :
 ;label-foreground= #0d161f
 ramp-coreload-0 = [#|-------]
-ramp-coreload-0-foreground = #00eb2a
+ramp-coreload-0-foreground = #37ff00
 ramp-coreload-1 = [##|------]
-ramp-coreload-1-foreground = #00eb2a
+ramp-coreload-1-foreground = #37ff00
 ramp-coreload-2 = [###|-----]
-ramp-coreload-2-foreground = #00eb2a
+ramp-coreload-2-foreground = #37ff00
 ramp-coreload-3 = [####|----]
-ramp-coreload-3-foreground = #00eb2a
+ramp-coreload-3-foreground = #37ff00
 ramp-coreload-4 = [#####|---]
-ramp-coreload-4-foreground = #00eb2a
+ramp-coreload-4-foreground = #37ff00
 ramp-coreload-5 = [######|--]
 ramp-coreload-5-foreground = #f5a70a
 ramp-coreload-6 = [#######|-]
@@ -259,7 +259,7 @@ bar-used-foreground-2 = #f5a70a
 bar-used-foreground-3 = #ff5555
 bar-used-fill = #
 bar-used-empty = -
-bar-used-empty-foreground = ${colors.background}
+bar-used-empty-foreground = #ffffff
 
 [module/wlan]
 type = internal/network
@@ -289,7 +289,7 @@ interface = enp8s0
 interval = 3.0
 
 ;format-connected-underline = #55aa55
-format-connected-prefix = "ETH "
+format-connected-prefix = "ETH: "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
@@ -342,7 +342,7 @@ bar-volume-fill = #
 bar-volume-fill-font = 2
 bar-volume-empty = - 
 bar-volume-empty-font = 2
-bar-volume-empty-foreground = #0d161f
+bar-volume-empty-foreground = #ffffff
 
 [module/battery]
 type = internal/battery
@@ -389,7 +389,7 @@ label-warn-foreground = ${colors.secondary}
 ramp-0 = 
 ramp-1 = 
 ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
+ramp-foreground = #ffffff
 
 [module/powermenu]
 type = custom/menu
