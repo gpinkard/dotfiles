@@ -1,13 +1,16 @@
 " Vim Plug plugin manager
 call plug#begin('~/.local/share/nvim/plugged')
 " deoplete
+
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
+
 " NERDTree file manager
 Plug 'scrooloose/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
+
 " ale (asynchronous lint engine)
 Plug 'w0rp/ale'
 let g:ale_sign_column_always = 1
@@ -19,6 +22,7 @@ let g:ale_echo_msg_warning_str = 'warning'
 let g:ale_echo_msg_format = '[%linter%] %severity%: %s'
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
 " vim-airline + themes
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -28,10 +32,12 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#ale#enabled = 1
 let g:airline_theme='base16'
+
 " Colorscheme 
 Plug 'mhartington/oceanic-next'
 let g:enable_bold_font=1
 let g:enable_italic_font=1
+
 " No plugins after this point
 call plug#end()
 
@@ -73,7 +79,8 @@ colorscheme OceanicNext
 
 " Python specific
 autocmd FileType python inoremap ( ()<Left>
-autocmd FileType python inoremap " ""<Left>
+autocmd FileType python inoremap " """<Return>"""<Esc>O
+autocmd FileType python inoremap ' ''<Left>
 autocmd FileType python inoremap { {}<Left>
 autocmd FileType python inoremap [ []<Left>
 set tabstop=2
