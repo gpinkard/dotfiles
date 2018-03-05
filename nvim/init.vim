@@ -1,7 +1,7 @@
 " Vim Plug plugin manager
 call plug#begin('~/.local/share/nvim/plugged')
-" deoplete
 
+" deoplete
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
 
@@ -67,7 +67,6 @@ set fileencodings=utf-8
 set nohlsearch
 set undolevels=1000 
 set backspace=indent,eol,start
-"set background=dark
 syntax on 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 if (has("termguicolors"))
