@@ -158,7 +158,7 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $bg-color	     #2
 # exec_always --no-startup-id nm-applet 
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 # start rofi
-bindsym $mod+d exec rofi -show run -lines 7 -width 20 -padding 5 -font "hermit 10"
+bindsym $mod+d exec rofi -show run -lines 7 -width 20 -padding 5 -font "UW ttyp0 11"
 
 # mod shift x locks screen
 bindsym $mod+shift+x exec i3lock -u -i ~/.config/i3/wallpapers/wallpaper.png

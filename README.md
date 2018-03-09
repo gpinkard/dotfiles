@@ -6,7 +6,7 @@ but feel free to grab anything you want.
 
 1. neovim: Get vim-plug, then do :PlugInstall 
 
-2. .zshrc: Just use oh-my-zsh, grab powerlevel9k + powerline fonts. 
+2. .zshrc: Just use oh-my-zsh, grab geometry-zsh + powerline fonts. 
 
 3. termite/config: nothing special needed :o
 
@@ -15,7 +15,7 @@ but feel free to grab anything you want.
 5. ranger: Make sure EDITOR global in /etc/profile is set to nvim so it does not open
 things with nano.
 
-6. polybar: Grab FontAwesome, as well as Hermit font. See polybar wiki for large list
+6. polybar: Grab FontAwesome, as well as UW ttyp0 font. See polybar wiki for large list
 of module dependencies. 
 
 ![Screenshot](/i3/wallpapers/workflow.png)

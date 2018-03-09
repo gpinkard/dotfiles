@@ -1,15 +1,19 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/home/mfwic/.oh-my-zsh
 
-# ZSH_THEME="powerlevel9k/powerlevel9k"
-# PROMPT_GEOMETRY_COLORIZE_SYMBOL=true
+# PROMPT STUFF
 GEOMETRY_PROMPT_PREFIX=""
-GEOMETRY_GIT_SEPARATOR="--"
-GEOMETRY_SYMBOL_PROMPT=" "
-GEOMETRY_SYMBOL_EXIT_VALUE=""
+GEOMETRY_GIT_SEPARATOR="~"
+GEOMETRY_SYMBOL_PROMPT="  "
+GEOMETRY_SYMBOL_EXIT_VALUE="  "
 GEOMETRY_COLOR_PROMPT="yellow"
 GEOMETRY_COLOR_DIR="magenta"
 GEOMETRY_COLOR_EXIT_VALUE="red"
+# GIT STUFF
+GEOMETRY_SYMBOL_GIT_DIRTY=""
+GEOMETRY_SYMBOL_GIT_CLEAN=""
+PROMPT_GEOMETRY_GIT_CONFLICTS=true
+PROMPT_GEOMETRY_GIT_TIME_LONG_FORMAT=true
 ZSH_THEME='geometry/geometry'
 # POWERLEVEL9K_MODE='awesome-fontconfig'
 export UPDATE_ZSH_DAYS=13
@@ -28,8 +32,8 @@ source $ZSH/oh-my-zsh.sh
 autoload -Uz compinit
 compinit
 
-export EDITOR=usr/bin/vim
-export VISUAL=usr/bin/vim
+export EDITOR=usr/bin/nvim
+export VISUAL=usr/bin/nvim
 # export TERM="xterm-256color"
 alias termiteConfig="nvim ~/.config/termite/config"
 alias nano="nvim"
