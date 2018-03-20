@@ -2,7 +2,7 @@
 export ZSH=/home/gabe/.oh-my-zsh
 
 # PROMPT STUFF
-ZSH_THEME='gabe'
+ZSH_THEME='pointer'
 # POWERLEVEL9K_MODE='awesome-fontconfig'
 export UPDATE_ZSH_DAYS=13
 
@@ -28,5 +28,5 @@ alias termiteConfig="nvim ~/.config/termite/config"
 alias nvimConfig="nvim ~/.config/nvim/init.vim"
 alias comptonConfig="nvim ~/.config/compton.conf"
 alias polybarConfig="nvim ~/.config/polybar/config"
-alias promptConfig="nvim ~/.oh-my-zsh/themes/gabe"
+alias promptConfig="nvim ~/.oh-my-zsh/themes/gabe.zsh-theme"
 alias nf="neofetch"
