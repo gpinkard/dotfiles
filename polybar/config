@@ -38,8 +38,8 @@ module-margin-left = 1
 module-margin-right = 2
 
 font-0 = UW ttyp0:size=14;2
-;font-0 = hermit:size=9;2
-font-1 = FontAwesome-regular:size=11;3
+;font-0 = SourceCodePro:size=9;2
+font-1 = FontAwesome5Free:style=solid:size=11;3
 
 modules-left = i3
 modules-center = mpd 
@@ -93,8 +93,8 @@ module-margin-left = 1
 module-margin-right = 2
 
 font-0 = UW ttyp0:size=14;2
-;font-0 = hermit:size=9;2
-font-1 = FontAwesome-regular:size=11;3
+;font-0 = SourceCodePro:size=9;2
+font-1 = FontAwesome5Free:style=solid:size=11;3
 
 modules-left = 
 modules-center = cpu memory temperature
@@ -229,19 +229,19 @@ interval = 2
 format = <label><ramp-coreload>
 label = CPU %percentage%% :
 ;label-foreground= #0d161f
-ramp-coreload-0 = [#|-------]
+ramp-coreload-0 = [#|=======]
 ramp-coreload-0-foreground = #37ff00
-ramp-coreload-1 = [##|------]
+ramp-coreload-1 = [##|======]
 ramp-coreload-1-foreground = #37ff00
-ramp-coreload-2 = [###|-----]
+ramp-coreload-2 = [###|=====]
 ramp-coreload-2-foreground = #37ff00
-ramp-coreload-3 = [####|----]
+ramp-coreload-3 = [####|====]
 ramp-coreload-3-foreground = #37ff00
-ramp-coreload-4 = [#####|---]
+ramp-coreload-4 = [#####|===]
 ramp-coreload-4-foreground = #37ff00
-ramp-coreload-5 = [######|--]
+ramp-coreload-5 = [######|==]
 ramp-coreload-5-foreground = #f5a70a
-ramp-coreload-6 = [#######|-]
+ramp-coreload-6 = [#######|=]
 ramp-coreload-6-foreground = #f5a70a
 ramp-coreload-7 = [########|]
 ramp-coreload-7-foreground = #ff5555
@@ -260,7 +260,7 @@ bar-used-foreground-1 = #00eb2a
 bar-used-foreground-2 = #f5a70a
 bar-used-foreground-3 = #ff5555
 bar-used-fill = #
-bar-used-empty = -
+bar-used-empty = =
 bar-used-empty-foreground = #ffffff
 
 [module/wlan]
@@ -342,7 +342,7 @@ bar-volume-indicator = |
 bar-volume-indicator-font = 2
 bar-volume-fill = #
 bar-volume-fill-font = 2
-bar-volume-empty = - 
+bar-volume-empty = = 
 bar-volume-empty-font = 2
 bar-volume-empty-foreground = #ffffff
 
