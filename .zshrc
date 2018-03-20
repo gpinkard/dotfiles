@@ -2,7 +2,7 @@
 export ZSH=/home/gabe/.oh-my-zsh
 
 # PROMPT STUFF
-ZSH_THEME='classyTouch'
+ZSH_THEME='gabe'
 # POWERLEVEL9K_MODE='awesome-fontconfig'
 export UPDATE_ZSH_DAYS=13
 
@@ -23,15 +23,10 @@ compinit
 export EDITOR=/usr/bin/nvim
 export VISUAL=/usr/bin/nvim
 # export TERM="xterm-256color"
+alias i3Config="nvim ~/.config/i3/config"
 alias termiteConfig="nvim ~/.config/termite/config"
-alias nano="nvim"
 alias nvimConfig="nvim ~/.config/nvim/init.vim"
 alias comptonConfig="nvim ~/.config/compton.conf"
 alias polybarConfig="nvim ~/.config/polybar/config"
-
-
-
-
-
-
-
+alias promptConfig="nvim ~/.oh-my-zsh/themes/gabe"
+alias nf="neofetch"
