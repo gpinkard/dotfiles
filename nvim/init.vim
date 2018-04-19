@@ -34,9 +34,7 @@ let g:airline#extensions#ale#enabled = 1
 let g:airline_theme='base16'
 
 " Colorscheme 
-Plug 'mhartington/oceanic-next'
-let g:enable_bold_font=1
-let g:enable_italic_font=1
+Plug 'morhetz/gruvbox'
 
 " No plugins after this point
 call plug#end()
@@ -67,14 +65,13 @@ set fileencodings=utf-8
 set nohlsearch
 set undolevels=1000 
 set backspace=indent,eol,start
-syntax on 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-if (has("termguicolors"))
- set termguicolors
-endif
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
-colorscheme OceanicNext
+syntax on 
+set background=dark
+"let g:gruvbox_termcolors=16
+let g:oceanic_next_terminal_bold=1
+let g:oceanic_next_terminal_italic=1
+colorscheme gruvbox
 
 " Python specific
 autocmd FileType python inoremap ( ()<Left>
