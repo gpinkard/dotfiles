@@ -11,24 +11,34 @@
 
 (package-initialize)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;P A C K A G E S ;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; use-package
 (eval-when-compile
   (require 'use-package))
 ;; make sure everything is installed on startup
 (setq use-package-always-ensure t)
 
-;; evil-mode (make emacs good at editing text)
+;; evil-mode (VI in Emacs :o)
 (use-package evil
   :ensure t
   :config
   (evil-mode t))
 
-;; special bullet points for org mode
+;; vim-like tabs
+(use-package evil-tabs
+  :ensure t
+  :config
+  (global-evil-tabs-mode t))
+
+;; pretty bullet points for org mode
 (use-package org-bullets
   :ensure t
   :init
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
 
 ;; powerline bar (telephone line)
 (use-package telephone-line
@@ -36,22 +46,22 @@
   :init
   (setq telephone-line-height 22)
   (setq telephone-line-lhs
-      '((evil   . (telephone-line-evil-tag-segment))
-        (accent . (telephone-line-vc-segment
-                   telephone-line-erc-modified-channels-segment
-                   telephone-line-process-segment))
-        (nil    . (telephone-line-minor-mode-segment
-                   telephone-line-buffer-segment))))
+        '((evil   . (telephone-line-evil-tag-segment))
+          (accent . (telephone-line-erc-modified-channels-segment))
+	  (nil    . (telephone-line-major-mode-segment
+		     telephone-line-minor-mode-segment))))
   (setq telephone-line-rhs
-      '((nil    . (telephone-line-misc-info-segment))
-        (accent . (telephone-line-major-mode-segment))
-        (evil   . (telephone-line-airline-position-segment))))
+        '((nil    . (telephone-line-misc-info-segment
+		     telephone-line-buffer-segment))
+          (accent . (telephone-line-vc-segment
+		     telephone-line-process-segment))
+          (evil   . (telephone-line-airline-position-segment))))
+  ;; shapes go here
   (setq telephone-line-primary-left-separator 'telephone-line-tan-left
       telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left
-      telephone-line-primary-right-separator 'telephone-line-cubed-right
-      telephone-line-secondary-right-separator 'telephone-line-cubed-hollow-right)
+      telephone-line-primary-right-separator 'telephone-line-tan-right
+      telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right)
   (telephone-line-mode 1))
-
 
 ;; neo-tree (file tree)
 (use-package neotree
@@ -62,6 +72,7 @@
   :init
   (global-set-key [f8] 'neotree-toggle)
   (add-hook 'neotree-mode-hook (lambda ()
+	    (define-key evil-normal-state-local-map (kbd "C-n") 'neotree-toggle)
             (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
             (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-quick-look)
             (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
@@ -87,12 +98,20 @@
 ;; auto-complete
 ;; (ac-config-default)
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; O T H E R  C O N F I G U R A T I O N S ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; finish parens, quotes, curly braces etc.
 (electric-pair-mode t)
 
 ;; no startup screen
 (setq inhibit-startup-screen t)
 
+(setq scroll-margin 5
+      scroll-conservatively 9999
+      scroll-step 1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -110,7 +129,7 @@
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (use-package all-the-icons shell-pop neotree auto-complete nlinum telephone-line org-bullets org-link-minor-mode gruvbox-theme spaceline evil-visual-mark-mode)))
+    (evil-tabs use-package all-the-icons shell-pop neotree auto-complete nlinum telephone-line org-bullets org-link-minor-mode gruvbox-theme spaceline evil-visual-mark-mode)))
  '(scroll-bar-mode nil)
  '(shell-pop-shell-type
    (quote

@@ -26,12 +26,12 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " vim-airline + themes
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-let g:airline_powerline_fonts=1
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#ale#enabled = 1
-let g:airline_theme='base16'
+let g:airline_theme='gruvbox'
 
 " Colorscheme 
 Plug 'morhetz/gruvbox'
@@ -69,8 +69,8 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 syntax on 
 set background=dark
 "let g:gruvbox_termcolors=16
-let g:oceanic_next_terminal_bold=1
-let g:oceanic_next_terminal_italic=1
+let g:gruvbox_bold = 1
+let g:gruvbox_italic = 1
 colorscheme gruvbox
 
 " Python specific
