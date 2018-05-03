@@ -56,6 +56,7 @@ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
+floating_minimum_size 500 x 500 
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -67,11 +68,11 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # workspace name bindings
-set $workspace1 "1: hom "
-set $workspace2 "2: web "
-set $workspace3 "3: dev "
-set $workspace4 "4: trm "
-set $workspace5 "5: rdm "
+set $workspace1 "1 "
+set $workspace2 "2 "
+set $workspace3 "3 "
+set $workspace4 "4 "
+set $workspace5 "5 "
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -141,7 +142,7 @@ for_window [class="^.*"] border pixel 1
 
 # window color vars
 set $bg-color 	         #282828
-set $border-color	 			 #ffffff
+set $border-color	 			 #ebdbb2
 set $inactive-bg-color   #282828
 set $text-color          #fb4934
 set $inactive-text-color #ebdbb2
@@ -149,16 +150,16 @@ set $urgent-bg-color     #fb4934
 
 # # # W I N D O W   C O L O R S # # # 
 
-# client                 Border              Background	        Text		     WindowHint   
-client.focused          $border-color	    $border-color      $text-color           #2096bc
-client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color  #2096bc
-client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color  #2096bc
-client.urgent           $urgent-bg-color    $urgent-bg-color   $bg-color	     #2096bc
+# client                 Border              Background	        Text		            WindowHint   
+client.focused          $border-color	      $border-color      $text-color           #d79921
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color  #d79921
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color  #d79921
+client.urgent           $urgent-bg-color    $urgent-bg-color   $bg-color	           #d79921
 
 # exec_always --no-startup-id nm-applet 
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 # start rofi
-bindsym $mod+d exec rofi -show run -lines 15 -width 28 -padding 5 -font "Inconsolata 11"
+bindsym $mod+d exec rofi -show run -lines 15 -width 28 -padding 5 -font "UW ttyp0 10"
 
 # mod shift x locks screen
 bindsym $mod+shift+x exec i3lock -u -i ~/.config/i3/wallpapers/wallpaper.png
