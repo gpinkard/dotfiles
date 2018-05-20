@@ -56,7 +56,7 @@ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
-floating_minimum_size 500 x 500 
+floating_minimum_size 400 x 200
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -142,7 +142,7 @@ for_window [class="^.*"] border pixel 1
 
 # window color vars
 set $bg-color 	         #282828
-set $border-color	 			 #ebdbb2
+set $border-color	 			 #ffffff
 set $inactive-bg-color   #282828
 set $text-color          #fb4934
 set $inactive-text-color #ebdbb2
@@ -162,7 +162,7 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 bindsym $mod+d exec rofi -show run -lines 15 -width 28 -padding 5 -font "UW ttyp0 10"
 
 # mod shift x locks screen
-bindsym $mod+shift+x exec i3lock -u -i ~/.config/i3/wallpapers/wallpaper.png
+bindsym $mod+shift+x exec i3lock -u -i ~/.config/i3/wallpapers/wallpaper.jpg
 
 # start ranger
 bindsym $mod+g exec termite -e ranger
@@ -176,7 +176,7 @@ bindsym $mod+i exec xbacklight -inc 20 # increase screen brightness
 bindsym $mod+u exec xbacklight -dec 20 # decrease screen brightness
 
 # wallpaper 
-exec_always feh --bg-center ~/.config/i3/wallpapers/wallpaper.png
+exec_always feh --bg-center ~/.config/i3/wallpapers/wallpaper.jpg
 #exec_always xcape -e 'Caps L=Escape';
 # start compton 
 exec compton

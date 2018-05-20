@@ -7,8 +7,8 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-# font = UW ttyp0 13
-font = Inconsolata for Powerline 13
+font = UW ttyp0 13
+# font = Inconsolata-g for Powerline 11
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -31,46 +31,28 @@ filter_unmatched_urls = true
 
 # emit escape sequences for extra modified keys
 #modify_other_keys = false
-[colors]
 
 [colors]
 
-# special
-foreground      = #ebdbb2
-foreground_bold = #ebdbb2
-# cursor          = #ebdbb2
-background      = #282828
+foreground      = #C0C5CE
+foreground_bold = #C0C5CE
+# cursor          = #C0C5CE
+background      = #1B2B34
 
-# black
-color0  = #282a2e
-color8  = #373b41
-
-# red
-color1  = #cc241d
-color9  = #fb4934
-
-# green
-color2  = #98971a
-color10 = #b8bb26
-
-# yellow
-color3  = #d79921
-color11 = #fabd2f
-
-# blue
-color4  = #458588
-color12 = #83a598
-
-# magenta
-color5  = #b16286
-color13 = #d3869b
-
-# cyan
-color6  = #689d6a
-color14 = #8ec07c
-
-# white
-color7  = #a89984
-color15 = #c5c8c6
-
-# vim: ft=dosini cms=#%s
+# 16 color space
+color0  = #1B2B34
+color1  = #EC5f67
+color2  = #99C794
+color3  = #FAC863
+color4  = #6699CC
+color5  = #C594C5
+color6  = #5FB3B3
+color7  = #C0C5CE
+color8  = #65737E
+color9  = #EC5f67
+color10 = #99C794
+color11 = #FAC863
+color12 = #6699CC
+color13 = #C594C5
+color14 = #5FB3B3
+color15 = #D8DEE9

@@ -113,6 +113,9 @@
       scroll-conservatively 9999
       scroll-step 1)
 
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -121,15 +124,15 @@
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(blink-cursor-mode nil)
- '(custom-enabled-themes (quote (gruvbox-dark-medium)))
+ '(custom-enabled-themes (quote (atom-one-dark)))
  '(custom-safe-themes
    (quote
-    ("021720af46e6e78e2be7875b2b5b05344f4e21fad70d17af7acfd6922386b61e")))
+    ("081d0f8a263358308245355f0bb242c7a6726fc85f0397d65b18902ea95da591" "021720af46e6e78e2be7875b2b5b05344f4e21fad70d17af7acfd6922386b61e")))
  '(horizontal-scroll-bar-mode nil)
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (evil-tabs use-package all-the-icons shell-pop neotree auto-complete nlinum telephone-line org-bullets org-link-minor-mode gruvbox-theme spaceline evil-visual-mark-mode)))
+    (atom-one-dark-theme evil-tabs use-package all-the-icons shell-pop neotree auto-complete nlinum telephone-line org-bullets org-link-minor-mode gruvbox-theme spaceline evil-visual-mark-mode)))
  '(scroll-bar-mode nil)
  '(shell-pop-shell-type
    (quote
@@ -144,5 +147,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#282828" :foreground "#fdf4c1" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "PfEd" :family "Inconsolata for Powerline"))))
+ '(default ((t (:inherit nil :stipple nil :background "#282C34" :foreground "#ABB2BF" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 128 :width normal :foundry "CYRE" :family "Inconsolata"))))
  '(mode-line-buffer-id-inactive ((t (:inherit mode-line-buffer-id :height 1.0)))))

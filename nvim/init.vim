@@ -1,15 +1,13 @@
 " Vim Plug plugin manager
 call plug#begin('~/.local/share/nvim/plugged')
 
-" deoplete
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" deoplete Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
 
 " NERDTree file manager
 Plug 'scrooloose/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 map <C-n> :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
 
 " ale (asynchronous lint engine)
 Plug 'w0rp/ale'
@@ -31,10 +29,10 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#ale#enabled = 1
-let g:airline_theme='gruvbox'
+let g:airline_theme='base16'
 
 " Colorscheme 
-Plug 'morhetz/gruvbox'
+Plug 'mhartington/oceanic-next'
 
 " No plugins after this point
 call plug#end()
@@ -66,12 +64,15 @@ set nohlsearch
 set undolevels=1000 
 set backspace=indent,eol,start
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-syntax on 
-set background=dark
-"let g:gruvbox_termcolors=16
-let g:gruvbox_bold = 1
-let g:gruvbox_italic = 1
-colorscheme gruvbox
+if (has("termguicolors"))
+	set termguicolors
+endif
+syntax enable
+colorscheme OceanicNext
+" for ALE gutter color
+highlight SignColumn ctermbg=bg
+" transparency for vim
+" hi Normal guibg=NONE ctermbg=NONE
 
 " Python specific
 autocmd FileType python inoremap ( ()<Left>
@@ -102,13 +103,14 @@ set shiftwidth=4
 
 " Javascript specific
 autocmd FileType javascript inoremap [ []
+autocmd FileType javascript inoremap { {<CR>}<Esc>O
 autocmd FileType javascript inoremap ( ()<Left>
-autocmd FileType javascript inoremap { {}<Left>
 autocmd FileType javascript inoremap " ""<Left>
+autocmd FileType javascript inoremap ' ''<Left>
 set tabstop=2
 set shiftwidth=2
 
 " html specific
-autocmd FileType html inoremap < < > <left>x
+autocmd FileType html inoremap < <><left>
 autocmd FileType html set tabstop=2
 set shiftwidth=2

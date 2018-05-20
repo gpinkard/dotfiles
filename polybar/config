@@ -3,11 +3,11 @@ background = #0d1e2f
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
 ;foreground = #f31d54
-foreground = #ebdbb2
-foreground-alt = #928374
+foreground = #d2d2d2
+foreground-alt = #268bd2
 primary = #ffb52a
 secondary = #e60053
-alert = #cc241d
+alert = #dc322f
 
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -38,7 +38,7 @@ module-margin-left = 1
 module-margin-right = 2
 
 font-0 = UW ttyp0:size=12;1
-;font-0 = Inconsolata for Powerline:size=11;2
+;font-0 = Inconsolata-g for powerline:size=9;2
 font-1 = FontAwesome5Free:style=solid:size=8;1
 
 modules-left = i3 
@@ -185,21 +185,21 @@ format = <label><ramp-coreload>
 label = CPU %percentage%% : 
 label-foreground = ${colors.foreground-alt}
 ramp-coreload-0 = [#|~~~~~~~]
-ramp-coreload-0-foreground = #b8bb26 
+ramp-coreload-0-foreground = #859900
 ramp-coreload-1 = [##|~~~~~~]
-ramp-coreload-1-foreground = #b8bb26
+ramp-coreload-1-foreground = #859900
 ramp-coreload-2 = [###|~~~~~]
-ramp-coreload-2-foreground = #b8bb26
+ramp-coreload-2-foreground = #859900
 ramp-coreload-3 = [####|~~~~]
-ramp-coreload-3-foreground = #b8bb26
+ramp-coreload-3-foreground = #859900
 ramp-coreload-4 = [#####|~~~]
-ramp-coreload-4-foreground = #b8bb26
+ramp-coreload-4-foreground = #859900
 ramp-coreload-5 = [######|~~]
-ramp-coreload-5-foreground = #f5a70a
+ramp-coreload-5-foreground = #b58900
 ramp-coreload-6 = [#######|~]
-ramp-coreload-6-foreground = #f5a70a
+ramp-coreload-6-foreground = #b58900
 ramp-coreload-7 = [########|]
-ramp-coreload-7-foreground = #ff5555
+ramp-coreload-7-foreground = #dc322f
 ;format-prefix = " "
 
 [module/memory]
@@ -211,11 +211,11 @@ label = RAM: %gb_used%/%gb_free%
 label-foreground = ${colors.foreground-alt}
 ; Only applies if <bar-used> is used
 bar-used-indicator = |
-bar-used-width = 10
-bar-used-foreground-0 = #b8bb26
-bar-used-foreground-1 = #b8bb26
-bar-used-foreground-2 = #f5a70a
-bar-used-foreground-3 = #ff5555
+bar-used-width = 20
+bar-used-foreground-0 = #859900
+bar-used-foreground-1 = #859900
+bar-used-foreground-2 = #b58900
+bar-used-foreground-3 = #dc322f
 bar-used-fill = #
 bar-used-empty = ~
 bar-used-empty-foreground = ${colors.foreground}
@@ -287,13 +287,13 @@ format-muted-foreground = ${colors.foreground-alt}
 label-muted = sound muted
 
 bar-volume-width = 20
-bar-volume-foreground-0 = #b8bb26
-bar-volume-foreground-1 = #b8bb26
-bar-volume-foreground-2 = #b8bb26
-bar-volume-foreground-3 = #b8bb26
-bar-volume-foreground-4 = #b8bb26
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #fb4934
+bar-volume-foreground-0 = #859900
+bar-volume-foreground-1 = #859900
+bar-volume-foreground-2 = #859900
+bar-volume-foreground-3 = #859900
+bar-volume-foreground-4 = #859900
+bar-volume-foreground-5 = #b58900
+bar-volume-foreground-6 = #dc322f
 bar-volume-gradient = false
 bar-volume-indicator = |
 bar-volume-indicator-font = 2
