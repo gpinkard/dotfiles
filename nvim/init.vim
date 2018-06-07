@@ -1,12 +1,20 @@
+" +----------------------------------------+
+" | Gabriel Pinkard's neovim configuration |
+" +----------------------------------------+
+
+" Plugins and their settings
+
 " Vim Plug plugin manager
 call plug#begin('~/.local/share/nvim/plugged')
 
-" deoplete Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" deoplete (asynchranous autocomplete)
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
 
 " NERDTree file manager
 Plug 'scrooloose/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeShowHidden=1
 map <C-n> :NERDTreeToggle<CR>
 
 " ale (asynchronous lint engine)
@@ -46,8 +54,8 @@ set showmatch
 set visualbell
 set laststatus=2
 set ttimeoutlen=50
-set smartcase
 set ignorecase
+set smartcase
 set hlsearch
 set incsearch
 set wildmenu 
@@ -63,18 +71,45 @@ set fileencodings=utf-8
 set nohlsearch
 set undolevels=1000 
 set backspace=indent,eol,start
+" Oceanic next colorscheme stuff
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 if (has("termguicolors"))
 	set termguicolors
 endif
+
 syntax enable
 colorscheme OceanicNext
 " for ALE gutter color
 highlight SignColumn ctermbg=bg
-" transparency for vim
-" hi Normal guibg=NONE ctermbg=NONE
+" enable transparency if term has transparency
+map <F12> :hi Normal guibg=NONE ctermbg=NONE<CR>
+
+"Leader stuff
+let mapleader = "\<Space>"
+" faster than holding down shift
+nnoremap <leader><Space> :
+"Reload config file
+nnoremap <leader>R :so ~/.config/nvim/init.vim<Return>
+"Saving, quiting, and such
+nnoremap <leader>q :q<Return>
+nnoremap <leader>w :w<Return>
+nnoremap <leader>x :x<Return>
+nnoremap <leader>e :e<Space>
+" Tabs stuff
+nnoremap <leader>T :tabnew<Return>
+nnoremap <leader><Tab> gt<Return>
+" Mimic my i3 configs tiling for splitting
+nnoremap <leader>v<Return> <C-w>s 
+nnoremap <leader>c<Return> <C-w>v
+" Autoformat
+nnoremap <leader>F gg=G
+" NERDTree toggle
+map <leader>n :NERDTreeToggle<CR>
+
+" Language specific settings + rebindings
 
 " Python specific
+let python_highlight_all = 1
 autocmd FileType python inoremap ( ()<Left>
 autocmd FileType python inoremap " """<Return>"""<Esc>O
 autocmd FileType python inoremap ' ''<Left>
@@ -85,7 +120,7 @@ set shiftwidth=2
 
 " Java specific
 autocmd FileType java inoremap ( ()<Left>
-autocmd FileType java inoremap { {<CR>}<Esc>O
+autocmd FileType java inoremap { {}<Left><Return><Esc>O
 autocmd FileType java inoremap " ""<Left>
 autocmd FileType java inoremap ' ''<Left>
 autocmd FileType java inoremap [ []<Left>
@@ -94,7 +129,7 @@ set shiftwidth=4
 
 " C specific
 autocmd FileType c inoremap ( ()<Left>
-autocmd FileType c inoremap { {<CR>}<Esc>O
+autocmd FileType c inoremap { {}<Left><Return><Esc>O
 autocmd FileType c inoremap " ""<Left>
 autocmd FileType c inoremap ' ''<Left>
 autocmd FileType c inoremap [ []<Left>
@@ -103,7 +138,7 @@ set shiftwidth=4
 
 " Javascript specific
 autocmd FileType javascript inoremap [ []
-autocmd FileType javascript inoremap { {<CR>}<Esc>O
+autocmd FileType javascript inoremap { {}<Left><Return><Esc>O
 autocmd FileType javascript inoremap ( ()<Left>
 autocmd FileType javascript inoremap " ""<Left>
 autocmd FileType javascript inoremap ' ''<Left>
@@ -112,5 +147,5 @@ set shiftwidth=2
 
 " html specific
 autocmd FileType html inoremap < <><left>
-autocmd FileType html set tabstop=2
+set tabstop=2
 set shiftwidth=2
