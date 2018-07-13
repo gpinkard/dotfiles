@@ -19,16 +19,17 @@ bottom = false
 ;radius = 5
 fixed-center = false
 
-background = $rgba(111,111,111,0.2)
+;background = $rgba(111,111,111,0.2)
+background = #1b2b34
 foreground = ${colors.foreground}
 
 line-size = 3
 line-color = #f00
 
-border-left-size=10
-border-top-size=3
-border-right-size=10
-border-bottom-size=-3
+border-left-size=0
+border-top-size=0
+border-right-size=0
+border-bottom-size=0
 border-color = rgba(111,111,111,0.2)
 
 padding-left = 0
@@ -37,8 +38,8 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = UW ttyp0:size=10;1
-;font-0 = Source Code Pro Black:size=9;1
+;font-0 = UW ttyp0:size=10;1
+font-0 = Source Code Pro Black:size=9;1
 font-1 = FontAwesome5Free:style=solid:size=8;1
 
 modules-left = i3 
@@ -72,16 +73,17 @@ bottom = true
 ;radius = 5
 fixed-center = false
 
-background = $rgba(111,111,111,0.2)
+;background = $rgba(111,111,111,0.2)
+background = #1b2b34
 foreground = ${colors.foreground}
 
 line-size = 3
 line-color = #f00
 
-border-left-size=10
-border-top-size=3
-border-right-size=10
-border-bottom-size=-3
+border-left-size=0
+border-top-size=0
+border-right-size=0
+border-bottom-size=0
 border-color = rgba(111,111,111,0.2)
 
 padding-left = 0
@@ -90,9 +92,9 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = UW ttyp0:size=10;1
-;font-0 = Source Code Pro Black:size=9;1
-font-1 = FontAwesome5Free:style=solid:size=8;1
+;font-0 = UW ttyp0:size=10;1
+font-0 = Source Code Pro Black:size=9;3
+font-1 = FontAwesome5Free:style=solid:size=8;3
 
 modules-left =
 modules-center = cpu memory temperature
