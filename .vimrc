@@ -6,6 +6,7 @@
 
 " Basic stuff
 set number
+set relativenumber
 set linebreak
 set showbreak=+++
 set textwidth=100

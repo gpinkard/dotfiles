@@ -7,8 +7,8 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-font = Source Code Pro Medium 11
-# font = UW ttyp0 13
+# font = Source Code Pro Medium 12
+font = UW ttyp0 15
 # scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -38,7 +38,6 @@ foreground      = #C0C5CE
 foreground_bold = #C0C5CE
 cursor          = #FF00EE
 background      = #1B2B34
-# background 			= rgba(27, 43, 52, 0.85)
 
 # 16 color space
 color0  = #1B2B34

@@ -16,34 +16,31 @@ Plug 'scrooloose/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let NERDTreeShowHidden=1
 
-" vim-gitbranch (simple plugin that gets current branch)
-Plug 'itchyny/vim-gitbranch'
-
 " ale (asynchronous lint engine)
 Plug 'w0rp/ale'
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '->'
 let g:ale_sign_warning = '!!' 
-" let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 let g:ale_echo_msg_error_str = 'ERROR'
 let g:ale_echo_msg_warning_str = 'warning'
 let g:ale_echo_msg_format = '[%linter%] %severity%: %s'
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
-" lightline (status line)
-Plug 'itchyny/lightline.vim'
-let g:lightline = {
-      \ 'colorscheme': 'one',
- 			\ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified' ]],
-			\   'right': [['lineinfo'], ['percent'], ['fileformat'], ['fileencoding'], ['branch']]
-      \ },
-			\ 'component_function': {
-			\ 	'branch': 'gitbranch#name'
-			\ },
-			\ }
+" vim-airline + themes
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#ale#enabled = 1
+let g:airline_theme='tomorrow'
+
+" neovim-gui-shim (for gonvim)
+Plug 'equalsraf/neovim-gui-shim'
+
 " Colorscheme 
 Plug 'mhartington/oceanic-next'
 
@@ -78,9 +75,6 @@ set fileencodings=utf-8
 set nohlsearch
 set undolevels=1000 
 set backspace=indent,eol,start
-set updatetime=100
-set noshowmode
-" Transparency
 " Oceanic next colorscheme stuff
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 if (has("termguicolors"))
@@ -88,12 +82,11 @@ if (has("termguicolors"))
 endif
 
 syntax enable
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
 colorscheme OceanicNext
 " for ALE gutter color
-hi Normal guibg=NONE ctermbg=NONE
-" highlight SignColumn ctermbg=bg
+highlight SignColumn ctermbg=bg
+" enable transparency if term has transparency
+map <F12> :hi Normal guibg=NONE ctermbg=NONE<CR>
 
 "Leader stuff
 let mapleader = "\<Space>"
