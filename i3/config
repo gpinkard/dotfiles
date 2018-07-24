@@ -142,7 +142,7 @@ for_window [class="^.*"] border pixel 1
 
 # window color vars
 set $bg-color 	         #282828
-set $border-color	 			 #ffffff
+set $border-color	 			 #ebdbb2
 set $inactive-bg-color   #282828
 set $text-color          #fb4934
 set $inactive-text-color #ebdbb2
@@ -159,13 +159,16 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $bg-color	       
 exec_always --no-startup-id nm-applet 
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 # start rofi
-bindsym $mod+d exec rofi -show run -lines 10 -width 18 -padding 5 -font "Source Code Pro 10"
+bindsym $mod+d exec rofi -show run -lines 10 -width 18 -padding 5 -font "UW ttyp0 12"
 
 # mod shift x locks screen
 bindsym $mod+shift+x exec i3lock -u -i ~/.config/i3/wallpapers/wallpaper.jpg
 
 # start ranger
 bindsym $mod+g exec termite -e ranger
+
+# start vtop
+bindsym $mod+t exec termite -e vtop
 
 # screen brightness and volume stuff
 bindsym $mod+p exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume

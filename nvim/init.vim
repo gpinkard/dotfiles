@@ -10,13 +10,16 @@ call plug#begin('~/.local/share/nvim/plugged')
 " deoplete (asynchranous autocomplete)
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smartcase = 1
 
 " NERDTree file manager
 Plug 'scrooloose/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let NERDTreeShowHidden=1
+let NERDTreeHighlightCursorline=0
+let NERDTreeShowLineNumbers=1
 
-" vim-gitbranch (simple plugin that gets current branch)
+" vim-gitbranch (gets branch name)
 Plug 'itchyny/vim-gitbranch'
 
 " ale (asynchronous lint engine)
@@ -24,7 +27,6 @@ Plug 'w0rp/ale'
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '->'
 let g:ale_sign_warning = '!!' 
-" let g:airline#extensions#ale#enabled = 1
 let g:ale_echo_msg_error_str = 'ERROR'
 let g:ale_echo_msg_warning_str = 'warning'
 let g:ale_echo_msg_format = '[%linter%] %severity%: %s'
@@ -34,18 +36,31 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " lightline (status line)
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
-      \ 'colorscheme': 'one',
- 			\ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified' ]],
+			\ 'colorscheme': 'wombat',
+			\ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
+			\ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
+			\ 'active': {
+			\   'left': [ [ 'mode', 'paste' ],
+			\             [ 'readonly', 'filename', 'modified' ]],
 			\   'right': [['lineinfo'], ['percent'], ['fileformat'], ['fileencoding'], ['branch']]
-      \ },
+			\ },
 			\ 'component_function': {
-			\ 	'branch': 'gitbranch#name'
+			\ 	'branch': 'LightlineBranch'
 			\ },
 			\ }
+
+function! LightlineBranch()
+	let branch = gitbranch#name()
+	if branch != ''
+		return ': ' . gitbranch#name()
+	endif
+	return ''
+endfunction
+
 " Colorscheme 
-Plug 'mhartington/oceanic-next'
+Plug 'morhetz/gruvbox'
+let g:gruvbox_termcolors=16
+let g:gruvbox_italic=1
 
 " No plugins after this point
 call plug#end()
@@ -80,25 +95,21 @@ set undolevels=1000
 set backspace=indent,eol,start
 set updatetime=100
 set noshowmode
-" Transparency
-" Oceanic next colorscheme stuff
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-if (has("termguicolors"))
-	set termguicolors
-endif
+set encoding=UTF-8
 
 syntax enable
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
-colorscheme OceanicNext
-" for ALE gutter color
-hi Normal guibg=NONE ctermbg=NONE
-" highlight SignColumn ctermbg=bg
+colorscheme gruvbox
+" make things mesh well with color scheme
+hi Normal guibg=bg ctermbg=bg
+hi SignColumn ctermbg=bg
+hi CursorLineNr ctermbg=red
+hi Pmenu ctermbg=bg
+hi Pmenu ctermfg=green
+" hi Directory ctermfg=red guibg=red
+" hi file ctermfg=red guibg=red
 
 "Leader stuff
 let mapleader = "\<Space>"
-" faster than holding down shift
-nnoremap <leader><Space> :
 "Reload config file
 nnoremap <leader>R :so ~/.config/nvim/init.vim<Return>
 "Saving, quiting, and such
@@ -109,7 +120,7 @@ nnoremap <leader>x :x<Return>
 nnoremap <leader>e :e<Space>
 " Tabs stuff
 nnoremap <leader>T :tabnew<Return>
-nnoremap <leader><Tab> gt<Return>
+nnoremap <leader><Tab> gt
 " Mimic my i3 configs tiling for splitting
 nnoremap <leader>v<Return> <C-w>s 
 nnoremap <leader>c<Return> <C-w>v
@@ -121,55 +132,59 @@ map <leader>n :NERDTreeToggle<CR>
 " Language specific settings + rebindings
 
 " Python specific
-let python_highlight_all = 1
 autocmd FileType python inoremap ( ()<Left>
 autocmd FileType python inoremap " """<Return>"""<Esc>O
 autocmd FileType python inoremap ' ''<Left>
 autocmd FileType python inoremap { {}<Left>
 autocmd FileType python inoremap [ []<Left>
-set tabstop=2
-set shiftwidth=2
+autocmd Filetype python set tabstop=4
+autocmd Filetype python set shiftwidth=4
 
 " Go specific
 autocmd FileType go inoremap ( ()<Left>
-autocmd FileType go inoremap { {}<Left>
+autocmd FileType go inoremap { {}<Left><Return><Esc>O
 autocmd FileType go inoremap " ""<Left>
 autocmd FileType go inoremap ' ''<Left>
 autocmd FileType go inoremap [ []<Left>
-set tabstop=2
-set shiftwidth=4
+autocmd Filetype go set tabstop=2
+autocmd Filetype go set shiftwidth=2
 
 " Java specific
 autocmd FileType java inoremap ( ()<Left>
-autocmd FileType java inoremap { {}<Left>
+autocmd FileType java inoremap { {}<Left><Return><Esc>O
 autocmd FileType java inoremap " ""<Left>
 autocmd FileType java inoremap ' ''<Left>
 autocmd FileType java inoremap [ []<Left>
-set tabstop=2
-set shiftwidth=4    
+autocmd Filetype java set tabstop=4
+autocmd Filetype java set shiftwidth=4
 
 " C specific
 autocmd FileType c inoremap ( ()<Left>
-autocmd FileType c inoremap { {}<Left>
+autocmd FileType c inoremap { {}<Left><Return><Esc>O
 autocmd FileType c inoremap " ""<Left>
 autocmd FileType c inoremap ' ''<Left>
 autocmd FileType c inoremap [ []<Left>
-set tabstop=2
-set shiftwidth=4    
+autocmd Filetype c set tabstop=4
+autocmd Filetype c set shiftwidth=4
 
 " Javascript specific
 autocmd FileType javascript inoremap [ []
-autocmd FileType javascript inoremap { {}<Left>
+autocmd FileType javascript inoremap { {}<Left><Return><Esc>O
 autocmd FileType javascript inoremap ( ()<Left>
 autocmd FileType javascript inoremap " ""<Left>
 autocmd FileType javascript inoremap ' ''<Left>
-set tabstop=2
-set shiftwidth=2
+autocmd Filetype javascript set tabstop=2
+autocmd Filetype javascript set shiftwidth=2
 
 " html specific
 autocmd FileType html inoremap < <><left>
 autocmd FileType html inoremap ' ''<left>
 autocmd FileType html inoremap " ""<left>
 autocmd FileType html inoremap { {}<left>
-set tabstop=2
-set shiftwidth=2
+autocmd Filetype html set tabstop=2
+autocmd Filetype html set shiftwidth=2
+
+" neovim terminal stuff
+" terminal in new tab
+nnoremap <leader><Space> :tabnew<Return>:terminal<Return>
+tnoremap <Esc> <C-\><C-N>

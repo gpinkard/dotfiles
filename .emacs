@@ -127,12 +127,12 @@
  '(custom-enabled-themes (quote (atom-one-dark)))
  '(custom-safe-themes
    (quote
-    ("081d0f8a263358308245355f0bb242c7a6726fc85f0397d65b18902ea95da591" "021720af46e6e78e2be7875b2b5b05344f4e21fad70d17af7acfd6922386b61e")))
+    ("78496062ff095da640c6bb59711973c7c66f392e3ac0127e611221d541850de2" "6a23db7bccf6288fd7c80475dc35804c73f9c9769ad527306d2e0eada1f8b466" "081d0f8a263358308245355f0bb242c7a6726fc85f0397d65b18902ea95da591" "021720af46e6e78e2be7875b2b5b05344f4e21fad70d17af7acfd6922386b61e")))
  '(horizontal-scroll-bar-mode nil)
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (atom-one-dark-theme evil-tabs use-package all-the-icons shell-pop neotree auto-complete nlinum telephone-line org-bullets org-link-minor-mode gruvbox-theme spaceline evil-visual-mark-mode)))
+    (go-mode atom-one-dark-theme evil-tabs use-package all-the-icons shell-pop neotree auto-complete nlinum telephone-line org-bullets org-link-minor-mode evil-visual-mark-mode)))
  '(scroll-bar-mode nil)
  '(shell-pop-shell-type
    (quote
@@ -147,5 +147,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#282C34" :foreground "#ABB2BF" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 128 :width normal :foundry "CYRE" :family "Inconsolata"))))
+ '(default ((t (:inherit nil :stipple nil :background "#282C34" :foreground "#ABB2BF" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 135 :width normal :foundry "UW" :family "UW Ttyp0"))))
  '(mode-line-buffer-id-inactive ((t (:inherit mode-line-buffer-id :height 1.0)))))

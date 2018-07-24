@@ -3,9 +3,9 @@ background = #0d1e2f
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
 ;foreground = #f31d54
-foreground = #d2d2d2
-foreground-alt = #268bd2
-primary = #ffb52a
+foreground = #ebdbb2
+foreground-alt = #689d6a
+primary = #ebdbb2
 secondary = #e60053
 alert = #dc322f
 
@@ -19,8 +19,8 @@ bottom = false
 ;radius = 5
 fixed-center = false
 
-;background = $rgba(111,111,111,0.2)
-background = #1b2b34
+background = $rgba(111,111,111,0.2)
+;background = #1b2b34
 foreground = ${colors.foreground}
 
 line-size = 3
@@ -38,9 +38,9 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-;font-0 = UW ttyp0:size=10;1
-font-0 = Source Code Pro Black:size=9;1
-font-1 = FontAwesome5Free:style=solid:size=8;1
+font-0 = UW ttyp0:size=10;1
+;font-0 = Source Code Pro Black:size=9;1
+font-1 = FontAwesome5Free:style=solid:size=8;2
 
 modules-left = i3 
 modules-center = 
@@ -73,8 +73,8 @@ bottom = true
 ;radius = 5
 fixed-center = false
 
-;background = $rgba(111,111,111,0.2)
-background = #1b2b34
+background = $rgba(111,111,111,0.2)
+;background = #1b2b34
 foreground = ${colors.foreground}
 
 line-size = 3
@@ -92,8 +92,8 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-;font-0 = UW ttyp0:size=10;1
-font-0 = Source Code Pro Black:size=9;3
+font-0 = UW ttyp0:size=10;3
+;font-0 = Source Code Pro Black:size=9;1
 font-1 = FontAwesome5Free:style=solid:size=8;3
 
 modules-left =

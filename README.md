@@ -10,7 +10,7 @@ but feel free to grab anything you want.
 
 3. termite/config: Source Code Pro font
 
-4. i3/config (i3-gaps): needs rofi, ranger, compton, feh, i3-lock
+4. i3/config (i3-gaps): needs rofi, ranger, w3m (ranger image previews), compton, feh, i3-lock
 
 5. ranger: Make sure EDITOR global in /etc/profile is set to nvim so it does not open
 things with nano.
@@ -23,3 +23,4 @@ of module dependencies.
 ![Screenshot](/i3/wallpapers/workflow1.png)
 
 ![Screenshot](/i3/wallpapers/workflow2.png)
+
