@@ -56,7 +56,7 @@ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
-floating_minimum_size 400 x 200
+floating_minimum_size 500 x 500
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -131,9 +131,16 @@ mode "resize" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-
-
 bindsym $mod+r mode "resize"
+
+mode "move_floating" {
+	bindsym h move left 100px
+	bindsym j move down 100px
+	bindsym k move up 100px 
+	bindsym l move right 100px 
+	bindsym $mod+m mode "default"
+}
+bindsym $mod+m focus floating, mode "move_floating"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -173,8 +180,6 @@ bindsym $mod+t exec termite -e vtop
 # screen brightness and volume stuff
 bindsym $mod+p exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym $mod+o exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym $mod+m exec --no-startup-id pactl set-sink-volume 0 -150% #decrease sound volume
-bindsym $mod+n exec --no-startup-id pactl set-sink-volume 0 +150% #decrease sound volume
 bindsym $mod+i exec xbacklight -inc 20 # increase screen brightness
 bindsym $mod+u exec xbacklight -dec 20 # decrease screen brightness
 

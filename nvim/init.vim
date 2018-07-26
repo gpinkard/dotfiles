@@ -124,6 +124,10 @@ nnoremap <leader><Tab> gt
 " Mimic my i3 configs tiling for splitting
 nnoremap <leader>v<Return> <C-w>s 
 nnoremap <leader>c<Return> <C-w>v
+nnoremap <leader>j <C-w><Down>
+nnoremap <leader>k <C-w><Up>
+nnoremap <leader>h <C-w><Left>
+nnoremap <leader>l <C-w><Right>
 " Autoformat
 nnoremap <leader>F gg=G
 " NERDTree toggle
@@ -186,5 +190,5 @@ autocmd Filetype html set shiftwidth=2
 
 " neovim terminal stuff
 " terminal in new tab
-nnoremap <leader><Space> :tabnew<Return>:terminal<Return>
+nnoremap <leader><Space> :terminal<Return>
 tnoremap <Esc> <C-\><C-N>
