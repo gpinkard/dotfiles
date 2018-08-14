@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/gabe/.oh-my-zsh
+export ZSH=/home/g/.oh-my-zsh
 
 # PROMPT STUFF
 ZSH_THEME='pointer'

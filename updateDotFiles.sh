@@ -1,15 +1,15 @@
-!#/bin/bash
+#!/bin/bash
 
 echo "Updating ~/dotfiles"
 cp -r ~/.config/i3/ ~/dotfiles
 cp -r ~/.config/termite/ ~/dotfiles
 cp -r ~/.config/ranger/ ~/dotfiles
 cp -r ~/.config/nvim/ ~/dotfiles
-cp -r ~/.config/polybar/ ~/dotfiles
 cp ~/.config/compton.conf ~/dotfiles
 cp ~/.vimrc ~/dotfiles
 cp ~/.zshrc ~/dotfiles
 cp ~/.emacs ~/dotfiles
+cp ~/.i3blocks.conf ~/dotfiles
 cp ~/updateDotFiles.sh ~/dotfiles
 echo -e "Commit changes? [y/N]"
 read com
