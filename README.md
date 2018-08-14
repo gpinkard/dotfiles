@@ -15,8 +15,7 @@ but feel free to grab anything you want.
 5. ranger: Make sure EDITOR global in /etc/profile is set to nvim so it does not open
 things with nano.
 
-6. polybar: Grab FontAwesome. See polybar wiki for large list
-of module dependencies. 
+6. i3blocks: make sure to get module depends (see github page) 
 
 ### Screenshots ###
 
