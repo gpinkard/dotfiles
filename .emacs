@@ -1,32 +1,41 @@
 (require 'package)
-
-;; repos
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
   (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
   (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 (package-initialize)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;P A C K A G E S ;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;; P A C K A G E S ;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; use-package
 (eval-when-compile
   (require 'use-package))
-;; make sure everything is installed on startup
 (setq use-package-always-ensure t)
 
-;; evil-mode (VI in Emacs :o)
+;; evil-mode (VI layer)
 (use-package evil
   :ensure t
   :config
   (evil-mode t))
+
+;;(use-package evil-org
+;;  :ensure t
+;;  :after org
+;;  :config
+;;  (add-hook 'org-mode-hook 'evil-org-mode)
+;;  (add-hook 'evil-org-mode-hook
+;;            (lambda ()
+;;              (evil-org-set-key-theme)))
+;;  (require 'evil-org-agenda)
+;;  (evil-org-agenda-set-keys))
 
 ;; vim-like tabs
 (use-package evil-tabs
@@ -34,84 +43,81 @@
   :config
   (global-evil-tabs-mode t))
 
-;; pretty bullet points for org mode
-(use-package org-bullets
+;; Ivy (completion interface thingy)
+(use-package ivy
   :ensure t
   :init
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-;; powerline bar (telephone line)
-(use-package telephone-line
-  :ensure t
-  :init
-  (setq telephone-line-height 22)
-  (setq telephone-line-lhs
-        '((evil   . (telephone-line-evil-tag-segment))
-          (accent . (telephone-line-erc-modified-channels-segment))
-	  (nil    . (telephone-line-major-mode-segment
-		     telephone-line-minor-mode-segment))))
-  (setq telephone-line-rhs
-        '((nil    . (telephone-line-misc-info-segment
-		     telephone-line-buffer-segment))
-          (accent . (telephone-line-vc-segment
-		     telephone-line-process-segment))
-          (evil   . (telephone-line-airline-position-segment))))
-  ;; shapes go here
-  (setq telephone-line-primary-left-separator 'telephone-line-tan-left
-      telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left
-      telephone-line-primary-right-separator 'telephone-line-tan-right
-      telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right)
-  (telephone-line-mode 1))
-
-;; neo-tree (file tree)
-(use-package neotree
-  :ensure t
+  (ivy-mode 1)
   :config
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-  (setq-default neo-show-hidden-files t)
-  :init
-  (global-set-key [f8] 'neotree-toggle)
-  (add-hook 'neotree-mode-hook (lambda ()
-	    (define-key evil-normal-state-local-map (kbd "C-n") 'neotree-toggle)
-            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-quick-look)
-            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)
-            (define-key evil-normal-state-local-map (kbd "+") 'neotree-hidden-file-toggle))))
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-height 15)
+  (setq ivy-count-format "(%d/%d) "))
 
-;;(require 'all-the-icons)
-(use-package all-the-icons
-  :ensure t)
-
-;; shell-pop (shell in emacs)
-(use-package shell-pop
+;; replace with general???
+(use-package evil-leader
   :ensure t
   :init
-  (global-set-key [f9] 'shell-pop))
+  (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key
+    "f" 'counsel-grep-or-swiper
+    "b" 'switch-to-buffer
+    "k" 'kill-buffer
+    "t" 'evil-buffer-new
+    ";" 'shell-pop))
 
-;; line numbers (nlinum package)
+;; line numbers
 (use-package nlinum
   :ensure t
   :init
   (global-nlinum-mode))
 
-;; auto-complete
-;; (ac-config-default)
+;; telephone-line (like vim powerline)
+(use-package telephone-line
+  :ensure t
+  :init
+  (setq telephone-line-lhs
+      '((evil   . (telephone-line-evil-tag-segment))
+        (accent . (telephone-line-vc-segment
+                   telephone-line-erc-modified-channels-segment
+                   telephone-line-process-segment))
+        (nil    . (telephone-line-minor-mode-segment
+                   telephone-line-buffer-segment))))
+  (setq telephone-line-rhs
+      '((nil    . (telephone-line-misc-info-segment))
+        (accent . (telephone-line-major-mode-segment))
+        (evil   . (telephone-line-airline-position-segment))))
+  (telephone-line-mode 1))
 
+;; magit (git plugin)
+;;(use-package evil-magit
+;;  :ensure t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; O T H E R  C O N F I G U R A T I O N S ;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; shell-pop (open shell in minibuffer)
+(use-package shell-pop
+  :ensure t)
 
-;; finish parens, quotes, curly braces etc.
-(electric-pair-mode t)
+(use-package python-mode
+  :ensure t)
 
-;; no startup screen
+(use-package go-mode
+  :ensure t)
+
+;;(use-package markdown-mode
+;;  :ensure t)
+
+;;;; OTHER SETTINGS ;;;;
+
+;; no annoying welcome to emacs start up screen
 (setq inhibit-startup-screen t)
 
+;; vim like scrolling
 (setq scroll-margin 5
       scroll-conservatively 9999
       scroll-step 1)
+
+;; finish parens, qutes, curly braces, etc.
+(electric-pair-mode t)
 
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
@@ -122,24 +128,23 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
-   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+   ["#3c3836" "#fb4933" "#b8bb26" "#fabd2f" "#83a598" "#d3869b" "#8ec07c" "#ebdbb2"])
  '(blink-cursor-mode nil)
- '(custom-enabled-themes (quote (atom-one-dark)))
  '(custom-safe-themes
    (quote
-    ("78496062ff095da640c6bb59711973c7c66f392e3ac0127e611221d541850de2" "6a23db7bccf6288fd7c80475dc35804c73f9c9769ad527306d2e0eada1f8b466" "081d0f8a263358308245355f0bb242c7a6726fc85f0397d65b18902ea95da591" "021720af46e6e78e2be7875b2b5b05344f4e21fad70d17af7acfd6922386b61e")))
- '(horizontal-scroll-bar-mode nil)
+    ("8a9be13b2353a51d61cffed5123b157000da0347c252a7a308ebc43e16662de7" default)))
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (go-mode atom-one-dark-theme evil-tabs use-package all-the-icons shell-pop neotree auto-complete nlinum telephone-line org-bullets org-link-minor-mode evil-visual-mark-mode)))
+    (org-evil markdown-mode gruvbox-theme evil-magit helm use-package telephone-line shell-pop org-bullets nlinum neotree evil-tabs all-the-icons)))
  '(scroll-bar-mode nil)
+ '(shell-pop-full-span t)
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
      (lambda nil
        (ansi-term shell-pop-term-shell)))))
- '(shell-pop-universal-key "C-t")
+ '(shell-pop-window-position "right")
  '(shell-pop-window-size 40)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -147,5 +152,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#282C34" :foreground "#ABB2BF" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 135 :width normal :foundry "UW" :family "UW Ttyp0"))))
- '(mode-line-buffer-id-inactive ((t (:inherit mode-line-buffer-id :height 1.0)))))
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 218 :width normal :foundry "PfEd" :family "Monaco for Powerline")))))

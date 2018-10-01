@@ -12,7 +12,7 @@ alert = #dc322f
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 20
+height = 45
 bottom = false
 ;offset-x = 1%
 ;offset-y = 1%
@@ -38,13 +38,14 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = UW ttyp0:size=10;1
-;font-0 = Source Code Pro Black:size=9;1
-font-1 = FontAwesome5Free:style=solid:size=8;2
+;font-0 = UW ttyp0:size=10;1
+font-0 = Source Code Pro Black:size=16;4
+;font-0 = monaco for powerline:size=16;6
+font-1 = FontAwesome5Free:style=solid:size=16;4
 
 modules-left = i3 
 modules-center = 
-modules-right = alsa wlan eth battery date powermenu  
+modules-right = alsa wlan battery date powermenu  
 
 tray-position = right
 tray-padding = 2
@@ -66,7 +67,7 @@ cursor-scroll = ns-resize
 [bar/bottom]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 20
+height = 45
 bottom = true
 ;offset-x = 1%
 ;offset-y = 1%
@@ -92,9 +93,10 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = UW ttyp0:size=10;3
-;font-0 = Source Code Pro Black:size=9;1
-font-1 = FontAwesome5Free:style=solid:size=8;3
+;font-0 = UW ttyp0:size=10;3
+font-0 = Source Code Pro Black:size=16;4
+;font-0 = monaco for powerline:size=16;6
+font-1 = FontAwesome5Free:style=solid:size=16;5
 
 modules-left =
 modules-center = cpu memory temperature
@@ -235,8 +237,8 @@ card = intel_backlight
 type = internal/cpu
 interval = 2
 format = <label><ramp-coreload>
-;label =  %percentage%% : 
-label = CPU %percentage%% : 
+label =  %percentage%% : 
+;label = CPU %percentage%% : 
 label-foreground = ${colors.foreground-alt}
 ramp-coreload-0 = [#|~~~~~~~]
 ramp-coreload-0-foreground = #859900
@@ -260,12 +262,12 @@ ramp-coreload-7-foreground = #dc322f
 type = internal/memory
 interval = 2
 format = <label> <bar-used>
-;label =  %gb_used%/%gb_free%
-label = RAM: %gb_used%/%gb_free%
+label =  %gb_used%/%gb_free%
+;label = RAM: %gb_used%/%gb_free%
 label-foreground = ${colors.foreground-alt}
 ; Only applies if <bar-used> is used
 bar-used-indicator = |
-bar-used-width = 30
+bar-used-width = 35
 bar-used-foreground-0 = #859900
 bar-used-foreground-1 = #859900
 bar-used-foreground-2 = #b58900
@@ -276,7 +278,7 @@ bar-used-empty-foreground = ${colors.foreground}
 
 [module/wlan]
 type = internal/network
-interface = wlp7s0
+interface = wlp107s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
@@ -340,7 +342,7 @@ format-muted-prefix = " "
 format-muted-foreground = ${colors.foreground-alt}
 label-muted = sound muted
 
-bar-volume-width = 30
+bar-volume-width = 35
 bar-volume-foreground-0 = #859900
 bar-volume-foreground-1 = #859900
 bar-volume-foreground-2 = #859900
@@ -359,7 +361,7 @@ bar-volume-empty-foreground = ${colors.foreground}
 
 [module/battery]
 type = internal/battery
-battery = BAT0
+battery = BAT1
 adapter = ADP1
 full-at = 98
 
@@ -392,10 +394,10 @@ warn-temperature = 60
 
 format = <ramp> <label>
 ;format-underline = #f50a4d
-format-warn = <ramp> <label-warn>
+format-warn = <ramp> <label-warn> 
 ;format-warn-underline = ${self.format-underline}
 
-label = %temperature%
+label = %temperature-f% F
 label-warn = %temperature%
 label-warn-foreground = ${colors.secondary}
 
@@ -403,6 +405,7 @@ ramp-0 = 
 ramp-1 = 
 ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
+units=false
 
 [module/powermenu]
 type = custom/menu
