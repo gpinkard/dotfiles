@@ -42,9 +42,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " lightline (status line)
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
-			\ 'colorscheme': 'wombat',
-			\ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
-			\ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
+			\ 'colorscheme': 'one',
 			\ 'active': {
 			\   'left': [ [ 'mode', 'paste' ],
 			\             [ 'readonly', 'filename', 'modified' ]],
@@ -67,31 +65,22 @@ endfunction
 Plug 'vim-latex/vim-latex'
 
 " Colorscheme 
-Plug 'morhetz/gruvbox'
-let g:gruvbox_termcolors=16
-let g:gruvbox_italic=1
+Plug 'mhartington/oceanic-next'
+if (has("termguicolors"))
+	set termguicolors
+endif
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
 
 " No plugins after this point
 call plug#end()
-
-colorscheme gruvbox
-" make things mesh well with color scheme
-hi Normal guibg=bg ctermbg=bg 
-hi SignColumn ctermbg=bg ctermfg=bg
-hi ALEErrorSign ctermbg=bg ctermfg=red
-hi ALEWarningSign ctermbg=bg ctermfg=yellow
-hi Pmenu ctermbg=bg ctermfg=green
-hi CursorLineNr ctermbg=bg
-" hi Directory ctermfg=red guibg=red
-" hi file ctermfg=red guibg=red
+colorscheme OceanicNext
 
 " NVIM leader stuff
 " Reload config file
 nnoremap <leader>R :so ~/.config/nvim/init.vim<Return>
 " NERDTree toggle
 map <leader>n :NERDTreeToggle<CR>
-
-
 " neovim terminal stuff
 " terminal in new tab
 nnoremap <leader><Space> :terminal<Return>

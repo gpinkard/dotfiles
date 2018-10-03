@@ -8,7 +8,7 @@ but feel free to grab anything you want.
 
 - .zshrc: Just use oh-my-zsh (put pointer theme in .oh-my-zsh/custom/themes). 
 
-- termite/config: Source Code Pro font
+- termite/config: Share Tech Mono font
 
 - i3/config (i3-gaps): needs rofi, ranger, w3m (ranger image previews), compton, feh, i3-lock
 
