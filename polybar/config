@@ -3,7 +3,8 @@ background = #1b2b34
 background-alt = #444
 foreground  = #c0c5ce
 foreground-alt = #00a1b2
-primary = #c0c5ce
+#primary = #c0c5ce
+primary = #000000
 secondary = #e60053
 alert = #dc322f
 red = #ec5f67
@@ -42,9 +43,10 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-;font-0 = Source Code Pro Black:size=16;3
-font-0 = Share Tech Mono:size=18;4
-font-1 = FontAwesome5Free:style=solid:size=18;4
+;font-0 = unscii:style=regular:size=20;5
+;font-0 = Source Code Pro:style=Black:size=18;5
+font-0 = Inconsolata for Powerline:style:Bold:size=18;5
+font-1 = FontAwesome5Free:style=solid:size=18;5
 
 modules-left = i3 
 modules-center = 
@@ -96,7 +98,9 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Share Tech Mono:size=18;4
+;font-0 = Source Code Pro:style=Black:size=18;5
+font-0 = Inconsolata for Powerline:style:Bold:size=18;5
+;font-0 = unscii:style=regular:size=20;8
 font-1 = FontAwesome5Free:style=solid:size=18;5
 
 modules-left =
@@ -171,19 +175,20 @@ wrapping-scroll = false
 
 label-mode-padding = 0
 label-mode-foreground = ${colors.foreground}
-label-mode-background = ${colors.background}
+label-mode-background = rgba(0.0, 0.0, 0.0, 0.0)
 
 ; focused = Active workspace on focused monitor
 label-focused = %name%
 ;label-focused-background = ${module/bspwm.label-occupied-padding}
 label-focused-background = ${colors.background}
+label-focused-foreground = ${colors.foreground}
 label-focused-padding = ${module/bspwm.label-focused-padding}
 label-focused-underline = ${colors.cyan}
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %name%
 label-unfocused-padding = ${module/bspwm.label-occupied-padding}
-label-unfocused-background = ${colors.background}
+;label-unfocused-background = ${colors.background}
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %name%
@@ -241,7 +246,7 @@ interval = 2
 format = <label><ramp-coreload>
 label =  %percentage%% : 
 ;label = CPU %percentage%% : 
-label-foreground = ${colors.foreground-alt}
+label-foreground = ${colors.magenta}
 ramp-coreload-0 = [#|=======]
 ramp-coreload-0-foreground = ${colors.green}
 ramp-coreload-1 = [##|======] 
@@ -266,7 +271,8 @@ interval = 2
 format = <label> <bar-used>
 label =  %gb_used%/%gb_free%
 ;label = RAM: %gb_used%/%gb_free%
-label-foreground = ${colors.foreground-alt}
+label-foreground = ${colors.yellow}
+;label-foreground = ${colors.foreground-alt}
 ; Only applies if <bar-used> is used
 bar-used-indicator = |
 bar-used-width = 35
@@ -291,14 +297,19 @@ format-disconnected = NO WIFI
 ;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
+label-disconnected-foreground = ${colors.magenta}
 
 ramp-signal-0 =  20%
 ramp-signal-1 =  40%
 ramp-signal-2 =  60%
 ramp-signal-3 =  80%
 ramp-signal-4 =  100%
-ramp-signal-foreground = ${colors.foreground-alt}
+;ramp-signal-0 = SIG: 20%
+;ramp-signal-1 = SIG: 40%
+;ramp-signal-2 = SIG: 60%
+;ramp-signal-3 = SIG: 80%
+;ramp-signal-4 = SIG: 100%
+ramp-signal-foreground = ${colors.magenta}
 
 [module/eth]
 type = internal/network
@@ -323,11 +334,12 @@ interval = 5
 date = " %Y-%m-%d"
 date-alt = " %Y-%m-%d"
 
-time = " %H:%M"
+time = " %H:%M:%S"
 time-alt = " %H:%M:%S"
 
 format-prefix = 
-format-prefix-foreground = ${colors.foreground-alt}
+;format-prefix = DAY:
+format-prefix-foreground = ${colors.red}
 ;format-underline = #0a6cf5
 
 label = %time% %date%
@@ -336,12 +348,12 @@ label = %time% %date%
 type = internal/alsa
 
 format-volume = <label-volume> <bar-volume>
-;label-volume = 
+;label-volume = VOL:
 label-volume = ""
-label-volume-foreground = ${colors.foreground-alt}
+label-volume-foreground = ${colors.cyan}
 
 format-muted-prefix = " "
-format-muted-foreground = ${colors.foreground-alt}
+format-muted-foreground = ${colors.cyan}
 label-muted = sound muted
 
 bar-volume-width = 35
@@ -374,18 +386,22 @@ format-discharging = <ramp-capacity> <label-discharging>
 ;format-discharging-underline = ${self.format-charging-underline}
 
 format-full-prefix = " " 
-format-full-prefix-foreground = ${colors.foreground-alt}
+;format-full-prefix = "BAT:"
+format-full-prefix-foreground = ${colors.yellow}
 ;format-full-underline = ${self.format-charging-underline}
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
 ramp-capacity-2 = 
-ramp-capacity-foreground = ${colors.foreground-alt}
+;ramp-capacity-0 = BAT:
+;ramp-capacity-1 = BAT:
+;ramp-capacity-2 = BAT:
+ramp-capacity-foreground = ${colors.yellow}
 
 animation-charging-0 = 
 animation-charging-1 = 
 animation-charging-2 = 
-animation-charging-foreground = ${colors.foreground-alt}
+animation-charging-foreground = ${colors.yellow}
 animation-charging-framerate = 750
 label-charging = CHARGIN'
 
@@ -406,7 +422,10 @@ label-warn-foreground = ${colors.secondary}
 ramp-0 = 
 ramp-1 = 
 ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
+;ramp-0 = TMP
+;ramp-1 = TMP
+;ramp-2 = TMP
+ramp-foreground = ${colors.red}
 units=false
 
 [module/powermenu]

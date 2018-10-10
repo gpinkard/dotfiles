@@ -7,12 +7,12 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-#font = Source Code Pro Medium 22
-font = ShareTechMono 24
+# font = unscii 26
+font = Inconsolata for Powerline Medium 26
 scrollback_lines = 10000
 search_wrap = true
-#icon_name = terminal
-#geometry = 640x480
+# icon_name = terminal
+# geometry = 640x480
 
 # "system", "on" or "off"
 cursor_blink = off
@@ -39,6 +39,7 @@ foreground      = #c0c5ce
 foreground_bold = #c0c5ce
 # cursor          = #c0c5ce
 background      = #1b2b34
+# background	= rgba(0.27,0.43,0.52,0.7)
 
 # black
 color0  = #1b2b34

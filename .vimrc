@@ -29,7 +29,6 @@ set nohlsearch
 set undolevels=1000 
 set backspace=indent,eol,start
 set updatetime=100
-set noshowmode
 set encoding=UTF-8
 syntax enable
 
@@ -51,6 +50,8 @@ nnoremap <leader>j <C-w><Down>
 nnoremap <leader>k <C-w><Up>
 nnoremap <leader>h <C-w><Left>
 nnoremap <leader>l <C-w><Right>
+" Reload config file
+nnoremap <leader>R :so ~/.vimrc<Return>
 " Autoformat
 nnoremap <leader>F gg=G
 
@@ -62,8 +63,8 @@ autocmd FileType python inoremap " """<Return>"""<Esc>O
 autocmd FileType python inoremap ' ''<Left>
 autocmd FileType python inoremap { {}<Left>
 autocmd FileType python inoremap [ []<Left>
-autocmd Filetype python set tabstop=4
-autocmd Filetype python set shiftwidth=4
+autocmd Filetype python set tabstop=2
+autocmd Filetype python set shiftwidth=2
 
 " Go specific
 autocmd FileType go inoremap ( ()<Left>
@@ -89,8 +90,8 @@ autocmd FileType c inoremap { {}<Left><Return><Esc>O
 autocmd FileType c inoremap " ""<Left>
 autocmd FileType c inoremap ' ''<Left>
 autocmd FileType c inoremap [ []<Left>
-autocmd Filetype c set tabstop=4
-autocmd Filetype c set shiftwidth=4
+autocmd Filetype c set tabstop=2
+autocmd Filetype c set shiftwidth=2
 
 " Javascript specific
 autocmd FileType javascript inoremap [ []

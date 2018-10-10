@@ -1,5 +1,6 @@
 " put basic things in .vimrc
 source ~/.vimrc
+
 " +----------------------------------------+
 " | Gabriel Pinkard's neovim configuration |
 " +----------------------------------------+
@@ -21,10 +22,6 @@ let NERDTreeShowHidden=1
 let NERDTreeHighlightCursorline=0
 let NERDTreeShowLineNumbers=1
 
-" Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-
-" Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-
 " vim-gitbranch (gets branch name)
 Plug 'itchyny/vim-gitbranch'
 
@@ -42,24 +39,49 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " lightline (status line)
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
-			\ 'colorscheme': 'one',
+			\ 'colorscheme': 'wombat',
+			\ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
+			\ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
 			\ 'active': {
 			\   'left': [ [ 'mode', 'paste' ],
 			\             [ 'readonly', 'filename', 'modified' ]],
-			\   'right': [['lineinfo'], ['percent'], ['fileformat'], ['fileencoding'], ['branch']]
+			\   'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ], ['lineinfo'], ['percent'], ['fileformat'], ['fileencoding'], ['branch']]
 			\ },
 			\ 'component_function': {
 			\ 	'branch': 'LightlineBranch'
 			\ },
 			\ }
 
+let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ } 
+
+let g:lightline.component_type = {
+      \     'linter_checking': 'left',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'left',
+      \ }
+
 function! LightlineBranch()
 	let branch = gitbranch#name()
 	if branch != ''
-		return ': ' . gitbranch#name()
+		return 'branch: ' . gitbranch#name()
 	endif
 	return ''
 endfunction
+
+Plug 'maximbaz/lightline-ale'
+let g:lightline#ale#indicator_errors = "\uf071 : "
+let g:lightline#ale#indicator_warnings = "\uf05e : "
+let g:lightline#ale#indicator_checking = "\uf110 : "
+let g:lightline#ale#indicator_ok = "\uf00c  "
+
+" vim-go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
 
 " latex-suite
 Plug 'vim-latex/vim-latex'
@@ -85,3 +107,6 @@ map <leader>n :NERDTreeToggle<CR>
 " terminal in new tab
 nnoremap <leader><Space> :terminal<Return>
 tnoremap <Esc> <C-\><C-N>
+" other basic settings I only want in nvim
+set noshowmode
+set cursorline
