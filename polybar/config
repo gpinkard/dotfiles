@@ -44,8 +44,8 @@ module-margin-left = 1
 module-margin-right = 2
 
 ;font-0 = unscii:style=regular:size=20;5
-;font-0 = Source Code Pro:style=Black:size=18;5
-font-0 = Inconsolata for Powerline:style:Bold:size=18;5
+font-0 = Source Code Pro:style=Black:size=18;5
+;font-0 = Inconsolata for Powerline:style:Bold:size=18;5
 font-1 = FontAwesome5Free:style=solid:size=18;5
 
 modules-left = i3 
@@ -98,8 +98,8 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-;font-0 = Source Code Pro:style=Black:size=18;5
-font-0 = Inconsolata for Powerline:style:Bold:size=18;5
+font-0 = Source Code Pro:style=Black:size=18;5
+;font-0 = Inconsolata for Powerline:style:Bold:size=18;5
 ;font-0 = unscii:style=regular:size=20;8
 font-1 = FontAwesome5Free:style=solid:size=18;5
 
@@ -415,7 +415,7 @@ format = <ramp> <label>
 format-warn = <ramp> <label-warn> 
 ;format-warn-underline = ${self.format-underline}
 
-label = %temperature-f% F
+label = %temperature-f% 
 label-warn = %temperature%
 label-warn-foreground = ${colors.secondary}
 
@@ -426,7 +426,7 @@ ramp-2 = 
 ;ramp-1 = TMP
 ;ramp-2 = TMP
 ramp-foreground = ${colors.red}
-units=false
+units=true
 
 [module/powermenu]
 type = custom/menu
