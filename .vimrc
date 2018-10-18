@@ -4,7 +4,6 @@
 set number
 set relativenumber
 set linebreak
-set textwidth=150
 set showbreak=+++
 set showmatch
 set visualbell
@@ -54,6 +53,8 @@ nnoremap <leader>l <C-w><Right>
 nnoremap <leader>R :so ~/.vimrc<Return>
 " Autoformat
 nnoremap <leader>F gg=G
+" find and replace
+nnoremap <leader>fr :%s///g<left><left><left>
 
 " Language specific settings + rebindings
 
@@ -63,8 +64,8 @@ autocmd FileType python inoremap " """<Return>"""<Esc>O
 autocmd FileType python inoremap ' ''<Left>
 autocmd FileType python inoremap { {}<Left>
 autocmd FileType python inoremap [ []<Left>
-autocmd Filetype python set tabstop=2
-autocmd Filetype python set shiftwidth=2
+autocmd Filetype python set tabstop=4
+autocmd Filetype python set shiftwidth=4
 
 " Go specific
 autocmd FileType go inoremap ( ()<Left>
@@ -72,8 +73,8 @@ autocmd FileType go inoremap { {}<Left><Return><Esc>O
 autocmd FileType go inoremap " ""<Left>
 autocmd FileType go inoremap ' ''<Left>
 autocmd FileType go inoremap [ []<Left>
-autocmd Filetype go set tabstop=2
-autocmd Filetype go set shiftwidth=2
+autocmd Filetype go set tabstop=8
+autocmd Filetype go set shiftwidth=8
 
 " Java specific
 autocmd FileType java inoremap ( ()<Left>
@@ -81,8 +82,8 @@ autocmd FileType java inoremap { {}<Left><Return><Esc>O
 autocmd FileType java inoremap " ""<Left>
 autocmd FileType java inoremap ' ''<Left>
 autocmd FileType java inoremap [ []<Left>
-autocmd Filetype java set tabstop=2
-autocmd Filetype java set shiftwidth=2
+autocmd Filetype java set tabstop=8
+autocmd Filetype java set shiftwidth=8
 
 " C specific
 autocmd FileType c inoremap ( ()<Left>
@@ -90,17 +91,8 @@ autocmd FileType c inoremap { {}<Left><Return><Esc>O
 autocmd FileType c inoremap " ""<Left>
 autocmd FileType c inoremap ' ''<Left>
 autocmd FileType c inoremap [ []<Left>
-autocmd Filetype c set tabstop=2
-autocmd Filetype c set shiftwidth=2
-
-" Javascript specific
-autocmd FileType javascript inoremap [ []
-autocmd FileType javascript inoremap { {}<Left><Return><Esc>O
-autocmd FileType javascript inoremap ( ()<Left>
-autocmd FileType javascript inoremap " ""<Left>
-autocmd FileType javascript inoremap ' ''<Left>
-autocmd Filetype javascript set tabstop=2
-autocmd Filetype javascript set shiftwidth=2
+autocmd Filetype c set tabstop=8
+autocmd Filetype c set shiftwidth=8
 
 " html specific
 autocmd FileType html inoremap < <><left>

@@ -37,11 +37,11 @@ nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " lightline (status line)
+" \ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
+" \ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
 			\ 'colorscheme': 'wombat',
-			\ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
-			\ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
 			\ 'active': {
 			\   'left': [ [ 'mode', 'paste' ],
 			\             [ 'readonly', 'filename', 'modified' ]],

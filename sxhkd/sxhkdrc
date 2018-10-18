@@ -1,0 +1,66 @@
+### BSPWM FUNCTIONS
+
+# Reload functions
+super + Escape
+	~/.config/bspwm/bspwmrc; \
+	pkill -USR1 -x sxhkd; \
+	notify-send 'Bspwm/Sxhkd' 'Configs reloaded'
+# exit bspwm
+super + e
+	bspc quit
+
+# WINDOWS AND MOVEMENTS
+
+# Focus and move windows
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+# close window
+super + q
+	bspc node -c
+# window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+super + {m,n}
+	bspc node -g {marked, locked}
+
+# Focus to the given desktop.
+super + {1-9,0}
+	bspc desktop -f '^{1-9,10}'
+# Send to given desktop
+super + alt + {1-9}
+	id=$(bspc query -N -n); bspc node -d ^{1-9}; bspc node -f ${id}
+# Send and follow to given desktop.	
+super + alt + {1-9}
+	bspc node -d ^{1-9}
+# Move floating window.
+super + {Left,Down,Up,Right}
+	bspc node -v {-70 0,0 70,0 -70,70 0}
+
+### TEMINAL + TERMINAL APPS
+
+# terminal emulator
+super + Return
+	termite
+# st
+super + alt + Return
+	st
+# ranger
+super + r
+	termite -e ranger
+# htop
+super + t
+	termite -e htop
+
+### MISCELLANY
+
+# rofi
+super + space 
+	rofi -show run -lines 10 -width 18 -padding 5 -font "Source Code Pro Medium 20" 
+#increase volume
+super + p
+	pactl set-sink-volume 0 +5% 
+#decrease volume
+super + o
+	pactl set-sink-volume 0 -5% 
+
+

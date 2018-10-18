@@ -1,0 +1,38 @@
+#! /bin/sh
+
+sxhkd &
+
+
+### General ###
+
+bspc monitor -d HOM WEB DEV TRM R\&R RND
+
+bspc config border_width        10
+bspc config window_gap          20
+
+bspc config split_ratio          0.50
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+### Mouse ###
+
+bspc config focus_follows_pointer true
+
+bspc rule -a Chromium desktop='^2' follow=on
+bspc rule -a Firefox desktop='^2'
+
+bspc config super mod4
+feh --bg-fill ~/Pictures/wallpaper.jpg
+compton --config ~/.config/compton.conf -b
+polybar top -r & polybar bottom -r &
+
+### COLORS ###
+
+#bspc config normal_border_color = $background
+#bspc config focused_border_color = $color2
+#bspc config urgent_border_color = $color1
+bspc config normal_border_color \#1B2B34
+# bspc config active_border_color \#E84F4F
+bspc config focused_border_color \#6699CC
+# bspc config focused_border_color \#5FB3B3
+bspc config urgent_border_color \#EC5F67
