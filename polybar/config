@@ -16,11 +16,11 @@ cyan = #5fb3b3
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 65
+height = 80
 bottom = false
 ;offset-x = 1%
 ;offset-y = 1%
-;radius = 5
+radius = 40
 fixed-center = false
 
 ;background = $rgba(111,111,111,0.2)
@@ -30,9 +30,9 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-left-size=0
-border-top-size=0
-border-right-size=0
+border-left-size=300
+border-top-size=20
+border-right-size=300
 border-bottom-size=0
 border-color = rgba(111,111,111,0.2)
 
@@ -42,10 +42,9 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Inconsolata for Powerline:style:Bold:size=20;1
-;font-0 = Spleen:style=Regular:size=32;5
+font-0 = Inconsolata for Powerline:style:Bold:size=20;3
 font-1 = FontAwesome5Free:style=solid:size=18;2
-font-2 = FontAwesome5Brands:style=solid:size=18;0
+;font-2 = FontAwesome5Brands:style=solid:size=18;0
 
 modules-left = i3
 modules-center = 
@@ -67,60 +66,6 @@ cursor-click = pointer
 cursor-scroll = ns-resize
 
 ; vim:ft=dosini
-
-[bar/bottom]
-;monitor = ${env:MONITOR:HDMI-1}
-width = 100%
-height = 65
-bottom = true
-;offset-x = 1%
-;offset-y = 1%
-;radius = 5
-fixed-center = false
-
-;background = $rgba(111,111,111,0.2)
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-line-size = 3
-line-color = #f00
-
-border-left-size=0
-border-top-size=0
-border-right-size=0
-border-bottom-size=0
-border-color = rgba(111,111,111,0.2)
-
-padding-left = 0
-padding-right = 2
-
-module-margin-left = 1
-module-margin-right = 2
-
-font-0 = Inconsolata for Powerline:style:Bold:size=20;5
-;font-0 = Spleen:style=Regular:size=32;5
-font-1 = FontAwesome5Free:style=solid:size=18;6
-font-2 = FontAwesome5Brands:style=solid:size=18;6
-
-modules-left =
-modules-center = cpu memory temperature
-modules-right =
-
-tray-position = right
-tray-padding = 2
-;tray-transparent = true
-;tray-background = #0063ff
-
-;wm-restack = i3
-
-;override-redirect = true
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
-
-cursor-click = pointer
-cursor-scroll = ns-resize
-
 
 [module/xwindow]
 type = internal/xwindow
@@ -179,13 +124,12 @@ label-focused = %name%
 ;label-focused-background = ${colors.background}
 label-focused-background = ${colors.cyan}
 label-focused-foreground = ${colors.primary}
-label-focused-padding = 4
-label-focused-underline = ${colors.background}
+label-focused-padding = 3
+label-focused-underline = ${colors.cyan}
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %name%
-label-unfocused-padding = 4
-;label-unfocused-background = ${colors.background}
+label-unfocused-padding = 3
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %name%
@@ -201,19 +145,6 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 ;label-separator = ~ 
 label-separator-foreground = ${colors.foreground-alt}
 
-
-[module/mpd]
-type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
-
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
-
-label-song-maxlen = 25
-label-song-ellipsis = true
 
 [module/xbacklight]
 type = internal/xbacklight
@@ -268,11 +199,6 @@ format-disconnected = NO WIFI
 ;label-disconnected = %ifname% disconnected
 label-disconnected-foreground = ${colors.cyan}
 
-;ramp-signal-0 =  20%
-;ramp-signal-1 =  40%
-;ramp-signal-2 =  60%
-;ramp-signal-3 =  80%
-;ramp-signal-4 =  100%
 ramp-signal-0 = SIG: 20%
 ramp-signal-1 = SIG: 40%
 ramp-signal-2 = SIG: 60%
@@ -355,22 +281,14 @@ format-charging = <animation-charging><label-charging>
 format-discharging = <ramp-capacity><label-discharging>
 ;format-discharging-underline = ${self.format-charging-underline}
 
-;format-full-prefix = " " 
-format-full-prefix = "BAT:"
+format-full-prefix = "BAT: "
 format-full-prefix-foreground = ${colors.yellow}
-;format-full-underline = ${self.format-charging-underline}
 
-;ramp-capacity-0 = 
-;ramp-capacity-1 = 
-;ramp-capacity-2 = 
 ramp-capacity-0 = "BAT: "
 ramp-capacity-1 = "BAT: "
 ramp-capacity-2 = "BAT: "
 ramp-capacity-foreground = ${colors.yellow}
 
-;animation-charging-0 = 
-;animation-charging-1 = 
-;animation-charging-2 = 
 animation-charging-0 = "BAT: "
 animation-charging-1 = "BAT: "
 animation-charging-2 = "BAT: "

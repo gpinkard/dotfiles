@@ -1,6 +1,6 @@
 set $mod Mod4
 
-gaps inner 40
+gaps inner 25
 gaps outer 0
 
 font pango: Inconsolata for Powerline 26
@@ -128,6 +128,7 @@ mode "move_floating" {
 	bindsym k move up 170px
 	bindsym l move right 170px
 	bindsym $mod+m mode "default"
+	bindsym Escape mode "default"
 }
 bindsym $mod+m focus floating, mode "move_floating"
 
