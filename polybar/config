@@ -3,7 +3,6 @@ background = #1b2b34
 background-alt = #444
 foreground  = #c0c5ce
 foreground-alt = #00a1b2
-#primary = #c0c5ce
 primary = #000000
 secondary = #e60053
 alert = #dc322f
@@ -17,14 +16,15 @@ cyan = #5fb3b3
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 45
+height = 65
 bottom = false
 ;offset-x = 1%
 ;offset-y = 1%
 ;radius = 5
 fixed-center = false
 
-background = $rgba(111,111,111,0.2)
+;background = $rgba(111,111,111,0.2)
+background = ${colors.background}
 foreground = ${colors.foreground}
 
 line-size = 3
@@ -42,15 +42,14 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-;font-0 = Source Code Pro:style=Black:size=18;5
-;font-0 = Share Tech Mono:style=Bold:size=18;5
-font-0 = Inconsolata for Powerline:style:Bold:size=20;5
-font-1 = FontAwesome5Free:style=solid:size=18;6
-font-2 = FontAwesome5Brands:style=solid:size=18;6
+font-0 = Inconsolata for Powerline:style:Bold:size=20;1
+;font-0 = Spleen:style=Regular:size=32;5
+font-1 = FontAwesome5Free:style=solid:size=18;2
+font-2 = FontAwesome5Brands:style=solid:size=18;0
 
 modules-left = i3
 modules-center = 
-modules-right = alsa wlan battery date powermenu  
+modules-right = temperature cpu memory battery alsa wlan date powermenu  
 
 tray-position = right
 tray-padding = 2
@@ -72,15 +71,15 @@ cursor-scroll = ns-resize
 [bar/bottom]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 45
+height = 65
 bottom = true
 ;offset-x = 1%
 ;offset-y = 1%
 ;radius = 5
 fixed-center = false
 
-background = $rgba(111,111,111,0.2)
-;background = #1b2b34
+;background = $rgba(111,111,111,0.2)
+background = ${colors.background}
 foreground = ${colors.foreground}
 
 line-size = 3
@@ -98,10 +97,10 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-;font-0 = Source Code Pro:style=Black:size=18;5
-;font-0 = Share Tech Mono:style=Bold:size=18;5
 font-0 = Inconsolata for Powerline:style:Bold:size=20;5
+;font-0 = Spleen:style=Regular:size=32;5
 font-1 = FontAwesome5Free:style=solid:size=18;6
+font-2 = FontAwesome5Brands:style=solid:size=18;6
 
 modules-left =
 modules-center = cpu memory temperature
@@ -173,19 +172,19 @@ wrapping-scroll = false
 
 label-mode-padding = 0
 label-mode-foreground = ${colors.foreground}
-label-mode-background = rgba(0.0, 0.0, 0.0, 0.0)
+label-mode-background = ${colors.background}
 
 ; focused = Active workspace on focused monitor
 label-focused = %name%
-;label-focused-background = ${module/bspwm.label-occupied-padding}
-label-focused-background = ${colors.primary}
-label-focused-foreground = ${colors.foreground}
-label-focused-padding = ${module/bspwm.label-focused-padding}
-label-focused-underline = ${colors.cyan}
+;label-focused-background = ${colors.background}
+label-focused-background = ${colors.cyan}
+label-focused-foreground = ${colors.primary}
+label-focused-padding = 4
+label-focused-underline = ${colors.background}
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %name%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+label-unfocused-padding = 4
 ;label-unfocused-background = ${colors.background}
 
 ; visible = Active workspace on unfocused monitor
@@ -241,46 +240,18 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format = <label><ramp-coreload>
-label =  %percentage%% : 
-;label = CPU %percentage%% : 
-label-foreground = ${colors.magenta}
-ramp-coreload-0 = [|-------]
-ramp-coreload-0-foreground = ${colors.green}
-ramp-coreload-1 = [=|------] 
-ramp-coreload-1-foreground = ${colors.green}
-ramp-coreload-2 = [==|-----] 
-ramp-coreload-2-foreground = ${colors.green}
-ramp-coreload-3 = [===|----]
-ramp-coreload-3-foreground = ${colors.green}
-ramp-coreload-4 = [====|---]
-ramp-coreload-4-foreground = ${colors.green}
-ramp-coreload-5 = [=====|--]
-ramp-coreload-5-foreground = ${colors.green}
-ramp-coreload-6 = [======|-]
-ramp-coreload-6-foreground = ${colors.yellow}
-ramp-coreload-7 = [=======|]
-ramp-coreload-7-foreground = ${colors.red}
-;format-prefix = " "
+format = <label>
+;label =  %percentage%% : 
+label = CPU: %percentage%%
+label-foreground = ${colors.red}
 
 [module/memory]
 type = internal/memory
 interval = 2
-format = <label> <bar-used>
-label =  %gb_used%/%gb_free%
-;label = RAM: %gb_used%/%gb_free%
+format = <label>
+;label =  %gb_used%/%gb_free%
+label = RAM: %gb_used%/%gb_free%
 label-foreground = ${colors.yellow}
-;label-foreground = ${colors.foreground-alt}
-; Only applies if <bar-used> is used
-bar-used-indicator = |
-bar-used-width = 35
-bar-used-foreground-0 = ${colors.green}
-bar-used-foreground-1 = ${colors.green}
-bar-used-foreground-2 = ${colors.yellow}
-bar-used-foreground-3 = ${colors.red}
-bar-used-fill = =
-bar-used-empty = -
-bar-used-empty-foreground = ${colors.foreground}
 
 [module/wlan]
 type = internal/network
@@ -295,19 +266,19 @@ format-disconnected = NO WIFI
 ;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
-label-disconnected-foreground = ${colors.magenta}
+label-disconnected-foreground = ${colors.cyan}
 
-ramp-signal-0 =  20%
-ramp-signal-1 =  40%
-ramp-signal-2 =  60%
-ramp-signal-3 =  80%
-ramp-signal-4 =  100%
-;ramp-signal-0 = SIG: 20%
-;ramp-signal-1 = SIG: 40%
-;ramp-signal-2 = SIG: 60%
-;ramp-signal-3 = SIG: 80%
-;ramp-signal-4 = SIG: 100%
-ramp-signal-foreground = ${colors.magenta}
+;ramp-signal-0 =  20%
+;ramp-signal-1 =  40%
+;ramp-signal-2 =  60%
+;ramp-signal-3 =  80%
+;ramp-signal-4 =  100%
+ramp-signal-0 = SIG: 20%
+ramp-signal-1 = SIG: 40%
+ramp-signal-2 = SIG: 60%
+ramp-signal-3 = SIG: 80%
+ramp-signal-4 = SIG: 100%
+ramp-signal-foreground = ${colors.cyan}
 
 [module/eth]
 type = internal/network
@@ -335,9 +306,9 @@ date-alt = " %Y-%m-%d"
 time = " %H:%M:%S"
 time-alt = " %H:%M:%S"
 
-format-prefix = 
-;format-prefix = DAY:
-format-prefix-foreground = ${colors.red}
+;format-prefix = 
+format-prefix = DAY:
+format-prefix-foreground = ${colors.magenta}
 ;format-underline = #0a6cf5
 
 label = %time% %date%
@@ -346,15 +317,16 @@ label = %time% %date%
 type = internal/alsa
 
 format-volume = <label-volume> <bar-volume>
-;label-volume = VOL:
-label-volume = ""
+label-volume = VOL:
+;label-volume = ""
 label-volume-foreground = ${colors.cyan}
 
-format-muted-prefix = " "
+;format-muted-prefix = " "
+format-muted-prefix = VOL:
 format-muted-foreground = ${colors.cyan}
 label-muted = sound muted
 
-bar-volume-width = 35
+bar-volume-width = 20
 bar-volume-foreground-0 = ${colors.cyan}
 bar-volume-foreground-1 = ${colors.cyan}
 bar-volume-foreground-2 = ${colors.cyan}
@@ -377,25 +349,31 @@ battery = BAT1
 adapter = ADP1
 full-at = 98
 
-format-charging = <animation-charging> <label-charging>
+format-charging = <animation-charging><label-charging>
 ;format-charging-underline = #ffb52a
 
-format-discharging = <ramp-capacity> <label-discharging>
+format-discharging = <ramp-capacity><label-discharging>
 ;format-discharging-underline = ${self.format-charging-underline}
 
-format-full-prefix = " " 
-;format-full-prefix = "BAT:"
+;format-full-prefix = " " 
+format-full-prefix = "BAT:"
 format-full-prefix-foreground = ${colors.yellow}
 ;format-full-underline = ${self.format-charging-underline}
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
+;ramp-capacity-0 = 
+;ramp-capacity-1 = 
+;ramp-capacity-2 = 
+ramp-capacity-0 = "BAT: "
+ramp-capacity-1 = "BAT: "
+ramp-capacity-2 = "BAT: "
 ramp-capacity-foreground = ${colors.yellow}
 
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
+;animation-charging-0 = 
+;animation-charging-1 = 
+;animation-charging-2 = 
+animation-charging-0 = "BAT: "
+animation-charging-1 = "BAT: "
+animation-charging-2 = "BAT: "
 animation-charging-foreground = ${colors.yellow}
 animation-charging-framerate = 750
 label-charging = CHARGIN'
@@ -405,19 +383,15 @@ type = internal/temperature
 thermal-zone = 0
 warn-temperature = 60
 
-format = <ramp> <label>
+format = <label>
 ;format-underline = #f50a4d
-format-warn = <ramp> <label-warn> 
+format-warn = <label-warn> 
 ;format-warn-underline = ${self.format-underline}
 
-label = %temperature-f% 
-label-warn = %temperature%
-label-warn-foreground = ${colors.secondary}
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-foreground = ${colors.red}
+label = TMP: %temperature-f% 
+label-foreground = ${colors.red}
+label-warn = %temperature-f%
+label-warn-foreground = ${colors.red}
 units=true
 
 [module/powermenu]
@@ -425,11 +399,11 @@ type = custom/menu
 expand-right = true
 format-spacing = 1
 label-open = 
-label-open-foreground = ${colors.secondary}
+label-open-foreground = ${colors.magenta}
 label-close =  cancel
-label-close-foreground = ${colors.secondary}
+label-close-foreground = ${colors.magenta}
 label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
+label-separator-foreground = ${colors.red}
 
 menu-0-0 = reboot
 menu-0-0-exec = menu-open-1

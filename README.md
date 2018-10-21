@@ -6,9 +6,9 @@ but feel free to grab anything you want.
 
 - neovim: Get vim-plug, then do :PlugInstall 
 
-- .zshrc: Just use oh-my-zsh (put pointer theme in .oh-my-zsh/custom/themes, or use powerlevel9k). 
+- .zshrc: Just use oh-my-zsh (put pointer theme in .oh-my-zsh/custom/themes)
 
-- termite/config: grab Source Code Pro font
+- termite/config: grab Inconsolata (powerline varient) font
 
 - i3/config (i3-gaps): needs rofi, ranger, w3m (ranger image previews), compton, feh, i3-lock
 

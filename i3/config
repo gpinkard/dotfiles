@@ -1,9 +1,9 @@
 set $mod Mod4
 
-gaps inner 30
+gaps inner 40
 gaps outer 0
 
-font pango: Inconsolate for Powerline 20
+font pango: Inconsolata for Powerline 26
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -55,11 +55,18 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # workspace name bindings
-set $workspace1 "1:  "
-set $workspace2 "2:  "
-set $workspace3 "3:  "
-set $workspace4 "4:  "
-set $workspace5 "5:  "
+#set $workspace1 "1:  "
+#set $workspace2 "2:  "
+#set $workspace3 "3:  "
+#set $workspace4 "4:  "
+#set $workspace5 "5:  "
+
+set $workspace1 "1: HOM"
+set $workspace2 "2: WEB"
+set $workspace3 "3: DEV"
+set $workspace4 "4: TRM"
+set $workspace5 "5: R&R"
+set $workspace6 "6: ???"
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -67,7 +74,7 @@ bindsym $mod+2 workspace $workspace2
 bindsym $mod+3 workspace $workspace3
 bindsym $mod+4 workspace $workspace4
 bindsym $mod+5 workspace $workspace5
-bindsym $mod+6 workspace 6
+bindsym $mod+6 workspace $workspace6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
@@ -126,11 +133,11 @@ bindsym $mod+m focus floating, mode "move_floating"
 
 for_window [class="^.*"] border pixel 7
 # window color vars
-set $bg-color 	         #282828
+set $bg-color 	         #1b2b34
 set $border-color	 #6699cc
 set $inactive-bg-color   #1b2b34
-set $text-color          #fb4934
-set $inactive-text-color #ebdbb2
+set $text-color          #1b2b34
+set $inactive-text-color #c0c5ce
 set $urgent-bg-color     #fb4934
 
 # Window colors
@@ -159,5 +166,6 @@ bindsym $mod+u exec xbacklight -dec 20 # decrease screen brightness
 # Exec Always
 exec_always --no-startup-id nm-applet 
 exec_always --no-startup-id ~/.config/polybar/launch.sh
-exec_always feh --bg-fill ~/.config/i3/wallpapers/wallpaper.png
+# wallpaper
+exec_always feh --bg-fill ~/.config/i3/wallpapers/wallpaper.jpg
 exec compton
