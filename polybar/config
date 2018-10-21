@@ -22,6 +22,7 @@ bottom = false
 ;offset-y = 1%
 radius = 40
 fixed-center = false
+;separator = |
 
 ;background = $rgba(111,111,111,0.2)
 background = ${colors.background}
@@ -31,7 +32,7 @@ line-size = 3
 line-color = #f00
 
 border-left-size=300
-border-top-size=20
+border-top-size=25
 border-right-size=300
 border-bottom-size=0
 border-color = rgba(111,111,111,0.2)
@@ -43,7 +44,8 @@ module-margin-left = 1
 module-margin-right = 2
 
 font-0 = Inconsolata for Powerline:style:Bold:size=20;3
-font-1 = FontAwesome5Free:style=solid:size=18;2
+;font-0 = ProFont for Powerline:style:Regular:size=22;7
+font-1 = FontAwesome5Free:style=solid:size=18;3
 ;font-2 = FontAwesome5Brands:style=solid:size=18;0
 
 modules-left = i3
