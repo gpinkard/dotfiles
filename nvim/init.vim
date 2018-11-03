@@ -1,4 +1,4 @@
-" put basic things in .vimrc
+" get basic things in .vimrc
 source ~/.vimrc
 
 " +----------------------------------------+
@@ -37,11 +37,11 @@ nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " lightline (status line)
-" \ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
-" \ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
 			\ 'colorscheme': 'wombat',
+			\ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
+			\ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
 			\ 'active': {
 			\   'left': [ [ 'mode', 'paste' ],
 			\             [ 'readonly', 'filename', 'modified' ]],
@@ -96,6 +96,8 @@ let g:oceanic_next_terminal_italic = 1
 
 " No plugins after this point
 call plug#end()
+
+" colorscheme
 colorscheme OceanicNext
 
 " NVIM leader stuff
@@ -103,10 +105,11 @@ colorscheme OceanicNext
 nnoremap <leader>R :so ~/.config/nvim/init.vim<Return>
 " NERDTree toggle
 map <leader>n :NERDTreeToggle<CR>
-" neovim terminal stuff
-" terminal in new tab
+" open neovim terminal
 nnoremap <leader><Space> :terminal<Return>
+" make escape enter normal mode in term
 tnoremap <Esc> <C-\><C-N>
+
 " other basic settings I only want in nvim
 set noshowmode
 set cursorline

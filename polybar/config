@@ -44,7 +44,7 @@ module-margin-left = 1
 module-margin-right = 2
 
 font-0 = Inconsolata for Powerline:style:Bold:size=20;3
-;font-0 = ProFont for Powerline:style:Regular:size=22;7
+;font-0 = Source Code Pro:style:Black:size=20;3
 font-1 = FontAwesome5Free:style=solid:size=18;3
 ;font-2 = FontAwesome5Brands:style=solid:size=18;0
 
@@ -252,7 +252,7 @@ label-volume-foreground = ${colors.cyan}
 ;format-muted-prefix = " "
 format-muted-prefix = VOL:
 format-muted-foreground = ${colors.cyan}
-label-muted = sound muted
+label-muted = " sound muted"
 
 bar-volume-width = 20
 bar-volume-foreground-0 = ${colors.cyan}

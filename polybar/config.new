@@ -1,0 +1,31 @@
+[colors]
+background = #1b2b34
+background-alt = #444
+foreground  = #c0c5ce
+foreground-alt = #00a1b2
+primary = #000000
+secondary = #e60053
+alert = #dc322f
+red = #ec5f67
+yellow = #fac863
+green = #99c794
+blue = #6699cc
+magenta = #c594c5
+cyan = #5fb3b3
+
+[bar/workspace]
+width = 40%
+height = 80
+bottom = true
+radius = 40
+fixed-center = false
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = #f00
+border-left-size=0
+border-right-size=30
+border-top-size=25
+border-bottom-size=0

@@ -21,7 +21,7 @@ set smarttab
 set hidden
 set history=1000
 set wildmenu
-set title
+" set title
 set encoding=utf-8
 set fileencodings=utf-8
 set nohlsearch
@@ -34,7 +34,6 @@ syntax enable
 "Leader stuff
 let mapleader = "\<Space>"
 "Saving, quiting, and such
-nnoremap <leader>q :q<Return>
 nnoremap <leader>Q :q!<Return>
 nnoremap <leader>w :w<Return>
 nnoremap <leader>x :x<Return>
@@ -69,7 +68,7 @@ autocmd Filetype python set shiftwidth=4
 
 " Go specific
 autocmd FileType go inoremap ( ()<Left>
-autocmd FileType go inoremap { {}<Left><Return><Esc>O
+autocmd FileType go inoremap { {<Return><Backspace>}<Esc>O
 autocmd FileType go inoremap " ""<Left>
 autocmd FileType go inoremap ' ''<Left>
 autocmd FileType go inoremap [ []<Left>
@@ -78,16 +77,16 @@ autocmd Filetype go set shiftwidth=8
 
 " Java specific
 autocmd FileType java inoremap ( ()<Left>
-autocmd FileType java inoremap { {}<Left><Return><Esc>O
+autocmd FileType java inoremap { {<Return><Backspace>}<Esc>O
 autocmd FileType java inoremap " ""<Left>
 autocmd FileType java inoremap ' ''<Left>
 autocmd FileType java inoremap [ []<Left>
-autocmd Filetype java set tabstop=8
-autocmd Filetype java set shiftwidth=8
+autocmd Filetype java set tabstop=4
+autocmd Filetype java set shiftwidth=4
 
 " C specific
 autocmd FileType c inoremap ( ()<Left>
-autocmd FileType c inoremap { {}<Left><Return><Esc>O
+autocmd FileType c inoremap { {<Return><Backspace>}<Esc>O
 autocmd FileType c inoremap " ""<Left>
 autocmd FileType c inoremap ' ''<Left>
 autocmd FileType c inoremap [ []<Left>
