@@ -8,7 +8,7 @@ but feel free to grab anything you want.
 
 - .zshrc: Just use oh-my-zsh (put pointer theme in .oh-my-zsh/custom/themes)
 
-- termite/config: grab Inconsolata (powerline varient) font
+- termite/config: grab Profont (powerline varient) font
 
 - i3/config (i3-gaps): needs rofi, ranger, w3m (ranger image previews), compton, feh, i3-lock
 

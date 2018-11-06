@@ -7,7 +7,6 @@ set linebreak
 set showbreak=+++
 set showmatch
 set visualbell
-set laststatus=2
 set ttimeoutlen=50
 set ignorecase
 set smartcase
@@ -20,7 +19,6 @@ set smartindent
 set smarttab	
 set hidden
 set history=1000
-set wildmenu
 " set title
 set encoding=utf-8
 set fileencodings=utf-8
@@ -44,10 +42,10 @@ nnoremap <leader><Tab> gt
 " Mimic my i3 configs tiling for splitting
 nnoremap <leader>v<Return> <C-w>s 
 nnoremap <leader>c<Return> <C-w>v
-nnoremap <leader>j <C-w><Down>
-nnoremap <leader>k <C-w><Up>
-nnoremap <leader>h <C-w><Left>
-nnoremap <leader>l <C-w><Right>
+nnoremap <leader>j :resize -5<Return>
+nnoremap <leader>k :resize +5<Return>
+nnoremap <leader>h :vertical resize -15<Return>
+nnoremap <leader>l :vertical resize +15<Return>
 " Reload config file
 nnoremap <leader>R :so ~/.vimrc<Return>
 " Autoformat
@@ -55,8 +53,9 @@ nnoremap <leader>F gg=G
 " find and replace
 nnoremap <leader>fr :%s///g<left><left><left>
 
-" Language specific settings + rebindings
+hi StatusLine ctermfg=red
 
+" Language specific settings + rebindings
 " Python specific
 autocmd FileType python inoremap ( ()<Left>
 autocmd FileType python inoremap " """<Return>"""<Esc>O
@@ -83,6 +82,16 @@ autocmd FileType java inoremap ' ''<Left>
 autocmd FileType java inoremap [ []<Left>
 autocmd Filetype java set tabstop=4
 autocmd Filetype java set shiftwidth=4
+
+" garbagescript specific
+autocmd FileType javascript inoremap ( ()<Left>
+autocmd FileType javascript inoremap { {<Return><Backspace>}<Esc>O
+autocmd FileType javascript inoremap " ""<Left>
+autocmd FileType javascript inoremap ' ''<Left>
+autocmd FileType javascript inoremap [ []<Left>
+autocmd Filetype javascript set tabstop=4
+autocmd Filetype javascript set shiftwidth=4
+
 
 " C specific
 autocmd FileType c inoremap ( ()<Left>

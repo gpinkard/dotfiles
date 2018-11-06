@@ -75,10 +75,14 @@ function! LightlineBranch()
 endfunction
 
 Plug 'maximbaz/lightline-ale'
-let g:lightline#ale#indicator_errors = "\uf071 : "
-let g:lightline#ale#indicator_warnings = "\uf05e : "
-let g:lightline#ale#indicator_checking = "\uf110 : "
-let g:lightline#ale#indicator_ok = "\uf00c  "
+"let g:lightline#ale#indicator_errors = "\uf071 : "
+"let g:lightline#ale#indicator_warnings = "\uf05e : "
+"let g:lightline#ale#indicator_checking = "\uf110 "
+"let g:lightline#ale#indicator_ok = "\uf00c  "
+let g:lightline#ale#indicator_errors = "ERR : "
+let g:lightline#ale#indicator_warnings = "WRN : "
+let g:lightline#ale#indicator_checking = "..."
+let g:lightline#ale#indicator_ok = "OK"
 
 " vim-go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
@@ -113,3 +117,4 @@ tnoremap <Esc> <C-\><C-N>
 " other basic settings I only want in nvim
 set noshowmode
 set cursorline
+"set laststatus=1

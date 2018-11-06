@@ -26,5 +26,5 @@ alias polybarConfig="nvim ~/.config/polybar/config"
 alias promptConfig="nvim ~/.oh-my-zsh/custom/themes/pointer.zsh-theme"
 alias rangerConfig="nvim ~/.config/ranger/rc.conf"
 alias nf="neofetch"
-alias stConfig="nvim ~/Projects/st-0.8.1/config.h"
+alias stConfig="cd ~/Projects/st/ && nvim config.h"
 # xcape -e 'Caps_Lock = Escape'
