@@ -92,7 +92,6 @@ autocmd FileType javascript inoremap [ []<Left>
 autocmd Filetype javascript set tabstop=4
 autocmd Filetype javascript set shiftwidth=4
 
-
 " C specific
 autocmd FileType c inoremap ( ()<Left>
 autocmd FileType c inoremap { {<Return><Backspace>}<Esc>O

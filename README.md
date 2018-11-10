@@ -8,14 +8,14 @@ but feel free to grab anything you want.
 
 - .zshrc: Just use oh-my-zsh (put pointer theme in .oh-my-zsh/custom/themes)
 
-- termite/config: grab Profont (powerline varient) font
+- ST: grap Inconsolata for Powerline
 
 - i3/config (i3-gaps): needs rofi, ranger, w3m (ranger image previews), compton, feh, i3-lock
 
 - ranger: Make sure EDITOR global in /etc/profile is set to nvim so it does not open
 things with nano.
 
-- i3blocks/polybar: see github pages for dependencies (grab font awesome for polybar)
+- i3blocks/polybar: see github pages for dependencies (grab font awesome for polybar, normal Inconsolata)
 
 # Screenshots
 ![Screenshot](/i3/wallpapers/workflow1.png)

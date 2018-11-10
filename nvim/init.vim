@@ -36,12 +36,12 @@ let g:ale_echo_msg_format = '[%linter%] %severity%: %s'
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
+"\ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
+"\ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
 " lightline (status line)
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
 			\ 'colorscheme': 'wombat',
-			\ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
-			\ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
 			\ 'active': {
 			\   'left': [ [ 'mode', 'paste' ],
 			\             [ 'readonly', 'filename', 'modified' ]],
@@ -75,14 +75,10 @@ function! LightlineBranch()
 endfunction
 
 Plug 'maximbaz/lightline-ale'
-"let g:lightline#ale#indicator_errors = "\uf071 : "
-"let g:lightline#ale#indicator_warnings = "\uf05e : "
-"let g:lightline#ale#indicator_checking = "\uf110 "
-"let g:lightline#ale#indicator_ok = "\uf00c  "
-let g:lightline#ale#indicator_errors = "ERR : "
-let g:lightline#ale#indicator_warnings = "WRN : "
-let g:lightline#ale#indicator_checking = "..."
-let g:lightline#ale#indicator_ok = "OK"
+let g:lightline#ale#indicator_errors = "\uf071 : "
+let g:lightline#ale#indicator_warnings = "\uf05e : "
+let g:lightline#ale#indicator_checking = "\uf110 "
+let g:lightline#ale#indicator_ok = "\uf00c  "
 
 " vim-go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
@@ -117,4 +113,3 @@ tnoremap <Esc> <C-\><C-N>
 " other basic settings I only want in nvim
 set noshowmode
 set cursorline
-"set laststatus=1
