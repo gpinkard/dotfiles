@@ -55,7 +55,7 @@ super + t
 
 # rofi
 super + space 
-	rofi -show run -lines 10 -width 18 -padding 5 -font "Source Code Pro Medium 20" 
+	rofi -show run -lines 10 -width 18 -padding 5 -font "Input Mono Compressed 20" 
 #increase volume
 super + p
 	pactl set-sink-volume 0 +5% 

@@ -1,6 +1,6 @@
 #/usr/bin/bash
 echo 'copying configuration files to ~/dotfiles...'
-cp -r ~/.config/polybar ~/.config/i3 ~/.config/termite ~/.config/ranger ~/.config/compton.conf ~/.config/nvim ~/.config/bspwm ~/.config/sxhkd ~/.vimrc ~/.emacs ~/.zshrc ~/updateDotfiles.sh ~/dotfiles
+cp -r ~/.config/polybar ~/.config/i3 ~/.config/termite ~/.config/ranger ~/.config/compton.conf ~/.config/nvim ~/.config/bspwm ~/.config/sxhkd ~/.vimrc ~/.emacs ~/.zshrc ~/updateDotfiles.sh ~/scripts ~/dotfiles
 
 cd ~/dotfiles && git status
 echo 'push changes to github? [y/N]'
