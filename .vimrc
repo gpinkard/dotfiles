@@ -6,7 +6,7 @@ set relativenumber
 set linebreak
 set showbreak=+++
 set showmatch
-set visualbell
+"set visualbell
 set ttimeoutlen=50
 set ignorecase
 set smartcase
@@ -62,6 +62,7 @@ autocmd FileType python inoremap " """<Return>"""<Esc>O
 autocmd FileType python inoremap ' ''<Left>
 autocmd FileType python inoremap { {}<Left>
 autocmd FileType python inoremap [ []<Left>
+autocmd FileType python inoremap : :<Return><Tab>
 autocmd Filetype python set tabstop=4
 autocmd Filetype python set shiftwidth=4
 

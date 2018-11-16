@@ -3,15 +3,15 @@ set $mod Mod4
 gaps inner 25
 gaps outer 0
 
-font pango: Inconsolata for Powerline 26
+font pango: Input Mono Compressed 26
 # font pango: ProFont For Powerline 26
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # Start Terminal
-bindsym $mod+Return exec st 
-bindsym $mod+Shift+Return exec termite
+bindsym $mod+Return exec termite
+bindsym $mod+Shift+Return exec st
 
 # kill focused window
 bindsym $mod+shift+q kill
@@ -156,11 +156,11 @@ client.urgent           $urgent-bg-color   $urgent-bg-color   	$bg-color		#6699c
 
 
 # start rofi
-bindsym $mod+d exec rofi -show run -lines 10 -width 18 -padding 5 -font "Inconsolata for Powerline 28"
+bindsym $mod+d exec rofi -show run -lines 10 -width 18 -padding 5 -font "Input Mono Compressed 28"
 # bindsym $mod+d exec rofi -show run -lines 10 -width 18 -padding 5 -font "ProFont For Powerline 30"
 
 # mod shift x locks screen
-# bindsym $mod+shift+x exec i3lock -u -i ~/.config/i3/wallpapers/wallpaper.png
+# bindsym $mod+shift+x exec i3lock -u -i ~/Pictures/Wallpapers/wallpaper.png
 bindsym $mod+shift+x exec i3lock
 
 # start ranger
@@ -176,5 +176,5 @@ bindsym $mod+u exec xbacklight -dec 20 # decrease screen brightness
 exec_always --no-startup-id nm-applet 
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 # wallpaper
-exec_always feh --bg-fill ~/.config/i3/wallpapers/wallpaper.jpg
+exec_always feh --bg-fill ~/Pictures/Wallpapers/wallpaper.jpg
 exec compton

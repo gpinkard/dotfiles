@@ -6,7 +6,7 @@ super + Escape
 	pkill -USR1 -x sxhkd; \
 	notify-send 'Bspwm/Sxhkd' 'Configs reloaded'
 # exit bspwm
-super + e
+super + E
 	bspc quit
 
 # WINDOWS AND MOVEMENTS
@@ -15,7 +15,7 @@ super + e
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 # close window
-super + q
+super + Q
 	bspc node -c
 # window state
 super + {t,shift + t,s,f}
@@ -55,7 +55,7 @@ super + t
 
 # rofi
 super + space 
-	rofi -show run -lines 10 -width 18 -padding 5 -font "Input Mono Compressed 20" 
+	rofi -show run -lines 10 -width 18 -padding 5 -font "Input Mono Compressed 26" 
 #increase volume
 super + p
 	pactl set-sink-volume 0 +5% 

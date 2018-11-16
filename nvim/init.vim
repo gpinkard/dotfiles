@@ -96,7 +96,6 @@ let g:oceanic_next_terminal_italic = 1
 
 " No plugins after this point
 call plug#end()
-
 " colorscheme
 colorscheme OceanicNext
 
@@ -109,6 +108,13 @@ map <leader>n :NERDTreeToggle<CR>
 nnoremap <leader><Space> :terminal<Return>
 " make escape enter normal mode in term
 tnoremap <Esc> <C-\><C-N>
+
+hi normal guibg=none ctermbg=none
+
+hi normal ctermbg=none
+hi nontext guibg=none ctermbg=none
+hi signcolumn guibg=none ctermbg=none
+hi lineNr guibg=none ctermbg=none
 
 " other basic settings I only want in nvim
 set noshowmode

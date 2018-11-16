@@ -7,9 +7,9 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-# font = Source Code Pro 28
-# font = xos4 Terminus 30
 font = Input Mono Compressed 28
+# font = haxorville 30
+# font = Source Code Pro 30
 scrollback_lines = 10000
 search_wrap = true
 # icon_name = terminal
@@ -32,45 +32,42 @@ filter_unmatched_urls = true
 
 # emit escape sequences for extra modified keys
 #modify_other_keys = false
-
-[colors]
-
 [colors]
 
 # special
-foreground      = #93a1a1
-foreground_bold = #93a1a1
-# cursor          = #93a1a1
-background      = #002b36
+foreground      = #c0c5ce
+foreground_bold = #c0c5ce
+# cursor          = #c0c5ce
+background      = #1b2b34
 
 # black
-color0  = #002b36
-color8  = #657b83
+color0  = #1b2b34
+color8  = #65737e
 
 # red
-color1  = #dc322f
-color9  = #dc322f
+color1  = #ec5f67
+color9  = #ec5f67
 
 # green
-color2  = #859900
-color10 = #859900
+color2  = #99c794
+color10 = #99c794
 
 # yellow
-color3  = #b58900
-color11 = #b58900
+color3  = #fac863
+color11 = #fac863
 
 # blue
-color4  = #268bd2
-color12 = #268bd2
+color4  = #6699cc
+color12 = #6699cc
 
 # magenta
-color5  = #6c71c4
-color13 = #6c71c4
+color5  = #c594c5
+color13 = #c594c5
 
 # cyan
-color6  = #2aa198
-color14 = #2aa198
+color6  = #5fb3b3
+color14 = #5fb3b3
 
 # white
-color7  = #93a1a1
-color15 = #fdf6e3
+color7  = #c0c5ce
+color15 = #d8dee9
