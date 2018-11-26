@@ -101,13 +101,19 @@ colorscheme OceanicNext
 
 " NVIM leader stuff
 " Reload config file
-nnoremap <leader>R :so ~/.config/nvim/init.vim<Return>
+nnoremap <leader>R :so ~/.config/nvim/init.vim<return>
 " NERDTree toggle
 map <leader>n :NERDTreeToggle<CR>
 " open neovim terminal
-nnoremap <leader><Space> :terminal<Return>
+nnoremap <leader><space> :terminal<return>
 " make escape enter normal mode in term
-tnoremap <Esc> <C-\><C-N>
+tnoremap <esc> <C-\><C-N>
+
+"hi normal guibg=none ctermbg=none
+"hi normal ctermbg=none
+"hi nontext guibg=none ctermbg=none
+"hi signcolumn guibg=none ctermbg=none
+"hi lineNr guibg=none ctermbg=none
 
 " other basic settings I only want in nvim
 set noshowmode
