@@ -109,13 +109,6 @@ nnoremap <leader><Space> :terminal<Return>
 " make escape enter normal mode in term
 tnoremap <Esc> <C-\><C-N>
 
-hi normal guibg=none ctermbg=none
-
-hi normal ctermbg=none
-hi nontext guibg=none ctermbg=none
-hi signcolumn guibg=none ctermbg=none
-hi lineNr guibg=none ctermbg=none
-
 " other basic settings I only want in nvim
 set noshowmode
 set cursorline
