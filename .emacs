@@ -95,7 +95,7 @@
 ;; make emacs use tabs instead of brainlet spaces
 ;;(setq tab-to-tab-stop)
 (global-set-key (kbd "TAB") 'tab-to-tab-stop)
-(setq default-tab-width 7)
+(setq default-tab-width 8)
 
 ;; vim like scrolling
 (setq scroll-margin 5
@@ -109,7 +109,7 @@
 (show-paren-mode t)
 
 ;; highlight current line
-(hl-line-mode t)
+(global-hl-line-mode)
 
 ;; line numbers
 (global-display-line-numbers-mode)
