@@ -23,6 +23,11 @@
   :config
   (evil-mode t))
 
+(use-package helm
+  :ensure t
+  :config
+  (helm-mode 1))
+
 ;; telephone-line (like vim powerline)
 (use-package telephone-line
   :ensure t
@@ -38,28 +43,12 @@
       '((nil    . (telephone-line-misc-info-segment))
         (accent . (telephone-line-major-mode-segment))
         (evil   . (telephone-line-airline-position-segment))))
+  (setq telephone-line-primary-left-separator 'telephone-line-identity-left
+      telephone-line-secondary-left-separator 'telephone-line-identity-hollow-left
+      telephone-line-primary-right-separator 'telephone-line-identity-right
+      telephone-line-secondary-right-separator 'telephone-line-identity-hollow-right)
+  (setq telephone-line-height 50)
   (telephone-line-mode 1))
-
-;; File explorer menu (like NERDTree)
-(use-package neotree
-  :ensure t
-  :init
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-  (setq-default neo-show-hidden-files t)
-  (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-  (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
-  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-  (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
-  (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
-  (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
-  (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
-  (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle))
-
-;; perty icons for neo-tree
-;; run M-x all-the-icons-install-fonts on fresh emacs installation
-(use-package all-the-icons
-  :ensure t)
 
 ;; replace with general???
 (use-package evil-leader
@@ -68,10 +57,12 @@
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
-    "b" 'buffer-menu
+    "<SPC>" 'helm-M-x
+    "f" 'helm-find-files
+    "b" 'helm-buffers-list
     "k" 'kill-buffer
+    "w" 'save-buffer
     "t" 'evil-buffer-new
-    "n" 'neotree-toggle
     ";" 'shell-pop))
 
 ;; open shell in split window
@@ -80,7 +71,7 @@
   :ensure t)
 
 ;; colorscheme (monokai)
-(use-package monokai-theme
+(use-package srcery-theme 
   :ensure t)
 
 ;; language specific modes
@@ -114,6 +105,12 @@
 ;; complete parens, curly braces, quotation marks, etc.
 (electric-pair-mode t)
 
+;; show matching ( { [ < etc.
+(show-paren-mode t)
+
+;; highlight current line
+(hl-line-mode t)
+
 ;; line numbers
 (global-display-line-numbers-mode)
 
@@ -127,10 +124,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
- '(custom-enabled-themes (quote (monokai)))
- '(custom-safe-themes
-   (quote
-    ("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
  '(menu-bar-mode nil)
  '(package-selected-packages (quote (shell-pop use-package)))
  '(scroll-bar-mode nil)
@@ -147,4 +140,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#272822" :foreground "#F8F8F2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 124 :width normal :foundry "SRC" :family "Fira Code")))))
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 263 :width normal :foundry "CYRE" :family "Inconsolata")))))
