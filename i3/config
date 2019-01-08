@@ -1,10 +1,10 @@
 set $mod Mod4
 
-gaps inner 25
+gaps inner 8
 gaps outer 0
 
 # font pango: Input Mono Compressed 26
-font pango: Inconsolata 28
+font pango: UW ttyp0 14
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -88,7 +88,7 @@ bindsym $mod+Shift+2 move container to workspace $workspace2
 bindsym $mod+Shift+3 move container to workspace $workspace3 
 bindsym $mod+Shift+4 move container to workspace $workspace4 
 bindsym $mod+Shift+5 move container to workspace $workspace5 
-bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+6 move container to workspace $workspace6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
@@ -138,10 +138,10 @@ mode "move floating" {
 }
 bindsym $mod+m focus floating, mode "move floating"
 
-for_window [class="^.*"] border pixel 10
+for_window [class="^.*"] border pixel 3
 # window color vars
 set $bg-color 	         #1b2b34
-set $border-color	 #c0c5ce
+set $border-color	 #ec5f67
 set $inactive-bg-color   #1b2b34
 set $text-color          #1b2b34
 set $inactive-text-color #c0c5ce
@@ -157,7 +157,7 @@ client.urgent           $urgent-bg-color   $urgent-bg-color   	$bg-color		#6699c
 bar {
 	status_command i3blocks
 	position top
-	font pango:Inconsolata 28
+	font pango:UW ttyp0 14
 	separator_symbol " "
 
 	colors {
@@ -174,9 +174,9 @@ bar {
 }
 
 # start rofi
-# bindsym $mod+d exec rofi -show run -lines 10 -width 18 -padding 5 -font "Input Mono Compressed 28"
+# bindsym $mod+d exec rofi -show run -lines 10 -width 24 -theme solarized -padding 5 -font "UW ttyp0 14"
 # start dmenu
-bindsym $mod+d exec dmenu_run -fn Inconsolata-28
+bindsym $mod+d exec dmenu_run -fn Inconsolata-16
 
 # mod shift x locks screen
 # bindsym $mod+shift+x exec i3lock -u -i ~/Pictures/Wallpapers/wallpaper.jpg
