@@ -1,9 +1,9 @@
-" get basic things in .vimrc
-source ~/.vimrc
-
 " +----------------------------------------+
 " | Gabriel Pinkard's neovim configuration |
 " +----------------------------------------+
+
+" get basic things in .vimrc
+" source ~/.vimrc
 
 " Plugins and their settings
 
@@ -36,12 +36,12 @@ let g:ale_echo_msg_format = '[%linter%] %severity%: %s'
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
-"\ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
-"\ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
 " lightline (status line)
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
 			\ 'colorscheme': 'wombat',
+			\ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
+			\ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
 			\ 'active': {
 			\   'left': [ [ 'mode', 'paste' ],
 			\             [ 'readonly', 'filename', 'modified' ]],
@@ -66,19 +66,14 @@ let g:lightline.component_type = {
       \     'linter_ok': 'left',
       \ }
 
-function! LightlineBranch()
-	let branch = gitbranch#name()
-	if branch != ''
-		return 'branch: ' . gitbranch#name()
-	endif
-	return ''
-endfunction
-
 Plug 'maximbaz/lightline-ale'
 let g:lightline#ale#indicator_errors = "\uf071 : "
 let g:lightline#ale#indicator_warnings = "\uf05e : "
 let g:lightline#ale#indicator_checking = "\uf110 "
 let g:lightline#ale#indicator_ok = "\uf00c  "
+
+" smart completion of { [ ' " etc.
+Plug 'jiangmiao/auto-pairs'
 
 " vim-go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
@@ -96,8 +91,69 @@ let g:oceanic_next_terminal_italic = 1
 
 " No plugins after this point
 call plug#end()
-" colorscheme
+
+" functions
+function! LightlineBranch()
+	let branch = gitbranch#name()
+	if branch != ''
+		return 'branch: ' . gitbranch#name()
+	endif
+	return ''
+endfunction
+
+" Basic stuff
 colorscheme OceanicNext
+set number
+set relativenumber
+set linebreak
+set showbreak=+++
+set showmatch
+set ttimeoutlen=50
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set wildmenu 
+set autoindent	
+set smartindent
+set smarttab	
+set hidden
+set history=1000
+set encoding=utf-8
+set fileencodings=utf-8
+set nohlsearch
+set undolevels=1000 
+set backspace=indent,eol,start
+set updatetime=100
+set encoding=UTF-8
+syntax enable
+
+"Leader stuff
+let mapleader = "\<Space>"
+"Saving, quiting, and such
+nnoremap <leader>Q :q!<return>
+nnoremap <leader>w :w<return>
+nnoremap <leader>x :x<return>
+nnoremap <leader>e :e<Space>
+" Tabs stuff
+nnoremap <leader>T :tabnew<return>
+nnoremap <leader><Tab> gt
+" Mimic my i3 configs tiling for splitting
+nnoremap <leader>v<return> <C-w>s 
+nnoremap <leader>c<return> <C-w>v
+nnoremap <leader>j :resize -5<return>
+nnoremap <leader>k :resize +5<return>
+nnoremap <leader>h :vertical resize -15<return>
+nnoremap <leader>l :vertical resize +15<return>
+" Reload config file
+nnoremap <leader>R :so ~/.vimrc<return>
+" Autoformat
+nnoremap <leader>F gg=G
+" find and replace
+nnoremap <leader>fr :%s///g<left><left><left>
+" buffer stuff
+nnoremap <leader>b :buffer
+nnoremap <leader>B :buffers<return>
 
 " NVIM leader stuff
 " Reload config file
@@ -108,12 +164,6 @@ map <leader>n :NERDTreeToggle<CR>
 nnoremap <leader><space> :terminal<return>
 " make escape enter normal mode in term
 tnoremap <esc> <C-\><C-N>
-
-"hi normal guibg=none ctermbg=none
-"hi normal ctermbg=none
-"hi nontext guibg=none ctermbg=none
-"hi signcolumn guibg=none ctermbg=none
-"hi lineNr guibg=none ctermbg=none
 
 " other basic settings I only want in nvim
 set noshowmode
