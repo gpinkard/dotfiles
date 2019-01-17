@@ -9,7 +9,6 @@ set showmatch
 set ttimeoutlen=50
 set ignorecase
 set smartcase
-set hlsearch
 set incsearch
 set wildmenu 
 set autoindent	

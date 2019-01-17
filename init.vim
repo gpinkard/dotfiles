@@ -78,8 +78,9 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
 " latex-suite
 Plug 'vim-latex/vim-latex'
 
-" perty icons
-" Plug 'ryanoasis/vim-devicons'
+" i3 config syntax highlighting
+Plug 'mboughaba/i3config.vim'
+set filetype=i3config
 
 " Colorscheme 
 Plug 'mhartington/oceanic-next'
@@ -117,7 +118,7 @@ set smartindent
 set smarttab	
 set hidden
 set history=1000
-set encoding=UTF-8
+set encoding=utf-8
 set fileencodings=utf-8
 set nohlsearch
 set undolevels=1000 
@@ -125,17 +126,15 @@ set backspace=indent,eol,start
 set updatetime=100
 set splitbelow splitright " fix dumb vim splitting
 set encoding=UTF-8
-set noshowmode
-set cursorline
 syntax enable
 
 "Leader stuff
 let mapleader = "\<Space>"
 "Saving, quiting, and such
-nnoremap <leader>w :w<return>
+nnoremap <leader>W :w<return>
 nnoremap <leader>Q :q!<return>
-nnoremap <leader>x :x<return>
-nnoremap <leader>e :e<Space>
+nnoremap <leader>X :x<return>
+nnoremap <leader>E :e<Space>
 " Tabs stuff
 nnoremap <leader>T :tabnew<return>
 nnoremap <leader><Tab> gt
@@ -155,6 +154,7 @@ nnoremap <leader>fr :%s///g<left><left><left>
 " buffer stuff
 nnoremap <leader>b :buffer
 nnoremap <leader>B :buffers<return>
+
 " NVIM leader stuff
 " Reload config file
 nnoremap <leader>R :so ~/.config/nvim/init.vim<return>
@@ -162,6 +162,10 @@ nnoremap <leader>R :so ~/.config/nvim/init.vim<return>
 map <leader>n :NERDTreeToggle<CR>
 " open neovim terminal
 nnoremap <leader><space> :terminal<return>
-nnoremap <leader>; <C-w>v<return>:terminal<return>i
+nnoremap <leader>; <C-w>v<return>:terminal<return>
 " make escape enter normal mode in term
 tnoremap <esc> <C-\><C-N>
+
+" other basic settings I only want in nvim
+set noshowmode
+set cursorline
