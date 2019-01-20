@@ -1,10 +1,10 @@
 set $mod Mod4
 
-gaps inner 8
+gaps inner 10
 gaps outer 0
 
 # font pango: Input Mono Compressed 26
-font pango: UW ttyp0 14
+font pango: UW ttyp0 15
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -35,6 +35,12 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+
+# resize focused window
+bindsym $mod+u resize shrink width 10px or 10 ppt
+bindsym $mod+i resize grow width 10px or 10 ppt
+bindsym $mod+o resize shrink width 10px or 10 ppt
+bindsym $mod+p resize grow width 10px or 10 ppt
 
 # Splitting
 bindsym $mod+c split h
@@ -77,10 +83,10 @@ bindsym $mod+3 workspace $workspace3
 bindsym $mod+4 workspace $workspace4
 bindsym $mod+5 workspace $workspace5
 bindsym $mod+6 workspace $workspace6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+7 workspace $workspace7
+bindsym $mod+8 workspace $workspace8
+bindsym $mod+9 workspace $workspace9
+bindsym $mod+0 workspace $workspace10
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $workspace1 
@@ -89,40 +95,10 @@ bindsym $mod+Shift+3 move container to workspace $workspace3
 bindsym $mod+Shift+4 move container to workspace $workspace4 
 bindsym $mod+Shift+5 move container to workspace $workspace5 
 bindsym $mod+Shift+6 move container to workspace $workspace6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
-
-# assign [class="Chromium"] $workspace2
-# assign [class="Firefox"] $workspace2
-
-# reload the configuration file
-bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit i3 Window Manager?' -b 'Yes, exit i3' 'i3-msg exit'"
-
-# resize window (you can also use the mouse for that)
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
-
-        # gotta go fast
-        bindsym Left resize shrink width 20 px or 20 ppt
-        bindsym Down resize grow height 20 px or 20 ppt
-        bindsym Up resize shrink height 20 px or 20 ppt
-        bindsym Right resize grow width 20 px or 20 ppt
-
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-bindsym $mod+r mode "resize"
+bindsym $mod+Shift+7 move container to workspace $workspace7
+bindsym $mod+Shift+8 move container to workspace $workspace8
+bindsym $mod+Shift+9 move container to workspace $workspace9
+bindsym $mod+Shift+0 move container to workspace $workspace10
 
 mode "move floating" {
 	bindsym h move left 170px
@@ -157,7 +133,7 @@ client.urgent           $urgent-bg-color   $urgent-bg-color   	$bg-color		#6699c
 bar {
 	status_command i3blocks
 	position top
-	font pango:UW ttyp0 14
+	font pango:UW ttyp0 16
 	separator_symbol " "
 
 	colors {
@@ -168,32 +144,53 @@ bar {
         	focused_workspace  #5fb2b2 #5fb2b2 #1b2b34
         	active_workspace   #1b2b34 #1b2b34 #c0c5ce
         	inactive_workspace #1b2b34 #1b2b34 #c0c5ce
-        	urgent_workspace   #1b2b34 #ec5f67 #ec5f67
+        	urgent_workspace   #ec5f67 #ec5f67 #1b2b34
         	binding_mode       #2f343a #900000 #ffffff	
 	}
 }
 
 # start rofi
-# bindsym $mod+d exec rofi -show run -lines 10 -width 24 -theme solarized -padding 5 -font "UW ttyp0 14"
+bindsym $mod+d exec rofi -show run -lines 10 -width 24 -theme solarized -padding 5 -font "UW ttyp0 15"
 # start dmenu
-bindsym $mod+d exec dmenu_run -fn Inconsolata-16
+# bindsym $mod+d exec dmenu_run -fn UWTtyp0-16
 
 # mod shift x locks screen
 # bindsym $mod+shift+x exec i3lock -u -i ~/Pictures/Wallpapers/wallpaper.jpg
 bindsym $mod+shift+x exec i3lock
 
 # start ranger
-bindsym $mod+g exec st -e ranger
+bindsym $mod+g exec termite -e ranger
 
 # screen brightness and volume stuff
-bindsym $mod+p exec --no-startup-id pactl set-sink-volume 0 +5% # increase sound volume
-bindsym $mod+o exec --no-startup-id pactl set-sink-volume 0 -5% # decrease sound volume
-bindsym $mod+i exec xbacklight -inc 20 # increase screen brightness
-bindsym $mod+u exec xbacklight -dec 20 # decrease screen brightness
+# bindsym $mod+p exec --no-startup-id pactl set-sink-volume 0 +5% # increase sound volume
+# bindsym $mod+o exec --no-startup-id pactl set-sink-volume 0 -5% # decrease sound volume
+# bindsym $mod+i exec xbacklight -inc 20 # increase screen brightness
+# bindsym $mod+u exec xbacklight -dec 20 # decrease screen brightness
 
-# Exec Always
+# workspace assignments
+# assign [class="Chromium"] $workspace2
+assign [class="Firefox"] $workspace2
+assign [class="Steam"] $workspace5
+
+# EXEC ALWAYS!
+
+# network manager applet
 exec_always --no-startup-id nm-applet 
+
+# launch polybar
 # exec_always --no-startup-id ~/.config/polybar/launch.sh
-# wallpaper
+
+# set background wallpaper
 exec_always feh --bg-fill ~/Pictures/Wallpapers/wallpaper.jpg
+
+# compton (transparency + other effects)
 exec compton
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit i3 Window Manager?' -b 'Yes, exit i3' 'i3-msg exit'"
