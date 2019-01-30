@@ -69,12 +69,12 @@ set $workspace4 "4: "
 set $workspace5 "5: "
 set $workspace6 "6: "
 
-#set $workspace1 "1: HOM"
-#set $workspace2 "2: WEB"
-#set $workspace3 "3: DEV"
-#set $workspace4 "4: TRM"
-#set $workspace5 "5: R&R"
-#set $workspace6 "6: ???"
+# set $workspace1 "1: HOM"
+# set $workspace2 "2: WEB"
+# set $workspace3 "3: DEV"
+# set $workspace4 "4: TRM"
+# set $workspace5 "5: R&R"
+# set $workspace6 "6: ???"
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -100,19 +100,19 @@ bindsym $mod+Shift+8 move container to workspace $workspace8
 bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 
-mode "move floating" {
-	bindsym h move left 170px
-	bindsym j move down 170px
-	bindsym k move up 170px
-	bindsym l move right 170px
-	bindsym Left move left 300px
-	bindsym Right move right 300px
-	bindsym Up move up 300px
-	bindsym Down move down 300px
-	bindsym $mod+m mode "default"
-	bindsym Escape mode "default"
-}
-bindsym $mod+m focus floating, mode "move floating"
+# mode "move floating" {
+#	bindsym h move left 170px
+#	bindsym j move down 170px
+#	bindsym k move up 170px
+#	bindsym l move right 170px
+#	bindsym Left move left 300px
+#	bindsym Right move right 300px
+#	bindsym Up move up 300px
+#	bindsym Down move down 300px
+#	bindsym $mod+m mode "default"
+#	bindsym Escape mode "default"
+#}
+# bindsym $mod+m focus floating, mode "move floating"
 
 for_window [class="^.*"] border pixel 3
 # window color vars
@@ -130,24 +130,24 @@ client.unfocused        $inactive-bg-color $inactive-bg-color 	$inactive-text-co
 client.focused_inactive $inactive-bg-color $inactive-bg-color 	$inactive-text-color  	#6699cc
 client.urgent           $urgent-bg-color   $urgent-bg-color   	$bg-color		#6699cc
 
-bar {
-	status_command i3blocks
-	position top
-	font pango:UW ttyp0 16
-	separator_symbol " "
+# bar {
+	#status_command i3blocks
+	#position top
+	#font pango:UW ttyp0 16
+	#separator_symbol " "
 
-	colors {
-		background #1b2b34
-        	statusline #ffffff
-        	separator #c0c5ce
+	#colors {
+		#background #1b2b34
+        	#statusline #ffffff
+        	#separator #c0c5ce
 
-        	focused_workspace  #5fb2b2 #5fb2b2 #1b2b34
-        	active_workspace   #1b2b34 #1b2b34 #c0c5ce
-        	inactive_workspace #1b2b34 #1b2b34 #c0c5ce
-        	urgent_workspace   #ec5f67 #ec5f67 #1b2b34
-        	binding_mode       #2f343a #900000 #ffffff	
-	}
-}
+        	#focused_workspace  #5fb2b2 #5fb2b2 #1b2b34
+        	#active_workspace   #1b2b34 #1b2b34 #c0c5ce
+        	#inactive_workspace #1b2b34 #1b2b34 #c0c5ce
+        	#urgent_workspace   #ec5f67 #ec5f67 #1b2b34
+        	#binding_mode       #2f343a #900000 #ffffff	
+	#}
+#}
 
 # start rofi
 bindsym $mod+d exec rofi -show run -lines 10 -width 24 -theme solarized -padding 5 -font "UW ttyp0 15"
@@ -162,8 +162,8 @@ bindsym $mod+shift+x exec i3lock
 bindsym $mod+g exec termite -e ranger
 
 # screen brightness and volume stuff
-# bindsym $mod+p exec --no-startup-id pactl set-sink-volume 0 +5% # increase sound volume
-# bindsym $mod+o exec --no-startup-id pactl set-sink-volume 0 -5% # decrease sound volume
+bindsym $mod+m exec --no-startup-id pactl set-sink-volume 0 +5% # increase sound volume
+bindsym $mod+n exec --no-startup-id pactl set-sink-volume 0 -5% # decrease sound volume
 # bindsym $mod+i exec xbacklight -inc 20 # increase screen brightness
 # bindsym $mod+u exec xbacklight -dec 20 # decrease screen brightness
 
@@ -175,10 +175,10 @@ assign [class="Steam"] $workspace5
 # EXEC ALWAYS!
 
 # network manager applet
-exec_always --no-startup-id nm-applet 
+# exec_always --no-startup-id nm-applet 
 
 # launch polybar
-# exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # set background wallpaper
 exec_always feh --bg-fill ~/Pictures/Wallpapers/wallpaper.jpg
@@ -188,6 +188,8 @@ exec compton
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
+
+bindsym $mod+z exec termite -e "tty-clock -c"
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
