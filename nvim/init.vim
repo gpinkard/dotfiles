@@ -12,6 +12,25 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smartcase = 1
 
+" fzf (fuzzy finder thingi)
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" use colorscheme colors
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
 " NERDTree file manager
 Plug 'scrooloose/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -129,16 +148,20 @@ set noshowmode
 set cursorline
 syntax enable
 
-"Leader stuff
+" LEADER STUFF
 let mapleader = "\<Space>"
+
 "Saving, quiting, and such
 nnoremap <leader>w :w<return>
+nnoremap <leader>q :q<return>
 nnoremap <leader>Q :q!<return>
 nnoremap <leader>x :x<return>
 nnoremap <leader>e :e<Space>
+
 " Tabs stuff
-nnoremap <leader>T :tabnew<return>
+nnoremap <leader>T :FZF!<return>
 nnoremap <leader><Tab> gt
+
 " Mimic my i3 configs tiling for splitting
 nnoremap <leader>v<return> <C-w>s 
 nnoremap <leader>c<return> <C-w>v
@@ -146,22 +169,32 @@ nnoremap <leader>j :resize -5<return>
 nnoremap <leader>k :resize +5<return>
 nnoremap <leader>h :vertical resize -15<return>
 nnoremap <leader>l :vertical resize +15<return>
+
 " Reload config file
 nnoremap <leader>R :so ~/.config/nvim/init.vim<return>
+
 " Autoformat
-nnoremap <leader>F gg=G
+nnoremap <leader>af gg=G
+
 " find and replace
 nnoremap <leader>fr :%s///g<left><left><left>
-" buffer stuff
-nnoremap <leader>b :buffer
-nnoremap <leader>B :buffers<return>
-" NVIM leader stuff
-" Reload config file
-nnoremap <leader>R :so ~/.config/nvim/init.vim<return>
+
+" buffer list (FZF)
+nnoremap <leader>B :Buffers<return>
+ 
+" list files (FZF)
+nnoremap <leader>F :FZF<return>
+
+" list windows (FZF) 
+nnoremap <leader>W :Windows<return>
+
+" use BLines as a better 
+nnoremap <leader>/ :BLines<return>
+
 " NERDTree toggle
-map <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
+
 " open neovim terminal
 nnoremap <leader><space> :terminal<return>
-nnoremap <leader>; <C-w>v<return>:terminal<return>i
-" make escape enter normal mode in term
+nnoremap <leader>; <C-w>s<return>:terminal<return>i
 tnoremap <esc> <C-\><C-N>
