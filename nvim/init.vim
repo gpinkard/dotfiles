@@ -30,6 +30,8 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+" show hidden files (this slows things down) 
+let $FZF_DEFAULT_COMMAND = 'find .'
 
 " NERDTree file manager
 Plug 'scrooloose/nerdtree'
@@ -159,7 +161,7 @@ nnoremap <leader>x :x<return>
 nnoremap <leader>e :e<Space>
 
 " Tabs stuff
-nnoremap <leader>T :FZF!<return>
+nnoremap <leader>T :tabnew<return>:FZF!<return>
 nnoremap <leader><Tab> gt
 
 " Mimic my i3 configs tiling for splitting
@@ -183,7 +185,7 @@ nnoremap <leader>fr :%s///g<left><left><left>
 nnoremap <leader>B :Buffers<return>
  
 " list files (FZF)
-nnoremap <leader>F :FZF<return>
+nnoremap <leader>F :Files<return>
 
 " list windows (FZF) 
 nnoremap <leader>W :Windows<return>
