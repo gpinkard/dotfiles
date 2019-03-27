@@ -12,7 +12,7 @@
 
 ;;;; P A C K A G E S ;;;;
 
-;; install all plugins in this file
+;; use-package installs plugins automatically (M-x package-install use-package)
 (eval-when-compile
   (require 'use-package))
 (setq use-package-always-ensure t)
@@ -20,33 +20,31 @@
 ;; evil-mode (VI layer)
 (use-package evil
   :ensure t
+  :init ;; these two for evil-collection
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode t))
 
-;; ivy
-(use-package ivy
+;; useful bindings for evil mode (vi bindings for helm)
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :custom
+  (evil-collection-setup-minibuffer t)
+  :init
+  (evil-collection-init))
+
+;; helm
+(use-package helm
   :ensure t
   :config
-  (ivy-mode 1)
-  (setq ivy-height 15)
-  (setq use-ivy-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d)"))
-
-(use-package counsel
-  :ensure t)
-
-(use-package swiper
-  :ensure t)
-
-;; perty icons
-;; run M-x all-the-icons-install-fonts
-(use-package all-the-icons
-  :ensure t)
+  (helm-mode 1))
 
 (use-package neotree
   :ensure t
   :config
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (setq neo-theme (if (display-graphic-p) 'arrow 'arrow))
   (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
   (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
   (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
@@ -71,7 +69,7 @@
       telephone-line-secondary-left-separator 'telephone-line-identity-hollow-left
       telephone-line-primary-right-separator 'telephone-line-identity-right
       telephone-line-secondary-right-separator 'telephone-line-identity-hollow-right)
-  (setq telephone-line-height 60)
+  (setq telephone-line-height 25)
   (telephone-line-mode 1))
 
 ;; replace with general???
@@ -81,9 +79,10 @@
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
-    "<SPC>" 'counsel-M-x
-    "f" 'counsel-find-file
-    "b" 'list-buffers
+    "<SPC>" 'helm-M-x
+    "f" 'helm-find-files
+    "b" 'helm-buffers-list
+    "/" 'helm-occur
     "n" 'neotree-toggle
     "k" 'kill-buffer
     "w" 'save-buffer
@@ -94,11 +93,6 @@
 ;; M-x customize-variable RET shell-pop-shell-type RET <- get to group
 (use-package shell-pop
   :ensure t)
-
-(use-package all-the-icons-ivy
-  :ensure t
-  :config
-  (all-the-icons-ivy-setup))
 
 ;; colorscheme
 (use-package srcery-theme 
@@ -116,6 +110,10 @@
 
 ;; set c indentation to 8
 (setq-default c-basic-offset 8)
+(setq-default go-basic-offset 8)
+(setq-default java-basic-offset 4)
+(setq-default python-basic-offset 4)
+(setq-default javascript-basic-offset 4)
 
 ;;;; O T H E R   S T U F F ;;;;
 
@@ -155,14 +153,14 @@
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(menu-bar-mode nil)
- '(package-selected-packages (quote (all-the-icons-dired shell-pop use-package)))
+ '(package-selected-packages (quote (shell-pop use-package)))
  '(scroll-bar-mode nil)
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
      (lambda nil
        (ansi-term shell-pop-term-shell)))))
- '(shell-pop-window-position "right")
+ '(shell-pop-window-position "bottom")
  '(shell-pop-window-size 45)
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -170,4 +168,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#1C1B19" :foreground "#FCE8C3" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 240 :width normal :foundry "CYRE" :family "Source Code Pro")))))
+ '(default ((t (:inherit nil :stipple nil :background "#1C1B19" :foreground "#FCE8C3" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 150 :width normal :foundry "ADBO" :family "Inconsolata")))))
