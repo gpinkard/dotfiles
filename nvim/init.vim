@@ -178,7 +178,7 @@ nnoremap <leader>x :x<return>
 nnoremap <leader>e :e<Space>
 
 " Tabs stuff
-nnoremap <leader>T :tabnew<return>:FZF!<return>
+nnoremap <leader>T :tabnew<return>
 nnoremap <leader><Tab> gt
 
 " Mimic my i3 configs tiling for splitting

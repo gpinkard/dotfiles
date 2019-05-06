@@ -41,6 +41,12 @@
         :config
         (helm-mode 1))
 
+;; autocomplete
+(use-package company
+        :ensure t
+        :config
+        (add-hook 'after-init-hook 'global-company-mode))
+
 (use-package neotree
         :ensure t
         :config
@@ -86,7 +92,10 @@
                 "n" 'neotree-toggle
                 "k" 'kill-buffer
                 "w" 'save-buffer
-                "t" 'evil-buffer-new
+                "r" 'replace-string
+                "E" 'eval-last-sexp
+                "TAB" 'evil-buffer-new
+                "t" 'ansi-term
                 ";" 'shell-pop))
 
 ;; open shell in split window
@@ -117,29 +126,35 @@
 
 ;;;; O T H E R   S T U F F ;;;;
 
-;; Tabs configuration
-(setq custom-tab-width 8)
+;; --> TABS --> ;;
+(setq correct-tab-width 8)
+(setq bad-tab-width 4)
+(setq stoopid-tab-width 2)
 
 ;; Two callable functions for enabling/disabling tabs in Emacs
 (defun disable-tabs () (setq indent-tabs-mode nil))
 (defun enable-tabs  ()
         (local-set-key (kbd "TAB") 'tab-to-tab-stop)
         (setq indent-tabs-mode t)
-        (setq tab-width custom-tab-width))
+        (setq tab-width correct-tab-width))
 
 ;; Hooks to Enable Tabs
 (add-hook 'prog-mode-hook 'enable-tabs)
 ;; Hooks to Disable Tabs
-(add-hook 'lisp-mode-hook 'disable-tabs)
-(add-hook 'emacs-lisp-mode-hook 'disable-tabs)
+;;(add-hook 'lisp-mode-hook 'disable-tabs)
+;;(add-hook 'emacs-lisp-mode-hook 'disable-tabs)
 
 ;; Language-Specific Tweaks
-(setq-default python-indent-offset custom-tab-width) ;; Python
+;; Python
+(setq-default python-indent-offset bad-tab-width)
+
 ;;(setq-default c-basic-offset)
 (setq-default c-basic-offset 8
         tab-width 8
         indent-tabs-mode t)
-(setq-default js-indent-level custom-tab-width)      ;; Javascript
+
+;; Javascript
+(setq-default js-indent-level bad-tab-width)
 
 ;; Making electric-indent behave sanely
 (setq-default electric-indent-inhibit t)
@@ -148,16 +163,19 @@
 ;; removing 1 space at a time.
 (setq backward-delete-char-untabify-method 'hungry)
 
-;; (OPTIONAL) Shift width for evil-mode users
-;; For the vim-like motions of ">>" and "<<".
-(setq-default evil-shift-width custom-tab-width)
+;; Shift width for evil
+(setq-default evil-shift-width correct-tab-width)
 
-;; WARNING: This will change your life
-;; (OPTIONAL) Visualize tabs as a pipe character - "|"
-;; This will also show trailing characters as they are useful to spot.
+;; Visualize tabs with a '|'
 (setq whitespace-style '(face tabs tab-mark trailing))
+
 (custom-set-faces
-        '(whitespace-tab ((t (:foreground "#636363")))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#1C1B19" :foreground "#FCE8C3" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 125 :width normal :foundry "CYEL" :family "Iosevka"))))
+ '(whitespace-tab ((t (:foreground "#636363")))))
 (setq whitespace-display-mappings
         '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
 (global-whitespace-mode) ; Enable whitespace mode everywhere
@@ -192,21 +210,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-        '(blink-cursor-mode nil)
-        '(menu-bar-mode nil)
-        '(package-selected-packages (quote (shell-pop use-package)))
-        '(scroll-bar-mode nil)
-        '(shell-pop-shell-type
-                (quote
-                        ("ansi-term" "*ansi-term*"
-                                (lambda nil
-                                        (ansi-term shell-pop-term-shell)))))
-        '(shell-pop-window-position "bottom")
-        '(shell-pop-window-size 45)
-        '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#1C1B19" :foreground "#FCE8C3" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 130 :width normal :foundry "ADBO" :family "Iosevka Term")))))
+ '(blink-cursor-mode nil)
+ '(menu-bar-mode nil)
+ '(package-selected-packages (quote (shell-pop use-package)))
+ '(scroll-bar-mode nil)
+ '(shell-pop-shell-type
+   (quote
+    ("ansi-term" "*ansi-term*"
+     (lambda nil
+       (ansi-term shell-pop-term-shell)))))
+ '(shell-pop-window-position "bottom")
+ '(shell-pop-window-size 45)
+ '(tool-bar-mode nil))
