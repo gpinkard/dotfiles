@@ -41,6 +41,12 @@
         :config
         (helm-mode 1))
 
+;; flycheck (linter)
+(use-package flycheck
+	:ensure t
+	:init
+	(global-flycheck-mode))
+
 ;; autocomplete
 (use-package company
         :ensure t
@@ -71,10 +77,10 @@
                 '((nil    . (telephone-line-misc-info-segment))
                 (accent . (telephone-line-major-mode-segment))
                 (evil   . (telephone-line-airline-position-segment))))
-        (setq telephone-line-primary-left-separator 'telephone-line-identity-left
-                telephone-line-secondary-left-separator 'telephone-line-identity-hollow-left
-                telephone-line-primary-right-separator 'telephone-line-identity-right
-                telephone-line-secondary-right-separator 'telephone-line-identity-hollow-right)
+        (setq telephone-line-primary-left-separator 'telephone-line-halfcos-left
+                telephone-line-secondary-left-separator 'telephone-line-halfcos-hollow-left
+                telephone-line-primary-right-separator 'telephone-line-halfcos-right
+                telephone-line-secondary-right-separator 'telephone-line-halfcos-hollow-right)
         (setq telephone-line-height 50)
         (telephone-line-mode 1))
 
@@ -141,8 +147,8 @@
 ;; Hooks to Enable Tabs
 (add-hook 'prog-mode-hook 'enable-tabs)
 ;; Hooks to Disable Tabs
-;;(add-hook 'lisp-mode-hook 'disable-tabs)
-;;(add-hook 'emacs-lisp-mode-hook 'disable-tabs)
+(add-hook 'lisp-mode-hook 'enable-tabs)
+(add-hook 'emacs-lisp-mode-hook 'enable-tabs)
 
 ;; Language-Specific Tweaks
 ;; Python
@@ -168,6 +174,9 @@
 
 ;; Visualize tabs with a '|'
 (setq whitespace-style '(face tabs tab-mark trailing))
+
+;; stop emacs from making annoying backups everywhere
+(setq make-backup-files nil)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -212,7 +221,7 @@
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(menu-bar-mode nil)
- '(package-selected-packages (quote (shell-pop use-package)))
+ '(package-selected-packages (quote (flycheck shell-pop use-package)))
  '(scroll-bar-mode nil)
  '(shell-pop-shell-type
    (quote
