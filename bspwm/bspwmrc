@@ -5,6 +5,7 @@ sxhkd &
 ### General ###
 
 bspc monitor -d HOM WEB DEV TRM R\&R RND
+# bspc monitor -d 
 
 bspc config border_width        10
 bspc config window_gap          20
@@ -26,7 +27,7 @@ polybar top -r &
 
 ### COLORS ###
 
-bspc config normal_border_color \#1B2B34
+bspc config normal_border_color \#282828
 # bspc config active_border_color \#C0C5CE
 bspc config focused_border_color \#C0C5CE
 bspc config urgent_border_color \#EC5F67

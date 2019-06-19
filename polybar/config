@@ -1,17 +1,17 @@
 [colors]
-background = #1b2b34
+background = #282828
 background-alt = #444
-foreground  = #c0c5ce
+foreground  = #ebdbb2
 foreground-alt = #00a1b2
 primary = #000000
 secondary = #e60053
 alert = #dc322f
-red = #ec5f67
-yellow = #fac863
-green = #99c794
-blue = #6699cc
-magenta = #c594c5
-cyan = #5fb3b3
+red = #fb4934
+yellow = #fabd2f
+green = #b8bb26
+blue = #458588
+magenta = #b16286
+cyan = #689d6a
 
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -43,12 +43,12 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Input Mono Compressed:Regular:size=20;5
+font-0 = Source Code Pro:Regular:size=18;5
 ;font-0 = haxorville:Regular:size=18;3
 font-1 = FontAwesome5Free:style=solid:size=20;4
 font-2 = FontAwesome5Brands:style=solid:size=20;4
 
-modules-left = i3
+modules-left = bspwm
 modules-right = temperature cpu memory battery alsa wlan date powermenu  
 
 tray-position = right
@@ -246,12 +246,12 @@ format-volume = <label-volume> <bar-volume>
 label-volume = ""
 label-volume-foreground = ${colors.cyan}
 
-format-muted-prefix = " "
+format-muted-prefix = ""
 ;format-muted-prefix = VOL:
 format-muted-foreground = ${colors.cyan}
 label-muted = " sound muted"
 
-bar-volume-width = 20
+bar-volume-width = 10 
 bar-volume-foreground-0 = ${colors.cyan}
 bar-volume-foreground-1 = ${colors.cyan}
 bar-volume-foreground-2 = ${colors.cyan}
@@ -264,7 +264,7 @@ bar-volume-indicator = |
 bar-volume-indicator-font = 2
 bar-volume-fill = =
 bar-volume-fill-font = 2
-bar-volume-empty = -
+bar-volume-empty = ~
 bar-volume-empty-font = 2
 bar-volume-empty-foreground = ${colors.foreground}
 
@@ -280,7 +280,7 @@ format-charging = <animation-charging><label-charging>
 format-discharging = <ramp-capacity><label-discharging>
 ;format-discharging-underline = ${self.format-charging-underline}
 
-format-full-prefix = " : "
+format-full-prefix = " "
 format-full-prefix-foreground = ${colors.yellow}
 
 ramp-capacity-0 = " "

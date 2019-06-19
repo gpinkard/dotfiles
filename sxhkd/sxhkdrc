@@ -40,22 +40,22 @@ super + {Left,Down,Up,Right}
 
 # terminal emulator
 super + Return
-	termite
+	urxvt
 # st
 super + alt + Return
 	st
 # ranger
 super + r
-	termite -e ranger
+	urxvt -e ranger
 # htop
 super + t
-	termite -e htop
+	urxvt -e htop
 
 ### MISCELLANY
 
 # rofi
 super + space 
-	rofi -show run -lines 10 -width 18 -padding 5 -font "Input Mono Compressed 26" 
+	rofi -show run -lines 10 -width 18 -padding 5 -font "Souce Code Pro 18" 
 #increase volume
 super + p
 	pactl set-sink-volume 0 +5% 

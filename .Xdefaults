@@ -1,41 +1,46 @@
+URxvt.perl-ext-common: clipboard
+
 ! special
-*.foreground:   #93a1a1
-*.background:   #002b36
-*.cursorColor:  #93a1a1
+*.foreground:   #ebdbb2
+*.background:   #282828
+! *.cursorColor:  #c0c5ce
 
 ! black
-*.color0:       #002b36
-*.color8:       #657b83
+*.color0:       #7c6f64
+*.color8:       #928374
 
 ! red
-*.color1:       #dc322f
-*.color9:       #dc322f
+*.color1:       #cc241d
+*.color9:       #fb4934
 
 ! green
-*.color2:       #859900
-*.color10:      #859900
+*.color2:       #98971a
+*.color10:      #b8bb26
 
 ! yellow
-*.color3:       #b58900
-*.color11:      #b58900
+*.color3:       #d79921
+*.color11:      #fabd2f
 
 ! blue
-*.color4:       #268bd2
-*.color12:      #268bd2
+*.color4:       #458588
+*.color12:      #83a598
 
 ! magenta
-*.color5:       #6c71c4
-*.color13:      #6c71c4
+*.color5:       #b16286
+*.color13:      #d3869b
 
 ! cyan
-*.color6:       #2aa198
-*.color14:      #2aa198
+*.color6:       #689d6a
+*.color14:      #8ec07c
 
 ! white
-*.color7:       #93a1a1
-*.color15:      #fdf6e3
+*.color7:       #a89984
+*.color15:      #fbf1c7
 
 URxvt.intensityStyles:	false
 URxvt.depth:		32
-URxvt.font: 		xft:Fira Code:size=26
+URxvt.font: 		xft:Source Code Pro:size=28
 URxvt.scrollBar: false
+URxvt.clipboard.autocopy: true
+! URxvt.keysym.M-c: perl:clipboard.copy
+! URxvt.keysym.M-v: perl:clipboard.paste
