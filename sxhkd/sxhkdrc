@@ -1,42 +1,50 @@
 ### BSPWM FUNCTIONS
 
+
 # Reload functions
 super + Escape
 	~/.config/bspwm/bspwmrc; \
 	pkill -USR1 -x sxhkd; \
 	notify-send 'Bspwm/Sxhkd' 'Configs reloaded'
-# exit bspwm
+
+# Exit bspwm
 super + E
 	bspc quit
 
+
 # WINDOWS AND MOVEMENTS
 
-# Focus and move windows
+
+# Focus and move window in given direction
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
+	
 # close window
 super + Q
 	bspc node -c
+
 # window state
 super + {t,shift + t,s,f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
 super + {m,n}
 	bspc node -g {marked, locked}
 
 # Focus to the given desktop.
 super + {1-9,0}
 	bspc desktop -f '^{1-9,10}'
-# Send to given desktop
-super + alt + {1-9}
-	id=$(bspc query -N -n); bspc node -d ^{1-9}; bspc node -f ${id}
-# Send and follow to given desktop.	
-super + alt + {1-9}
-	bspc node -d ^{1-9}
+
+# Focus or send to given workspace
+super + {_,shift + }{1-9,0};
+	bspc {desktop -f, node -d} '^{1-9,10}'
+
 # Move floating window.
 super + {Left,Down,Up,Right}
 	bspc node -v {-70 0,0 70,0 -70,70 0}
 
+
 ### TEMINAL + TERMINAL APPS
+
 
 # terminal emulator
 super + Return
