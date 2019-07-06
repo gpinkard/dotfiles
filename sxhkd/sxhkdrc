@@ -18,17 +18,14 @@ super + E
 # Focus and move window in given direction
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
-	
-# close window
+super + b bspc node -s biggest.local 
+# close and kill window
 super + Q
-	bspc node -c
+	bspc node -{c,k}
 
 # window state
 super + {t,shift + t,s,f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
-
-super + {m,n}
-	bspc node -g {marked, locked}
 
 # Focus to the given desktop.
 super + {1-9,0}
@@ -42,28 +39,37 @@ super + {_,shift + }{1-9,0};
 super + {Left,Down,Up,Right}
 	bspc node -v {-70 0,0 70,0 -70,70 0}
 
+# resize window by moving a side outwards
+ctrl + {h,j,k,l}
+	bspc node -z {left -70 0,bottom 0 70,top 0 -70,right 70 0}
+
+alt + {h,j,k,l}
+	bspc node -z {right -70 0,top 0 70,bottom 0 -70,left 70 0}
 
 ### TEMINAL + TERMINAL APPS
 
 
 # terminal emulator
 super + Return
-	urxvt
+	termite
+
 # st
 super + alt + Return
 	st
+
 # ranger
-super + r
-	urxvt -e ranger
+super + m
+	termite -e ranger
+
 # htop
-super + t
-	urxvt -e htop
+super + n
+	termite -e htop
 
 ### MISCELLANY
 
 # rofi
-super + space 
-	rofi -show run -lines 10 -width 18 -padding 5 -font "Souce Code Pro 18" 
+super + d
+	rofi -show run -lines 10 -width 18 -padding 5 -font "UW Ttyp0 15" 
 #increase volume
 super + p
 	pactl set-sink-volume 0 +5% 

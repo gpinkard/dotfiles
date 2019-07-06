@@ -1,3 +1,4 @@
+" Gabriel Pinkard's .vimrc
 source ~/.config/vim/plugins.vim
 source ~/.config/vim/funcs.vim
 source ~/.config/vim/settings.vim
