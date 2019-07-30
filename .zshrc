@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/g/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME='pointer'
 export UPDATE_ZSH_DAYS=13
 
