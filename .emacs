@@ -75,16 +75,18 @@
         :ensure t
         :init
         (setq telephone-line-lhs
-        '((evil   . (telephone-line-evil-tag-segment))
+        '((evil . (telephone-line-evil-tag-segment))
         (accent . (telephone-line-vc-segment
                 telephone-line-erc-modified-channels-segment
                 telephone-line-process-segment))
-        (nil    . (telephone-line-minor-mode-segment
+        (nil . (telephone-line-minor-mode-segment
         telephone-line-buffer-segment))))
         (setq telephone-line-rhs
-                '((nil    . (telephone-line-misc-info-segment))
-                (accent . (telephone-line-major-mode-segment))
-                (evil   . (telephone-line-airline-position-segment))))
+                '((nil . (telephone-line-misc-info-segment))
+		  (nil . (telephone-line-flycheck-segment))
+		  (accent . (telephone-line-major-mode-segment))
+		  (evil . (telephone-line-position-segment
+			   telephone-line-hud-segment))))
         (setq telephone-line-primary-left-separator 'telephone-line-identity-left
                 telephone-line-secondary-left-separator 'telephone-line-identity-hollow-left
                 telephone-line-primary-right-separator 'telephone-line-identity-right
@@ -102,6 +104,8 @@
   :ensure t
   :init
   (global-linum-mode 1)
+  ;; makes it so current line is line number and not 0
+  (setq linum-relative-current-symbol "")
   (linum-relative-mode 1))
 
 ;; flycheck (linter)
