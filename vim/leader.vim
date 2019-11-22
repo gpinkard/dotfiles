@@ -24,7 +24,8 @@ nnoremap <leader>l :vertical resize +15<return>
 nnoremap <leader>R :so ~/.config/nvim/init.vim<return>
 
 " Autoformat
-nnoremap <leader>af gg=G
+"nnoremap <leader>af gg=G
+nnoremap <leader>af :call AutoFormat()<return>
 
 " find and replace
 nnoremap <leader>fr :%s///g<left><left><left>

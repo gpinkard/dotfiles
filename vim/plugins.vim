@@ -1,7 +1,7 @@
-" Vim Plug plugin manager
-call plug#begin('~/.local/share/nvim/plugged')
+" Vim Plug plugin manager call plug#begin('~/.local/share/nvim/plugged')
 
 " NERDTree file manager
+call plug#begin()
 Plug 'scrooloose/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let NERDTreeShowHidden=1
@@ -28,7 +28,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " lightline (status line)
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
-			\ 'colorscheme': 'one',
+			\ 'colorscheme': 'wombat',
 			\ 'separator': {'left': "\ue0b0", 'right': "\ue0b2"},
 			\ 'subseparator': {'left': "\ue0b1", 'right': "\ue0b3"},
 			\ 'active': {
@@ -65,7 +65,7 @@ let g:lightline#ale#indicator_ok = ' '
 Plug 'jiangmiao/auto-pairs'
 
 " vim-go
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'}
 
 " Gets branch name (for lightline)
 Plug 'itchyny/vim-gitbranch'
@@ -80,8 +80,8 @@ let g:oceanic_next_terminal_italic = 1
 
 " neovim specific plugins
 if has('nvim')
-	let g:deoplete#enable_at_startup = 1
-	let g:deoplete#enable_smartcase = 1
+	"let g:deoplete#enable_at_startup = 0
+	"let g:deoplete#enable_smartcase = 1
 endif
 
 " No plugins after this point

@@ -23,6 +23,8 @@ set undolevels=1000
 set backspace=indent,eol,start
 set updatetime=100
 set encoding=UTF-8
+set laststatus=2
 set noshowmode
 set cursorline
+set numberwidth=2
 syntax enable

@@ -9,3 +9,10 @@ function! LightlineBranch()
 	endif
 	return ''
 endfunction
+
+" autoformat and return to current line
+function! AutoFormat()
+	let curpos = getpos('.')
+	normal gg=G
+	call setpos('.', curpos)
+endfunction
