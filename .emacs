@@ -35,11 +35,10 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 
 ;; open a shell in a minibuffer
 ;; M-x customize-variable RET shell-pop-shell-type RET <- get to group customization
-;;(use-package shell-pop
-  ;;:ensure t
-  ;;:config
-  ;;(global-set-key ("C-x t") (shell-pop)))
-
+(use-package shell-pop
+  :ensure t
+  :bind (("C-;" . shell-pop)))
+  
 ;; color theme
 (use-package dracula-theme
   :ensure t)
@@ -110,7 +109,7 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width condensed :foundry "PfEd" :family "Terminus"))))
+ '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width normal :foundry "xos4" :family "Menlo for Powerline"))))
  '(whitespace-tab ((t (:foreground "#636363")))))
 (setq whitespace-desplay-mappings
       '((tab-mark 9 [124 9] [92 9])))
