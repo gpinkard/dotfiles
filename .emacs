@@ -38,7 +38,28 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 (use-package shell-pop
   :ensure t
   :bind (("C-;" . shell-pop)))
-  
+
+(use-package ivy
+  :ensure t
+  :init
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-mini-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  (setq ivy-height 15)
+  :bind (
+         ("C-x o" . ivy-occur)
+         ("C-s" . swiper)
+         ("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+         ("C-x l" . counsel-locate)))
+
+(use-package swiper
+  :ensure t)
+
+(use-package counsel
+  :ensure t)
+
 ;; color theme
 (use-package dracula-theme
   :ensure t)
@@ -59,7 +80,17 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 ;; show matching parens, qoutes, braces, etc.
 (show-paren-mode t)
 
+;; highlight current line
 (global-hl-line-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;; B I N D S ;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-set-key (kbd "C-x t") 'ansi-term)
+
+;; default shell
+(setq-default explicit-shell-file-name "/usr/bin/zsh")
 
 ;; enable line numbers when we find a file
 (when (version<= "26.0.50" emacs-version )
