@@ -1,7 +1,3 @@
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
@@ -33,12 +29,6 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 ;;;; P A C K A G E S ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; open a shell in a minibuffer
-;; M-x customize-variable RET shell-pop-shell-type RET <- get to group customization
-(use-package shell-pop
-  :ensure t
-  :bind (("C-;" . shell-pop)))
-
 (use-package ivy
   :ensure t
   :init
@@ -48,7 +38,6 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-height 15)
   :bind (
-         ("C-x o" . ivy-occur)
          ("C-s" . swiper)
          ("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
@@ -60,6 +49,26 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 (use-package counsel
   :ensure t)
 
+;; open a shell in a minibuffer
+;; M-x customize-variable RET shell-pop-shell-type RET <- get to group customization
+(use-package shell-pop
+  :ensure t
+  :config
+  (setq shell-pop-shell-type "ansi-term")
+  (setq shell-pop-window-height 40)
+  :bind (("C-;" . shell-pop)))
+
+(use-package company
+  :ensure t
+  :config
+  (global-company-mode))
+
+(use-package nyan-mode
+  :ensure t
+  :init
+  (nyan-mode 1)
+  (nyan-start-animation))
+
 ;; color theme
 (use-package dracula-theme
   :ensure t)
@@ -68,6 +77,8 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 (use-package python-mode
   :ensure t)
 (use-package go-mode
+  :ensure t)
+(use-package jsx-mode
   :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -83,11 +94,17 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 ;; highlight current line
 (global-hl-line-mode)
 
+;; no tool bar
+(tool-bar-mode 0)
+
+;; no menu bar
+(menu-bar-mode 0)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;; B I N D S ;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key (kbd "C-x t") 'ansi-term)
+(global-set-key (kbd "C-x <return>") 'ansi-term)
 
 ;; default shell
 (setq-default explicit-shell-file-name "/usr/bin/zsh")
@@ -136,25 +153,13 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 ;; visualize tabs with "|" character
 (setq whitespace-style '(face tabs tab-mark trainling))
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width normal :foundry "xos4" :family "Menlo for Powerline"))))
  '(whitespace-tab ((t (:foreground "#636363")))))
 (setq whitespace-desplay-mappings
       '((tab-mark 9 [124 9] [92 9])))
 ;; (global-whitespace-mode) ;; enable whitespace mode everywhere
 
-;; line numbers
-(when (version<= "26.0.50" emacs-version)
-  (global-display-line-numbers-mode))
-
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
@@ -164,14 +169,11 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
  '(custom-safe-themes
    (quote
     ("947190b4f17f78c39b0ab1ea95b1e6097cc9202d55c73a702395fc817f899393" default)))
- '(menu-bar-mode nil)
- '(package-selected-packages (quote (dracula-theme)))
+ '(package-selected-packages (quote (company-mode dracula-theme)))
  '(scroll-bar-mode nil)
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
      (lambda nil
-       (ansi-term shell-pop-term-shell)))))
- '(shell-pop-window-size 35)
- '(tool-bar-mode nil))
+       (ansi-term shell-pop-term-shell))))))
 
