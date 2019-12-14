@@ -3,8 +3,7 @@
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
   (when no-ssl
-    (warn "\
-SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
+    (warn "SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
   (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
   ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
@@ -34,7 +33,7 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
   :init
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-mini-buffers t)
+  (setq enable-recursive-minibuffers t)
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-height 15)
   :bind (
@@ -54,6 +53,16 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
   :init
   (global-flycheck-mode))
 
+(use-package which-key
+  :ensure t
+  :init
+  (which-key-mode))
+
+(use-package company
+  :ensure t
+  :config
+  (global-company-mode))
+
 ;; open a shell in a minibuffer
 ;; M-x customize-variable RET shell-pop-shell-type RET <- get to group customization
 (use-package shell-pop
@@ -62,11 +71,6 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
   (setq shell-pop-shell-type "ansi-term")
   (setq shell-pop-window-height 40)
   :bind (("C-;" . shell-pop)))
-
-(use-package company
-  :ensure t
-  :config
-  (global-company-mode))
 
 (use-package nyan-mode
   :ensure t
@@ -77,6 +81,12 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 ;; color theme
 (use-package dracula-theme
   :ensure t)
+
+;; highlight cursor on buffer change
+(use-package beacon
+  :ensure t
+  :init
+  (beacon-mode 1))
 
 ;; language specific
 (use-package python-mode
@@ -96,8 +106,9 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 ;; show matching parens, qoutes, braces, etc.
 (show-paren-mode t)
 
-;; highlight current line
-(global-hl-line-mode)
+;; highlight current line (when using gui)
+(when window-system
+  (globa-hl-line-mode t))
 
 ;; no tool bar
 (tool-bar-mode 0)
@@ -111,20 +122,43 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 ;; no obnoxious cursor blink
 (blink-cursor-mode -1)
 
-;; default shell
-(setq-default explicit-shell-file-name "/usr/bin/zsh")
+;; pretty symbols (when using gui)
+(when window-system
+  (global-prettify-symbols-mode t))
+
+;; disable annoying backups + autosaves
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+
+;; disable startup screen
+(setq inhibit-startup-message t)
+
+;; scroll line by line instead of half the buffer
+(setq scroll-conservatively 100)
+
+;; disable bell
+(setq ring-bell-function 'ignore)
+
+;; set default shell
+(defvar term-shell "/usr/bin/zsh")
+(defadvice ansi-term (before force-bash)
+  (interactive (list term-shell)))
+(ad-activate 'ansi-term)
+
+;; alias 'yes' and 'no' to 'y' and 'n'
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; enable line numbers when we find a file
 (when (version<= "26.0.50" emacs-version )
   (add-hook 'find-file-hook (lambda () (display-line-numbers-mode))))
 ;; comment this line out if emacs version > 26.0.50
-(add-hook 'find-file-hook (lambda () (linum-mode 1)))
+;;(add-hook 'find-file-hook (lambda () (linum-mode 1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;; B I N D S ;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key (kbd "C-x <return>") 'ansi-term)
+(global-set-key (kbd "C-<return>") 'ansi-term)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; ---> T A B S ---> ;;
@@ -170,11 +204,10 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "PfEd" :family "Menlo for Powerline"))))
+ '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "ADBO" :family "Inconsolata"))))
  '(whitespace-tab ((t (:foreground "#636363")))))
 (setq whitespace-desplay-mappings
       '((tab-mark 9 [124 9] [92 9])))
-;; (global-whitespace-mode) ;; enable whitespace mode everywhere
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -189,7 +222,7 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
  '(custom-safe-themes
    (quote
     ("947190b4f17f78c39b0ab1ea95b1e6097cc9202d55c73a702395fc817f899393" default)))
- '(package-selected-packages (quote (company-mode dracula-theme)))
+ '(package-selected-packages (quote (beacon ellocate company-mode dracula-theme)))
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
