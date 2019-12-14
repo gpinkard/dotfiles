@@ -25,9 +25,9 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 (eval-when-compile
   (require 'use-package))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; P A C K A G E S ;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;; P A C K A G E S ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package ivy
   :ensure t
@@ -48,6 +48,11 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 
 (use-package counsel
   :ensure t)
+
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode))
 
 ;; open a shell in a minibuffer
 ;; M-x customize-variable RET shell-pop-shell-type RET <- get to group customization
@@ -100,11 +105,11 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 ;; no menu bar
 (menu-bar-mode 0)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;; B I N D S ;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;
+;; no scroll bar
+(scroll-bar-mode -1)
 
-(global-set-key (kbd "C-x <return>") 'ansi-term)
+;; no obnoxious cursor blink
+(blink-cursor-mode -1)
 
 ;; default shell
 (setq-default explicit-shell-file-name "/usr/bin/zsh")
@@ -115,7 +120,15 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 ;; comment this line out if emacs version > 26.0.50
 (add-hook 'find-file-hook (lambda () (linum-mode 1)))
 
-;; --> T A B S -->
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;; B I N D S ;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-set-key (kbd "C-x <return>") 'ansi-term)
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; ---> T A B S ---> ;;
+;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq correct-tab-width 8)
 (setq bad-tab-width 4)
@@ -153,24 +166,30 @@ SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
 ;; visualize tabs with "|" character
 (setq whitespace-style '(face tabs tab-mark trainling))
 (custom-set-faces
- '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width normal :foundry "xos4" :family "Menlo for Powerline"))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "PfEd" :family "Menlo for Powerline"))))
  '(whitespace-tab ((t (:foreground "#636363")))))
 (setq whitespace-desplay-mappings
       '((tab-mark 9 [124 9] [92 9])))
 ;; (global-whitespace-mode) ;; enable whitespace mode everywhere
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(blink-cursor-mode nil)
  '(custom-enabled-themes (quote (dracula)))
  '(custom-safe-themes
    (quote
     ("947190b4f17f78c39b0ab1ea95b1e6097cc9202d55c73a702395fc817f899393" default)))
  '(package-selected-packages (quote (company-mode dracula-theme)))
- '(scroll-bar-mode nil)
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
