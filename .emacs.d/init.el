@@ -14,14 +14,12 @@
 
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
 
-;; visualize tabs with "|" character
-(setq whitespace-style '(face tabs tab-mark trainling))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "CYRE" :family "Inconsolata"))))
+ '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "CYRE" :family "Source Code Pro"))))
  '(whitespace-tab ((t (:foreground "#636363")))))
 (setq whitespace-desplay-mappings
       '((tab-mark 9 [124 9] [92 9])))
@@ -39,7 +37,9 @@
  '(custom-safe-themes
    (quote
     ("947190b4f17f78c39b0ab1ea95b1e6097cc9202d55c73a702395fc817f899393" default)))
- '(package-selected-packages (quote (beacon ellocate company-mode dracula-theme)))
+ '(package-selected-packages
+   (quote
+    (rainbow-mode avy org-bullets go-mode beacon ellocate company-mode dracula-theme)))
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
