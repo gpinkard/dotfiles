@@ -1,0 +1,174 @@
+* Gabe's Emacs Config
+** packages
+packages, managed with use-package, and basic configs for them
+*** use-package
+install use-package if not already installed
+#+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  (eval-when-compile
+    (require 'use-package))
+#+END_SRC
+*** Settings for ivy (+ swiper and counsel)
+swiper + basic key bindings, replace M-x, find-file, locate with counsel alternatives,
+replace isearch with swiper
+**** ivy
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :ensure t
+    :init
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (setq ivy-count-format "(%d/%d) ")
+    (setq ivy-height 15)
+    :bind (
+	   ("C-s" . swiper)
+	   ("M-x" . counsel-M-x)
+	   ("C-x C-f" . counsel-find-file)
+	   ("C-x l" . counsel-locate)))
+#+END_SRC
+**** swiper
+#+BEGIN_SRC emacs-lisp
+  (use-package swiper
+    :ensure t)
+#+END_SRC
+**** counsel
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel
+    :ensure t)
+#+END_SRC
+*** flycheck (linter)
+linter for emacs
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :init
+    (global-flycheck-mode 0))
+#+END_SRC
+*** company (auto-completion)
+auto-completion for emacs
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :config
+    (global-company-mode))
+#+END_SRC
+*** which-key
+show completions for C-_ commands in minibuffer
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :ensure t
+    :init
+    (which-key-mode))
+#+END_SRC
+*** shell-pop
+pops open a shell in a minibuffer, bound to *C-;*
+#+BEGIN_SRC emacs-lisp
+  (use-package shell-pop
+    :ensure t
+    :config
+    (setq shell-pop-shell-type "ansi-term")
+    (setq shell-pop-window-height 40)
+    :bind (("C-;" . shell-pop)))
+#+END_SRC
+*** color theme
+currently *dracula*
+#+BEGIN_SRC emacs-lisp
+  (use-package dracula-theme
+    :ensure t)
+#+END_SRC
+*** beacon 
+visually highlight cursor for a moment on buffer switch
+#+BEGIN_SRC emacs-lisp
+  (use-package beacon
+    :ensure t
+    :init
+    (beacon-mode 1))
+#+END_SRC
+*** language specific
+language specific packages/modes
+**** python
+#+BEGIN_SRC emacs-lisp
+  (use-package python-mode
+    :ensure t)
+#+END_SRC
+**** yaml
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :ensure t)
+#+END_SRC
+** basic configs
+basic configuration settings to make emacs more usable
+*** tool bar, menu bar
+disable tool bar and menu bar
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode 0)
+  (menu-bar-mode 0)
+#+END_SRC
+*** scrolling
+disable scroll bar, scroll line by line instead of half the buffer
+#+BEGIN_SRC emacs-lisp
+  (scroll-bar-mode -1)
+  (setq scroll-conservatively 100)
+#+END_SRC
+*** backup files (stopping the menace)
+#+BEGIN_SRC emacs-lisp
+  ;; disable emacs making backup files everywhere
+  (setq make-backup-files nil)
+  ;; stop writing auto-save files everywhere
+  (setq auto-save-default nil)
+#+END_SRC
+*** terminal
+#+BEGIN_SRC emacs-lisp
+  (defvar term-shell "/usr/bin/zsh")
+  (defadvice ansi-term (before force-bash)
+    (interactive (list term-shell)))
+  (ad-activate 'ansi-term)
+#+END_SRC
+*** line numbers
+use better display-line-numbers mode when supported, otherwise use hacky linum-mode
+#+BEGIN_SRC emacs-lisp
+  (when (version<= "26.0.50" emacs-version)
+    (add-hook 'find-file-hook (lambda () (display-line-numbers-mode))))
+#+END_SRC
+*** pretty symbols (gui)
+make emacs use pretty symbols
+#+BEGIN_SRC emacs-lisp
+  (when window-system
+    (global-prettify-symbols-mode t))
+#+END_SRC
+*** cursor
+stop annoying cursor blink
+#+BEGIN_SRC emacs-lisp
+  (blink-cursor-mode -1)
+#+END_SRC
+*** editing
+show matching parens, qoutes, braces, etc.
+#+BEGIN_SRC emacs-lisp
+  (show-paren-mode t)
+#+END_SRC
+complete braces, qoutes, parens, etc.
+#+BEGIN_SRC emacs-lisp
+  (electric-pair-mode t)
+#+END_SRC
+*** stop emacs from being obnoxious
+alias 'yes' and 'no' to 'y' and 'n'
+#+BEGIN_SRC emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+disable startup screen
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-message t)
+#+END_SRC
+*** stupidity
+a kitty
+#+BEGIN_SRC emacs-lisp
+  (use-package nyan-mode
+    :ensure t
+    :init
+    (nyan-mode 1)
+    (nyan-start-animation))
+#+END_SRC
