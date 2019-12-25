@@ -5,29 +5,25 @@
   (when no-ssl
     (warn "SSL not enabled! Vulnerable to man-in-the-middle attacks!"))
   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  ;;(add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; U S E   P A C K A G E ;;
+;;;;; P A C K A G E S ;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; install use-package if not already installed
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
 (eval-when-compile
   (require 'use-package))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;; P A C K A G E S ;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;; ivy
 (use-package ivy
   :ensure t
   :init
@@ -42,26 +38,31 @@
          ("C-x C-f" . counsel-find-file)
          ("C-x l" . counsel-locate)))
 
+;; swiper (for ivy)
 (use-package swiper
   :ensure t)
 
+;; counsel (for ivy)
 (use-package counsel
   :ensure t)
 
+;; linter
 (use-package flycheck
-  :ensure t
-  :init
-  (global-flycheck-mode))
+  :ensure t)
+  ;;:init
+  ;;(global-flycheck-mode))
 
-(use-package which-key
-  :ensure t
-  :init
-  (which-key-mode))
-
+;; auto-completion
 (use-package company
   :ensure t
   :config
   (global-company-mode))
+
+;; completions for C-_ commands in minibuffer
+(use-package which-key
+  :ensure t
+  :init
+  (which-key-mode))
 
 ;; open a shell in a minibuffer
 ;; M-x customize-variable RET shell-pop-shell-type RET <- get to group customization
@@ -72,6 +73,7 @@
   (setq shell-pop-window-height 40)
   :bind (("C-;" . shell-pop)))
 
+;; show location in file with kitty
 (use-package nyan-mode
   :ensure t
   :init
@@ -95,10 +97,12 @@
   :ensure t)
 (use-package jsx-mode
   :ensure t)
+(use-package yaml-mode
+  :ensure t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; B A S I C   S T U F F;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; B A S I C   S T U F F ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; complete [ ( , " etc.
 (electric-pair-mode t)
@@ -108,7 +112,7 @@
 
 ;; highlight current line (when using gui)
 (when window-system
-  (globa-hl-line-mode t))
+  (global-hl-line-mode t))
 
 ;; no tool bar
 (tool-bar-mode 0)
@@ -132,9 +136,6 @@
 
 ;; disable startup screen
 (setq inhibit-startup-message t)
-
-;; scroll line by line instead of half the buffer
-(setq scroll-conservatively 100)
 
 ;; disable bell
 (setq ring-bell-function 'ignore)
@@ -204,7 +205,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "ADBO" :family "Inconsolata"))))
+ '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "CYRE" :family "Inconsolata"))))
  '(whitespace-tab ((t (:foreground "#636363")))))
 (setq whitespace-desplay-mappings
       '((tab-mark 9 [124 9] [92 9])))
