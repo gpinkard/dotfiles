@@ -48,13 +48,6 @@
     :bind
     ("M-s" . avy-goto-char))
 #+END_SRC
-*** linter (flycheck)
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :ensure t
-    :init
-    (global-flycheck-mode 0))
-#+END_SRC
 *** auto-completion (company)
 #+BEGIN_SRC emacs-lisp
   (use-package company
@@ -76,6 +69,20 @@
     :ensure t
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+#+END_SRC
+*** better window switching (switch-window)
+#+BEGIN_SRC emacs-lisp
+  (use-package switch-window
+    :ensure t
+    :config
+    (setq switch-window-input-style 'minibuffer)
+    (setq switch-window-increase 4)
+    (setq switch-window-threshold 2)
+    (setq switch-window-shortcut-style 'qwerty)
+    (setq switch-window-qwerty-shortcuts
+	  '("a" "s" "d" "f" "j" "k" "l"))
+    :bind
+    ([remap other-window] . switch-window))
 #+END_SRC
 *** pop a shell in a minibuffer (shell-pop)
 #+BEGIN_SRC emacs-lisp
@@ -137,7 +144,7 @@
   (setq scroll-conservatively 100)
 #+END_SRC
 *** backup files (stopping the menace)
-**** stop emacs making backup files *everywhere*
+**** stop emacs making backup files /everywhere/
 #+BEGIN_SRC emacs-lisp
   (setq make-backup-files nil)
 #+END_SRC
@@ -155,7 +162,7 @@
 #+END_SRC
 **** open a terminal in current buffer
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-<return>") 'ansi-term)
+  (global-set-key (kbd "C-x <return>") 'ansi-term)
 #+END_SRC
 *** line numbers
 #+BEGIN_SRC emacs-lisp
@@ -171,6 +178,11 @@
 **** disable cursor blink
 #+BEGIN_SRC emacs-lisp
   (blink-cursor-mode -1)
+#+END_SRC
+*** org configs
+**** make editing source code in src block edit in current window
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-window-setup 'current-window)
 #+END_SRC
 *** buffers
 **** enable ibuffer
@@ -222,4 +234,32 @@
     (interactive)
     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
   (global-set-key (kbd "C-c r") 'reload-config)
+#+END_SRC
+*** follow on window split
+**** split window horizontally and follow
+#+BEGIN_SRC emacs-lisp
+  (defun split-horizontally-and-follow ()
+    (interactive)
+    (split-window-below)
+    (balance-windows)
+    (other-window 1))
+  (global-set-key (kbd "C-x 2") 'split-horizontally-and-follow)
+#+END_SRC
+**** split window vertically and follow
+#+BEGIN_SRC emacs-lisp
+  (defun split-vertically-and-follow ()
+    (interactive)
+    (split-window-right)
+    (balance-windows)
+    (other-window 1))
+  (global-set-key (kbd "C-x 3") 'split-vertically-and-follow)
+#+END_SRC
+*** kill words like vim
+#+BEGIN_SRC emacs-lisp
+    (defun kill-entire-word ()
+      (interactive)
+      (forward-char 1)
+      (backward-word)
+      (kill-word 1))
+    (global-set-key (kbd "M-d") 'kill-entire-word)
 #+END_SRC
