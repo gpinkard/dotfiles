@@ -100,6 +100,13 @@
     :init
     (rainbow-mode 1))
 #+END_SRC
+*** color corresponding parens, brackets etc
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :ensure t
+    :config
+    (add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode))))
+#+END_SRC
 *** color theme
 #+BEGIN_SRC emacs-lisp
   (use-package dracula-theme
