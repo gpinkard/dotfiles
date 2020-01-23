@@ -55,20 +55,19 @@
     :config
     (global-company-mode))
 #+END_SRC
+*** flycheck (linter)
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :config
+    (add-hook 'prog-mode-hook (lambda () (flycheck-mode 1))))
+#+END_SRC
 *** show completions for C-_ commands in minibuffer (which-key)
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
     :init
     (which-key-mode))
-#+END_SRC
-*** org packages
-**** pretty bullets in org-mode instead of stars
-#+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :ensure t
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
 #+END_SRC
 *** better window switching (switch-window)
 #+BEGIN_SRC emacs-lisp
@@ -93,31 +92,39 @@
     (setq shell-pop-window-height 40)
     :bind (("C-;" . shell-pop)))
 #+END_SRC
+*** org packages
+**** pretty bullets in org-mode instead of stars
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+#+END_SRC
 *** set background of hex color codes to the color they represent (rainbow-mode)
 #+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode
-    :ensure t
-    :init
-    (rainbow-mode 1))
+;;  (use-package rainbow-mode
+;;    :ensure t
+;;    :init
+;;    (rainbow-mode 1))
 #+END_SRC
-*** color corresponding parens, brackets etc
+*** highlight parens, brackets etc. w/ matching colors (rainbow-delimiters)
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :ensure t
     :config
     (add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode))))
 #+END_SRC
-*** color theme
-#+BEGIN_SRC emacs-lisp
-  (use-package dracula-theme
-    :ensure t)
-#+END_SRC
 *** temporarily highlight cursor for a moment on buffer switch (beacon)
 #+BEGIN_SRC emacs-lisp
-  (use-package beacon
-    :ensure t
-    :init
-    (beacon-mode 1))
+;;  (use-package beacon
+;;    :ensure t
+;;    :init
+;;    (beacon-mode 1))
+#+END_SRC
+*** color theme
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+    :ensure t)
 #+END_SRC
 *** language specific packages/modes
 **** python
@@ -134,6 +141,15 @@
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :ensure t)
+#+END_SRC
+*** spaceline (spacemacs modeline)
+#+BEGIN_SRC emacs-lisp
+  (use-package spaceline
+    :ensure t
+    :config
+    (require 'spaceline-config)
+    (setq powerline-default-separator (quote arrow))
+    (spaceline-emacs-theme))
 #+END_SRC
 ** other configs
 *** disable annoying tool bar and menu bar
@@ -175,6 +191,7 @@
 #+BEGIN_SRC emacs-lisp
   (when (version<= "26.0.50" emacs-version)
     (add-hook 'find-file-hook (lambda () (display-line-numbers-mode))))
+  (add-hook 'find-file-hook (lambda () (linum-mode)))
 #+END_SRC
 *** pretty symbols (gui)
 #+BEGIN_SRC emacs-lisp

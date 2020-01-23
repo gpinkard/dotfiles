@@ -12,17 +12,8 @@
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
+;; load actual config file
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#282a36" :foreground "#f8f8f2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "CYRE" :family "Source Code Pro"))))
- '(whitespace-tab ((t (:foreground "#636363")))))
-(setq whitespace-desplay-mappings
-      '((tab-mark 9 [124 9] [92 9])))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -31,18 +22,22 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes (quote (dracula)))
+ '(custom-enabled-themes (quote (doom-molokai)))
  '(custom-safe-themes
    (quote
-    ("947190b4f17f78c39b0ab1ea95b1e6097cc9202d55c73a702395fc817f899393" default)))
+    ("3a3de615f80a0e8706208f0a71bbcc7cc3816988f971b6d237223b6731f91605" default)))
  '(package-selected-packages
    (quote
-    (rainbow-mode avy org-bullets go-mode beacon ellocate company-mode dracula-theme)))
+    (spaceline rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
      (lambda nil
        (ansi-term shell-pop-term-shell))))))
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "PfEd" :family "Menlo for Powerline")))))
