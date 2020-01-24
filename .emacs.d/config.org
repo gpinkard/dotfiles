@@ -121,11 +121,6 @@
 ;;    :init
 ;;    (beacon-mode 1))
 #+END_SRC
-*** color theme
-#+BEGIN_SRC emacs-lisp
-  (use-package doom-themes
-    :ensure t)
-#+END_SRC
 *** language specific packages/modes
 **** python
 #+BEGIN_SRC emacs-lisp
@@ -142,6 +137,11 @@
   (use-package go-mode
     :ensure t)
 #+END_SRC
+*** color theme
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+    :ensure t)
+#+END_SRC
 *** spaceline (spacemacs modeline)
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
@@ -149,6 +149,7 @@
     :config
     (require 'spaceline-config)
     (setq powerline-default-separator (quote arrow))
+    (setq powerline-height 23)
     (spaceline-emacs-theme))
 #+END_SRC
 ** other configs
