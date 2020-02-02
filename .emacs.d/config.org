@@ -137,6 +137,11 @@
   (use-package go-mode
     :ensure t)
 #+END_SRC
+*** relative line numbers
+#+BEGIN_SRC emacs-lisp
+  (use-package linum-relative
+    :ensure t)
+#+END_SRC
 *** color theme
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
@@ -149,7 +154,7 @@
     :config
     (require 'spaceline-config)
     (setq powerline-default-separator (quote arrow))
-    (setq powerline-height 23)
+    (setq powerline-height 21)
     (spaceline-emacs-theme))
 #+END_SRC
 ** other configs
@@ -192,7 +197,7 @@
 #+BEGIN_SRC emacs-lisp
   (when (version<= "26.0.50" emacs-version)
     (add-hook 'find-file-hook (lambda () (display-line-numbers-mode))))
-  (add-hook 'find-file-hook (lambda () (linum-mode)))
+  (add-hook 'find-file-hook (lambda () (linum-relative-mode)))
 #+END_SRC
 *** pretty symbols (gui)
 #+BEGIN_SRC emacs-lisp
@@ -203,6 +208,10 @@
 **** disable cursor blink
 #+BEGIN_SRC emacs-lisp
   (blink-cursor-mode -1)
+#+END_SRC
+**** highlight current line
+#+BEGIN_SRC emacs-lisp
+  (global-hl-line-mode t)
 #+END_SRC
 *** org configs
 **** make editing source code in src block edit in current window
