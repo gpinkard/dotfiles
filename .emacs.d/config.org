@@ -18,7 +18,7 @@
     (ivy-mode 1)
     (setq ivy-use-virtual-buffers t)
     (setq enable-recursive-minibuffers t)
-    (setq ivy-count-format "(%d/%d) ")
+    (setq ivy-count-format "[%d/%d] ")
     (setq ivy-height 15))
 #+END_SRC
 **** swiper
@@ -47,6 +47,22 @@
     :ensure t
     :bind
     ("M-s" . avy-goto-char))
+#+END_SRC
+*** dmenu
+#+BEGIN_SRC emacs-lisp
+  (use-package dmenu
+    :ensure t
+    :bind
+    ("s-d" . 'dmenu))
+#+END_SRC
+*** dashboard (custom home screen)
+#+BEGIN_SRC emacs-lisp
+  ;(use-package dashboard
+  ;  :ensure t
+  ;  :config
+  ;  (dashboard-setup-startup-hook)
+  ;  (setq dashboard-banner-logo-title "Hello Gabe")
+  ;  (setq dashboard-startup-banner 'official))
 #+END_SRC
 *** auto-completion (company)
 #+BEGIN_SRC emacs-lisp
@@ -83,6 +99,11 @@
     :bind
     ([remap other-window] . switch-window))
 #+END_SRC
+*** magit (git wrapper)
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :ensure t)
+#+END_SRC
 *** pop a shell in a minibuffer (shell-pop)
 #+BEGIN_SRC emacs-lisp
   (use-package shell-pop
@@ -102,10 +123,10 @@
 #+END_SRC
 *** set background of hex color codes to the color they represent (rainbow-mode)
 #+BEGIN_SRC emacs-lisp
-;;  (use-package rainbow-mode
-;;    :ensure t
-;;    :init
-;;    (rainbow-mode 1))
+  ;(use-package rainbow-mode
+  ;  :ensure t
+  ;  :init
+  ;  (rainbow-mode 1))
 #+END_SRC
 *** highlight parens, brackets etc. w/ matching colors (rainbow-delimiters)
 #+BEGIN_SRC emacs-lisp
@@ -154,7 +175,7 @@
     :config
     (require 'spaceline-config)
     (setq powerline-default-separator (quote arrow))
-    (setq powerline-height 21)
+    (setq powerline-height 22)
     (spaceline-emacs-theme))
 #+END_SRC
 ** other configs
@@ -216,7 +237,7 @@
 *** org configs
 **** make editing source code in src block edit in current window
 #+BEGIN_SRC emacs-lisp
-  (setq org-src-window-setup 'current-window)
+  ;(setq org-src-window-setup 'current-window)
 #+END_SRC
 *** buffers
 **** enable ibuffer
