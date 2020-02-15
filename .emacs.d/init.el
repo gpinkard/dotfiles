@@ -22,13 +22,13 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(custom-enabled-themes (quote (doom-solarized-light)))
+ '(custom-enabled-themes (quote (doom-oceanic-next)))
  '(custom-safe-themes
    (quote
-    ("ecba61c2239fbef776a72b65295b88e5534e458dfe3e6d7d9f9cb353448a569e" default)))
+    ("7c4cfa4eb784539d6e09ecc118428cd8125d6aa3053d8e8413f31a7293d43169" default)))
  '(package-selected-packages
    (quote
-    (evil linenum-relative linum-relative docker magit spaceline rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
+    (graphql-mode all-the-icons json-mode dashboard dmenu evil linenum-relative linum-relative docker magit spaceline rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
  '(powerline-height 21)
  '(shell-pop-shell-type
    (quote
@@ -40,6 +40,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#FDF6E3" :foreground "#556b72" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 128 :width normal :foundry "PfEd" :family "Hack"))))
- '(powerline-active1 ((t (:inherit mode-line :background "burlywood"))))
- '(powerline-active2 ((t (:inherit mode-line :background "LightGoldenrod2")))))
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "SRC" :family "Hack"))))
+ '(org-block ((t (:background "#1b2b34"))))
+ '(org-block-begin-line ((t (:background "#1B2B34" :foreground "#FAC863"))))
+ '(org-quote ((t (:background "#1B2B34" :slant italic))))
+ '(spaceline-highlight-face ((t (:background "#5FB3B3")))))
