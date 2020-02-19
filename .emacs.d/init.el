@@ -20,15 +20,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(custom-enabled-themes (quote (doom-oceanic-next)))
+ '(custom-enabled-themes (quote (srcery)))
  '(custom-safe-themes
    (quote
-    ("7c4cfa4eb784539d6e09ecc118428cd8125d6aa3053d8e8413f31a7293d43169" default)))
+    ("3de8a8c40fdb33dbe7ef1d6706507ef94346d46c0b0c340c5877a80bb0d762db" default)))
  '(package-selected-packages
    (quote
-    (graphql-mode all-the-icons json-mode dashboard dmenu evil linenum-relative linum-relative docker magit spaceline rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
+    (srcery-theme popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode all-the-icons json-mode dashboard dmenu evil linenum-relative linum-relative docker magit spaceline rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
  '(powerline-height 21)
  '(shell-pop-shell-type
    (quote
@@ -40,8 +38,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "SRC" :family "Hack"))))
- '(org-block ((t (:background "#1b2b34"))))
- '(org-block-begin-line ((t (:background "#1B2B34" :foreground "#FAC863"))))
- '(org-quote ((t (:background "#1B2B34" :slant italic))))
- '(spaceline-highlight-face ((t (:background "#5FB3B3")))))
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "SRC" :family "Hack")))))

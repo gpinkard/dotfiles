@@ -6,7 +6,6 @@ export UPDATE_ZSH_DAYS=13
 # Plugings (add to ~/.oh-my-zsh/custom/plugins)
 plugins=(
 	git
-	vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
