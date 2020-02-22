@@ -20,6 +20,7 @@
     (ivy-mode 1)
     (setq ivy-use-virtual-buffers t)
     (setq enable-recursive-minibuffers t)
+    (setq ivy-height 15)
     (setq ivy-count-format "[%d/%d] "))
 #+END_SRC
 *** swiper
@@ -42,27 +43,12 @@
 	   ("C-h b" . counsel-descbinds)
 	   ("C-x b" . counsel-ibuffer)))
 #+END_SRC
-** icons (all-the-icons)
-*** icons themselves
+** other pretty symbols (lambda, ->, etc.)
 #+BEGIN_SRC emacs-lisp
-  ;; M-x all-the-icons-install-fonts
-  (use-package all-the-icons
-    :ensure t)
-#+END_SRC
-*** icons for dired (all-the-icons-dired)
-#+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons-dired
+  (use-package pretty-mode
     :ensure t
     :config
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
-#+END_SRC
-*** icons for ivy (all-the-icons-ivy)
-#+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons-ivy
-    :ensure t
-    :init
-    ;;(add-hook 'after-init-hook 'all-the-icons-ivy-setup))
-    (add-hook 'prog-mode-hook 'all-the-icons-ivy-setup))
+    (global-pretty-mode t))
 #+END_SRC
 ** avy
 #+BEGIN_SRC emacs-lisp
@@ -78,6 +64,15 @@
     :bind
     ("s-d" . 'dmenu))
 #+END_SRC
+** neotree (file tree)
+#+BEGIN_SRC emacs-lisp
+  (use-package neotree
+    :ensure t
+    :bind
+    ("C-c n" . 'neotree-toggle)
+    :config
+    (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+#+END_SRC
 ** dashboard (custom home screen)
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
@@ -89,7 +84,7 @@
     (setq dashboard-set-navigator t)
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
-    (setq dashboard-startup-banner 'logo))
+    (setq dashboard-startup-banner "~/.emacs.d/assets/egg.png"))
 #+END_SRC
 ** auto-completion (company)
 #+BEGIN_SRC emacs-lisp
@@ -130,6 +125,36 @@
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t)
+    ;;:bind
+    ;;("C-c g" . magit-status))
+#+END_SRC
+** projecticle (project management)
+#+BEGIN_SRC emacs-lisp
+  ;;(use-package projectile
+    ;;:ensure t)
+    ;;:config
+    ;;())
+#+END_SRC
+** icons (all-the-icons)
+*** icons themselves
+#+BEGIN_SRC emacs-lisp
+  ;; M-x all-the-icons-install-fonts
+  (use-package all-the-icons
+    :ensure t)
+#+END_SRC
+*** icons for dired (all-the-icons-dired)
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons-dired
+    :ensure t
+    :config
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+#+END_SRC
+*** icons for ivy (all-the-icons-ivy)
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons-ivy
+    :ensure
+    :init
+    (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
 #+END_SRC
 ** pop a shell in a minibuffer (shell-pop)
 #+BEGIN_SRC emacs-lisp
@@ -153,7 +178,7 @@
   (use-package rainbow-mode
     :ensure t
     :init
-    (rainbow-mode t))
+    (add-hook 'prog-mode-hook (lambda () (rainbow-mode))))
 #+END_SRC
 ** highlight parens, brackets etc. w/ matching colors (rainbow-delimiters)
 #+BEGIN_SRC emacs-lisp
@@ -219,18 +244,18 @@
 #+END_SRC
 ** color theme
 #+BEGIN_SRC emacs-lisp
-  (use-package srcery-theme
+  (use-package ample-theme
     :ensure t)
 #+END_SRC
 ** spaceline (spacemacs modeline) consider replacing... slow?
 #+BEGIN_SRC emacs-lisp
-  (use-package spaceline
-    :ensure t
-    :config
-    (require 'spaceline-config)
-    (setq powerline-default-separator (quote contour))
-    (setq powerline-height 22)
-    (spaceline-emacs-theme))
+  ;;(use-package spaceline
+  ;;  :ensure t
+  ;;  :config
+  ;;  (require 'spaceline-config)
+  ;;  (setq powerline-default-separator (quote contour))
+  ;;  (setq powerline-height 22)
+  ;;  (spaceline-emacs-theme))
 #+END_SRC
 * other configs
 ** disable annoying tool bar and menu bar
@@ -273,11 +298,6 @@
   (when (version<= "26.0.50" emacs-version)
     (add-hook 'find-file-hook (lambda () (display-line-numbers-mode))))
   ;;(add-hook 'find-file-hook (lambda () (linum-relative-mode)))
-#+END_SRC
-** pretty symbols (gui)
-#+BEGIN_SRC emacs-lisp
-  (when window-system
-    (global-prettify-symbols-mode t))
 #+END_SRC
 ** cursor
 *** disable cursor blink
@@ -337,11 +357,11 @@
 ** stupidity...
 *** a kitty
 #+BEGIN_SRC emacs-lisp
-    (use-package nyan-mode
-      :ensure t
-      :init
-      (nyan-mode 1)
-      (nyan-start-animation))
+  ;;(use-package nyan-mode
+  ;;  :ensure t
+  ;;  :init
+  ;;  (nyan-mode 1)
+  ;;  (nyan-start-animation))
 #+END_SRC
 * functions
 ** open config
@@ -392,4 +412,10 @@
     (interactive)
     (mapc 'kill-buffer (buffer-list)))
   (global-set-key (kbd "C-M-s-k") 'kill-all-non-whitelisted-buffers)
+#+END_SRC
+** enable all-the-icons-ivy
+#+BEGIN_SRC emacs-lisp
+  (defun run-all-the-icons-ivy-setup ()
+    (interactive)
+    (all-the-icons-ivy-setup))
 #+END_SRC
