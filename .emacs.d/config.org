@@ -64,14 +64,22 @@
     :bind
     ("s-d" . 'dmenu))
 #+END_SRC
-** neotree (file tree)
+** show subdirectories/files in dired (dired subtree)
 #+BEGIN_SRC emacs-lisp
-  (use-package neotree
+  (use-package dired-subtree
     :ensure t
-    :bind
-    ("C-c n" . 'neotree-toggle)
     :config
-    (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+    (bind-keys :map dired-mode-map
+	       ("i" . gabe-dired-subtree-toggle)))
+#+END_SRC
+** neotree (file tree) (disabled)
+#+BEGIN_SRC emacs-lisp
+  ;;(use-package neotree
+  ;;  :ensure t
+  ;;  :bind
+  ;;  ("C-c n" . 'neotree-toggle)
+  ;;  :config
+  ;;  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 #+END_SRC
 ** dashboard (custom home screen)
 #+BEGIN_SRC emacs-lisp
@@ -80,7 +88,8 @@
     :config
     (dashboard-setup-startup-hook)
     (setq dashboard-banner-logo-title "Welcome To Gabe's Editor Macros!")
-    (setq dashboard-items '((recents  . 10)))
+    (setq dashboard-items '((recents . 5)
+			    (projects . 10)))
     (setq dashboard-set-navigator t)
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
@@ -130,10 +139,19 @@
 #+END_SRC
 ** projecticle (project management)
 #+BEGIN_SRC emacs-lisp
-  ;;(use-package projectile
-    ;;:ensure t)
-    ;;:config
-    ;;())
+  (use-package projectile
+    :ensure t
+    :config
+    (projectile-mode 0)
+    :bind
+    ("C-c p" . 'projectile-command-map))
+#+END_SRC
+** ivy integration for projectile (counsel-projectile)
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel-projectile
+    :ensure t
+    :config
+    (counsel-projectile-mode 1))
 #+END_SRC
 ** icons (all-the-icons)
 *** icons themselves
@@ -155,6 +173,14 @@
     :ensure
     :init
     (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+#+END_SRC
+** use correct path (osx)
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :init
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
 #+END_SRC
 ** pop a shell in a minibuffer (shell-pop)
 #+BEGIN_SRC emacs-lisp
@@ -232,6 +258,11 @@
   (use-package yaml-mode
     :ensure t)
 #+END_SRC
+*** markdown
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :ensure t)
+#+END_SRC
 *** json
 #+BEGIN_SRC emacs-lisp
   (use-package json-mode
@@ -244,16 +275,17 @@
 #+END_SRC
 ** color theme
 #+BEGIN_SRC emacs-lisp
-  (use-package ample-theme
+  (use-package doom-themes
     :ensure t)
 #+END_SRC
 ** spaceline (spacemacs modeline) consider replacing... slow?
 #+BEGIN_SRC emacs-lisp
+  ;; causes performance hit on a lit of systems
   ;;(use-package spaceline
   ;;  :ensure t
   ;;  :config
   ;;  (require 'spaceline-config)
-  ;;  (setq powerline-default-separator (quote contour))
+  ;;  (setq powerline-default-separator (quote arrow))
   ;;  (setq powerline-height 22)
   ;;  (spaceline-emacs-theme))
 #+END_SRC
@@ -284,7 +316,7 @@
 ** terminal
 *** shell settings
 #+BEGIN_SRC emacs-lisp
-  (defvar term-shell "/usr/bin/zsh")
+  (defvar term-shell "/bin/zsh")
   (defadvice ansi-term (before force-bash)
     (interactive (list term-shell)))
   (ad-activate 'ansi-term)
@@ -307,6 +339,10 @@
 *** highlight current line
 #+BEGIN_SRC emacs-lisp
   (global-hl-line-mode t)
+#+END_SRC
+** set command key to be meta key for osx
+#+BEGIN_SRC emacs-lisp
+  (setq mac-command-modifier 'meta)
 #+END_SRC
 ** org configs
 *** make editing source code in src block edit in current window
@@ -412,6 +448,15 @@
     (interactive)
     (mapc 'kill-buffer (buffer-list)))
   (global-set-key (kbd "C-M-s-k") 'kill-all-non-whitelisted-buffers)
+#+END_SRC
+** dired subtree toggle wrapper (all-the-icons-dired fix)
+#+BEGIN_SRC emacs-lisp
+  ;; by default, dired-subtree will not show icons from all-the-icons-dired
+  ;; for subdirectories. This wrapper functions solves this.
+  (defun gabe-dired-subtree-toggle ()
+    (interactive)
+    (dired-subtree-toggle)
+    (revert-buffer))
 #+END_SRC
 ** enable all-the-icons-ivy
 #+BEGIN_SRC emacs-lisp

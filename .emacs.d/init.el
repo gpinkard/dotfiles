@@ -20,13 +20,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (ample-light)))
+ '(custom-enabled-themes (quote (doom-solarized-light)))
  '(custom-safe-themes
    (quote
-    ("bf798e9e8ff00d4bf2512597f36e5a135ce48e477ce88a0764cfb5d8104e8163" default)))
+    ("285efd6352377e0e3b68c71ab12c43d2b72072f64d436584f9159a58c4ff545a" default)))
  '(package-selected-packages
    (quote
-    (gruvbox-theme ample-theme neotree pretty-mode srcery-theme popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode all-the-icons json-mode dashboard dmenu evil linenum-relative linum-relative docker magit spaceline rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
+    (dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell doom-themes gruvbox-theme ample-theme neotree pretty-mode srcery-theme popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode all-the-icons json-mode dashboard dmenu evil linenum-relative linum-relative docker magit spaceline rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
@@ -37,4 +37,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#cBc9b1" :foreground "gray43" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "DAMA" :family "Hack")))))
+ '(default ((t (:inherit nil :stipple nil :background "#FDF6E3" :foreground "#556b72" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 145 :width normal :foundry "nil" :family "Menlo")))))
