@@ -64,13 +64,21 @@
     :bind
     ("s-d" . 'dmenu))
 #+END_SRC
-** show subdirectories/files in dired (dired subtree)
+** dired packages
+*** show subdirectories/files in dired (dired subtree)
+ #+BEGIN_SRC emacs-lisp
+   (use-package dired-subtree
+     :ensure t
+     :config
+     (bind-keys :map dired-mode-map
+		("i" . gabe-dired-subtree-toggle)))
+ #+END_SRC
+*** render sub dir/file in directories w/ only one entry (dired-collapse)
 #+BEGIN_SRC emacs-lisp
-  (use-package dired-subtree
+  (use-package dired-collapse
     :ensure t
-    :config
-    (bind-keys :map dired-mode-map
-	       ("i" . gabe-dired-subtree-toggle)))
+    :init
+    (add-hook 'dired-mode-hook (lambda () (dired-collapse-mode))))
 #+END_SRC
 ** neotree (file tree) (disabled)
 #+BEGIN_SRC emacs-lisp
@@ -94,6 +102,16 @@
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
     (setq dashboard-startup-banner "~/.emacs.d/assets/egg.png"))
+#+END_SRC
+** System stats in modeline (symon)
+#+BEGIN_SRC emacs-lisp
+  (use-package symon
+    :ensure t
+    :bind
+    ("C-c m" . symon-mode)
+    :config
+    (setq symon-refresh-rate 1)
+    (setq symon-delay 0))
 #+END_SRC
 ** auto-completion (company)
 #+BEGIN_SRC emacs-lisp
@@ -133,9 +151,9 @@
 ** magit (git wrapper)
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t)
-    ;;:bind
-    ;;("C-c g" . magit-status))
+    :ensure t
+    :bind
+    ("C-c g" . magit-status))
 #+END_SRC
 ** projecticle (project management)
 #+BEGIN_SRC emacs-lisp
@@ -172,7 +190,10 @@
   (use-package all-the-icons-ivy
     :ensure
     :init
-    (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+    (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
+    :config
+    (setq all-the-icons-ivy-file-commands
+	'(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir)))
 #+END_SRC
 ** use correct path (osx)
 #+BEGIN_SRC emacs-lisp
@@ -280,7 +301,7 @@
 #+END_SRC
 ** spaceline (spacemacs modeline) consider replacing... slow?
 #+BEGIN_SRC emacs-lisp
-  ;; causes performance hit on a lit of systems
+  ;; causes performance hit on a lot of systems
   ;;(use-package spaceline
   ;;  :ensure t
   ;;  :config
@@ -457,10 +478,4 @@
     (interactive)
     (dired-subtree-toggle)
     (revert-buffer))
-#+END_SRC
-** enable all-the-icons-ivy
-#+BEGIN_SRC emacs-lisp
-  (defun run-all-the-icons-ivy-setup ()
-    (interactive)
-    (all-the-icons-ivy-setup))
 #+END_SRC
