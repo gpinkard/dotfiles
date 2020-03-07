@@ -26,7 +26,7 @@
     ("285efd6352377e0e3b68c71ab12c43d2b72072f64d436584f9159a58c4ff545a" default)))
  '(package-selected-packages
    (quote
-    (symon dired-collapse dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell doom-themes gruvbox-theme ample-theme neotree pretty-mode srcery-theme popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode all-the-icons json-mode dashboard dmenu evil linenum-relative linum-relative docker magit spaceline rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
+    (crystal-mode symon dired-collapse dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell doom-themes gruvbox-theme ample-theme neotree pretty-mode srcery-theme popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode all-the-icons json-mode dashboard dmenu evil linenum-relative linum-relative docker magit spaceline rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
