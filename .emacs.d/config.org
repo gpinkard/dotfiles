@@ -11,6 +11,18 @@
   (eval-when-compile
     (require 'use-package))
 #+END_SRC
+** Emacs X Window Manager
+#+BEGIN_SRC emacs-lisp
+;;  (use-package exwm
+;;    :ensure t
+;;    :config
+;;    (require 'exwm-config)
+;;    (exwm-config-default)
+    ;;(require 'exwm-systemtray)
+    ;;(exwm-systemtray-enable)
+;;    (global-set-key (kbd "s-k") 'exwm-workspace-delete)
+;;    (global-set-key (kbd "s-w") 'exwm-workspace-swap))
+#+END_SRC
 ** ivy, swiper, and counsel + settings
 *** ivy
 #+BEGIN_SRC emacs-lisp
@@ -233,6 +245,20 @@
     :ensure t
     :config
     (add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode))))
+#+END_SRC
+** doom-modeline
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-modeline
+    :ensure t
+    :init
+    (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-height 5)
+    (setq doom-modeline-bar-width 1)
+    ;; projectile
+    (setq doom-modeline-project-detection 'project)
+    ;; all-the-icons integratione
+    (setq doom-modeline-icon (display-graphic-p)))
 #+END_SRC
 ** temporarily highlight cursor for a moment on buffer switch (beacon) (disabled)
 #+BEGIN_SRC emacs-lisp
