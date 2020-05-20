@@ -1,6 +1,18 @@
 #+STARTUP: content
 #+TITLE: Gabe's Emacs Configuration
 #+CREATOR: Gabriel
+* use-package
+Package that is a macro for auto installing and configuring packages. Just drop init.el and
+config.org (this file) into and empty ~/.emacs.d/, and the entire emacs configuration should 
+bootstrap itself. Pretty neat.
+#+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  (eval-when-compile
+    (require 'use-package))
+#+END_SRC
 * basic UI look and feel
 ** tool bar
 Disable the annoying toolbar that takes up screen realestate and provides nothing useful.
@@ -90,18 +102,6 @@ Complete braces, quotes, parens, so on and so forth
 Move by word (capital letter) in camel case
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prod-mode-hook (lambda () (subword-mode 1)))
-#+END_SRC
-* use-package
-Package that is a macro for auto installing and configuring packages. Just drop init.el and
-config.org (this file) into and empty ~/.emacs.d/, and the entire emacs configuration should 
-bootstrap itself. Pretty neat.
-#+BEGIN_SRC emacs-lisp
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
-
-  (eval-when-compile
-    (require 'use-package))
 #+END_SRC
 * Emacs X Window Manager (exwm)
 Make emacs act as a window manager. Launch X windows from inside emacs, put them in workspaces, etc. etc.
