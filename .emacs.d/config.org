@@ -114,7 +114,7 @@ Great stuff. Now you never have to leave the one true editor again!
     ;;  (exwm-config-default))
 #+END_SRC
 * dmenu
-dmenu for emacs, use it to launch graphical windows for exwm
+dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
 #+BEGIN_SRC emacs-lisp
   (use-package dmenu
     :ensure t
@@ -131,7 +131,7 @@ Completion framework for emacs (replaces something like ido), put lists in neat 
     (ivy-mode 1)
     (setq ivy-use-virtual-buffers t)
     (setq enable-recursive-minibuffers t)
-    (setq ivy-height 15)
+    ;;(setq ivy-height 15)
     (setq ivy-count-format "[%d/%d] "))
 #+END_SRC
 ** swiper
@@ -171,11 +171,12 @@ Packages and configs for dired
 ** dired-subtree
 Expand a folder in dired showing children folders/files w/ visual indent
 #+BEGIN_SRC emacs-lisp
-   (use-package dired-subtree
-     :ensure t
-     :config
-     (bind-keys :map dired-mode-map
-		("i" . gabe-dired-subtree-toggle)))
+  (use-package dired-subtree
+    :ensure t
+    :config
+    (bind-keys :map dired-mode-map
+	       ("i" . gabe-dired-subtree-toggle))
+    (setq dired-subtree-cycle-depth 20))
 #+END_SRC
 ** dired-collapse
 Render sub-dir/file in directories w/ only one entry (i.e. a directory which has only another directory
@@ -190,9 +191,9 @@ inside of it).
 Auto completion framework for programming, currently enabled globally.
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :ensure t
-    :init
-    (add-hook 'after-init-hook 'global-company-mode))
+    :ensure t)
+  ;;  :init
+  ;;  (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 * flycheck
 Linter for various programming languages
@@ -245,12 +246,18 @@ bookmarks, etc. etc.
     (setq dashboard-startup-banner "~/.emacs.d/assets/egg.png"))
 #+END_SRC
 * magit
-Magit is a very powerful git porcelain
+Magit is a very powerful git porcelain.
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t
     :bind
     ("C-c g" . magit-status))
+#+END_SRC
+* kubernetes
+k8s porcelain, similar to magit.
+#+BEGIN_SRC emacs-lisp
+  (use-package kubernetes
+    :ensure t)
 #+END_SRC
 * projectile
 Projectile is a project management and navigation tool. Really useful when you are
@@ -316,16 +323,29 @@ Print system stats in the modeline
     (setq symon-delay 1))
 #+END_SRC
 * terminal
-Some basic configs for ansi-term. For starters, set zsh as default shell.
+** vterm
+vterm is an alternative to ansi-term or term, written using a C lib called
+libvterm. It is much snappier than other built in alternatives, meaning large
+terminal outputs do not lag/act strange.
 #+BEGIN_SRC emacs-lisp
-  (defvar term-shell "/usr/bin/zsh")
+  (use-package vterm
+    :ensure t
+    :bind
+    ("C-x <return>" . 'vterm))
+#+END_SRC
+** ansi-term
+Now I use vterm, which uses a C library instead of elisp. This makes it much
+faster than ansi-term or other emacs alternatives. However, I decided to keep
+my old ansi-term configs around just in case.
+#+BEGIN_SRC emacs-lisp
+  (defvar term-shell "/bin/zsh")
   (defadvice ansi-term (before force-zsh)
     (interactive (list term-shell)))
   (ad-activate 'ansi-term)
 #+END_SRC
 Global keybinding to open a terminal in the current buffer.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x <return>") 'ansi-term)
+  ;;(global-set-key (kbd "C-x <return>") 'ansi-term)
 #+END_SRC
 * shell-pop
 Pop open a shell in a minibuffer. Really useful if you need to run a quick command and don't
@@ -335,6 +355,7 @@ want to waste time switching to a terminal buffer.
     :ensure t
     :config
     (setq shell-pop-shell-type "ansi-term")
+    ;;(setq shell-pop-shell-type "vterm")
     (setq shell-pop-window-height 40)
     :bind (("C-;" . shell-pop)))
 #+END_SRC
@@ -364,17 +385,17 @@ Popup menu for kill history.
 * doom-modeline
 Custom modeline from doom-emacs distribution.
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-modeline
-    :ensure t
-    :init
-    (doom-modeline-mode 1)
-    :config
-    (setq doom-modeline-height 5)
-    (setq doom-modeline-bar-width 1)
+  ;;(use-package doom-modeline
+  ;;  :ensure t
+  ;;  :init
+  ;;  (doom-modeline-mode 0)e
+  ;;  :config
+    ;;(setq doom-modeline-height 5)
+    ;;(setq doom-modeline-bar-width 1)
     ;; projectile
-    (setq doom-modeline-project-detection 'project)
+  ;;  (setq doom-modeline-project-detection 'project)
     ;; all-the-icons integratione
-    (setq doom-modeline-icon (display-graphic-p)))
+  ;;  (setq doom-modeline-icon (display-graphic-p)))
 #+END_SRC
 * sudo-edit
 Edit files as super user.
@@ -402,6 +423,11 @@ Edit files as super user.
 ** lua
 #+BEGIN_SRC emacs-lisp
   (use-package lua-mode
+    :ensure t)
+#+END_SRC
+** rust
+#+BEGIN_SRC emacs-lisp
+  (use-package rust-mode
     :ensure t)
 #+END_SRC
 ** graphql
@@ -445,10 +471,14 @@ No annoying confirmation messages when killing a buffer in ibuffer
   (setq ibuffer-expert t)
 #+END_SRC
 * color theme
-Currently, I just pick something from the doom-emacs themes collection
+Currently using modus theme.
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-themes
+  (use-package modus-vivendi-theme
     :ensure t)
+#+END_SRC
+Make line number portion of buffer use screen realistate conservatively.
+#+BEGIN_SRC emacs-lisp
+  (setq display-line-numbers-width-start t)
 #+END_SRC
 * org stuff
 ** org configurations
