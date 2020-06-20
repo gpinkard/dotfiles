@@ -258,6 +258,27 @@ Magit is a very powerful git porcelain.
     :bind
     ("C-c g" . magit-status))
 #+END_SRC
+* ELFEED
+Feed reader, better than GNUS or other alternatives that ship w/ vanilla emacs. No arcane
+knowlege required, sane defaults.
+#+BEGIN_SRC emacs-lisp
+  (use-package elfeed
+    :ensure t
+    :bind
+    ("C-c w" . elfeed)
+    :config
+    (setq elfeed-use-curl t)
+    (setq elfeed-db-directory "~/.emacs.d/elfeed")
+    (setq elfeed-search-filter "@3-months-ago +unread")
+    (setq elfeed-show-truncate-long-urls t)
+    (setq elfeed-feeds
+	  '(("https://xkcd.com/atom.xml" comic)
+	    ("https://www.smbc-comics.com/comic/rss" comic)
+	    ("https://planet.emacslife.com/atom.xml" emacs)
+	    ("http://podcasts.joerogan.net/feed" jre podcast)
+	    ("https://www.phoronix.com/rss.php" linux)
+	    ("https://www.linuxfoundation.org/feed/" linux))))
+#+END_SRC
 * kubernetes
 k8s porcelain, similar to magit.
 #+BEGIN_SRC emacs-lisp
@@ -281,6 +302,12 @@ Integration with projectile
     :ensure t
     :config
     (counsel-projectile-mode 1))
+#+END_SRC
+* browser
+When I follow a link in emacs, have it open the link in eww instead of whatever the default
+browswer for my os is.
+#+BEGIN_SRC emacs-lisp
+  (setq browse-url-browser-function 'eww-browse-url)
 #+END_SRC
 * icons and symbols
 ** all-the-icons
@@ -503,6 +530,11 @@ Pretty bullets for org mode
     :ensure t
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+#+END_SRC
+** hide emphasis markers
+Hide emphasis markers (i.e. / * _) for italics, bold, etc.
+#+BEGIN_SRC emacs-lisp
+  (setq org-hide-emphasis-markers t)
 #+END_SRC
 * my functions
 ** open-config
