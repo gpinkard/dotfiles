@@ -196,9 +196,9 @@ inside of it).
 Auto completion framework for programming, currently enabled globally.
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :ensure t)
-  ;;  :init
-  ;;  (add-hook 'after-init-hook 'global-company-mode))
+    :ensure t
+    :init
+    (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 * flycheck
 Linter for various programming languages
@@ -248,7 +248,7 @@ bookmarks, etc. etc.
     (setq dashboard-set-navigator t)
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
-    (setq dashboard-startup-banner "~/.emacs.d/assets/egg.png"))
+    (setq dashboard-startup-banner "~/.emacs.d/assets/grasshopper.png"))
 #+END_SRC
 * magit
 Magit is a very powerful git porcelain.
@@ -275,7 +275,6 @@ knowlege required, sane defaults.
 	  '(("https://xkcd.com/atom.xml" comic)
 	    ("https://www.smbc-comics.com/comic/rss" comic)
 	    ("https://planet.emacslife.com/atom.xml" emacs)
-	    ("http://podcasts.joerogan.net/feed" jre podcast)
 	    ("https://www.phoronix.com/rss.php" linux)
 	    ("https://www.linuxfoundation.org/feed/" linux))))
 #+END_SRC
@@ -287,7 +286,7 @@ k8s porcelain, similar to magit.
 #+END_SRC
 * projectile
 Projectile is a project management and navigation tool. Really useful when you are
-working on multiple projects and you need to find files quickly.\
+working on multiple projects and you need to find files quickly.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
@@ -296,7 +295,7 @@ working on multiple projects and you need to find files quickly.\
     :bind
     ("C-c p" . 'projectile-command-map))
 #+END_SRC
-Integration with projectile
+Ivy (counsel) integration with projectile.
 #+BEGIN_SRC emacs-lisp
   (use-package counsel-projectile
     :ensure t
@@ -305,7 +304,7 @@ Integration with projectile
 #+END_SRC
 * browser
 When I follow a link in emacs, have it open the link in eww instead of whatever the default
-browswer for my os is.
+browswer for my os is. Mostly, this is for following RSS links in elfeed.
 #+BEGIN_SRC emacs-lisp
   (setq browse-url-browser-function 'eww-browse-url)
 #+END_SRC
@@ -417,17 +416,20 @@ Popup menu for kill history.
 * doom-modeline
 Custom modeline from doom-emacs distribution.
 #+BEGIN_SRC emacs-lisp
-  ;;(use-package doom-modeline
-  ;;  :ensure t
-  ;;  :init
-  ;;  (doom-modeline-mode 0)e
-  ;;  :config
-    ;;(setq doom-modeline-height 5)
-    ;;(setq doom-modeline-bar-width 1)
-    ;; projectile
-  ;;  (setq doom-modeline-project-detection 'project)
-    ;; all-the-icons integratione
-  ;;  (setq doom-modeline-icon (display-graphic-p)))
+  (use-package doom-modeline
+    :ensure t
+    :init
+    (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-height 1)
+    (setq doom-modeline-bar-width 1)
+    ;;(set-face-attribute 'mode-line nil :height 140)
+     ;;projectile
+    (setq doom-modeline-project-detection 'project)
+    (setq doom-modeline-major-mode-icon t)
+    (setq doom-modeline-major-mode-color-icon t)
+     ;;all-the-icons integratione
+    (setq doom-modeline-icon (display-graphic-p)))
 #+END_SRC
 * sudo-edit
 Edit files as super user.
@@ -505,7 +507,7 @@ No annoying confirmation messages when killing a buffer in ibuffer
 * color theme
 Currently using modus theme.
 #+BEGIN_SRC emacs-lisp
-  (use-package modus-vivendi-theme
+  (use-package doom-themes
     :ensure t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
@@ -572,17 +574,6 @@ Instead of staying in current window after a split, put cursor in the new window
     (balance-windows)
     (other-window 1))
   (global-set-key (kbd "C-x 3") 'split-vertically-and-follow)
-#+END_SRC
-** kill-entire-word
-Kill the entire word of a cursor, instead of just from cursor to the end of the word (like /dw/ 
-in normal mode in vim).
-#+BEGIN_SRC emacs-lisp
-  (defun kill-entire-word ()
-    (interactive)
-    (forward-char 1)
-    (backward-word)
-    (kill-word 1))
-  (global-set-key (kbd "M-d") 'kill-entire-word)
 #+END_SRC
 ** gabe-dired-subtree-toggle
 See dired-subtree and all-the-icons-dired packages . By default, dired-subtree will not show icons from 
