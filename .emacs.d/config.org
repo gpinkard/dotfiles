@@ -14,7 +14,7 @@ bootstrap itself. Pretty neat.
     (require 'use-package))
 #+END_SRC
 * modules
-enable module support
+Enable module support
 #+BEGIN_SRC emacs-lisp
   (setq module-file-suffix t)
 #+END_SRC
@@ -83,7 +83,7 @@ Auto-save files are annoying *too*, so they need to go away as well.
   (setq inhibit-startup-message t)
 #+END_SRC
 ** disable yes-or-no-p
-Alias 'yes' and 'no' to 'y' and 'n' for all emacs confirm flows
+Alias 'yes' and 'no' to 'y' and 'n' for all emacs confirm flows.
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
@@ -99,7 +99,7 @@ Show matching parens, quotes, braces, etc. etc.
   (show-paren-mode t)
 #+END_SRC
 ** electric-pair-mode
-Complete braces, quotes, parens, so on and so forth
+Complete braces, quotes, parens, so on and so forth.
 #+BEGIN_SRC emacs-lisp
   (electric-pair-mode t)
 #+END_SRC
@@ -158,8 +158,9 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
     ("C-x C-f" . counsel-find-file)
     ("C-h f" . counsel-describe-function)
     ("C-h v" . counsel-describe-variable)
+    ("C-x d" . counsel-dired)
     ("C-h b" . counsel-descbinds)
-    ("C-x b" . counsel-ibuffer))
+    ("C-x b" . counsel-switch-buffer))
 #+END_SRC
 * avy
 Go to a specific char in a buffer. Useful for jumping around to awkward places in a file. I just bound
@@ -208,6 +209,19 @@ Linter for various programming languages
     :config
     (add-hook 'prog-mode-hook (lambda () (flycheck-mode 1))))
 #+END_SRC
+* flyspell
+Spell checking, enable in text, org, and prog buffers.
+#+BEGIN_SRC emacs-lisp
+  ;;(dolist (hook '(text-mode-hook))
+  ;;  (add-hook hook (lambda () (flyspell-mode 1))))
+  ;;(dolist (hook '(org-mode-hook))
+  ;;  (add-hook hook (lambda () (flyspell-mode 1))))
+
+  ;;(dolist (hook '(prog-mode-hook))
+  ;;  (add-hook hook (lambda () (flyspell-prog-mode))))
+
+  ;;(ispell-change-dictionary "english")
+#+END_SRC
 * which-key
 Perhaps one of the most awesome emacs packages out there, which key shows completions for keys chords
 in a mini buffer at the bottom of the screen. Super useful for learning new emacs commands/bindings.
@@ -244,7 +258,7 @@ bookmarks, etc. etc.
     (dashboard-setup-startup-hook)
     (setq dashboard-banner-logo-title "Welcome To Gabe's Editor Macros!")
     (setq dashboard-items '((recents . 5)
-			    (projects . 10)))
+			    (projects . 5)))
     (setq dashboard-set-navigator t)
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
@@ -281,8 +295,8 @@ knowlege required, sane defaults.
 * kubernetes
 k8s porcelain, similar to magit.
 #+BEGIN_SRC emacs-lisp
-  (use-package kubernetes
-    :ensure t)
+  ;;(use-package kubernetes
+  ;;  :ensure t)
 #+END_SRC
 * projectile
 Projectile is a project management and navigation tool. Really useful when you are
@@ -385,7 +399,7 @@ want to waste time switching to a terminal buffer.
   (use-package shell-pop
     :ensure t
     :config
-    (setq shell-pop-shell-type "ansi-term")
+    (setq shell-pop-shell-type "/bin/zsh")
     ;;(setq shell-pop-shell-type "vterm")
     (setq shell-pop-window-height 40)
     :bind (("C-;" . shell-pop)))
@@ -414,22 +428,22 @@ Popup menu for kill history.
     :bind ("M-y" . popup-kill-ring))
 #+END_SRC
 * doom-modeline
-Custom modeline from doom-emacs distribution.
+Custom modeline from the doom-emacs distribution.
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-modeline
-    :ensure t
-    :init
-    (doom-modeline-mode 1)
-    :config
-    (setq doom-modeline-height 1)
-    (setq doom-modeline-bar-width 1)
+  ;;(use-package doom-modeline
+  ;;  :ensure t
+  ;;  :init
+  ;;  (doom-modeline-mode 1)
+  ;;  :config
+  ;;  (setq doom-modeline-height 1)
+  ;;  (setq doom-modeline-bar-width 1)
     ;;(set-face-attribute 'mode-line nil :height 140)
      ;;projectile
-    (setq doom-modeline-project-detection 'project)
-    (setq doom-modeline-major-mode-icon t)
-    (setq doom-modeline-major-mode-color-icon t)
+  ;;  (setq doom-modeline-project-detection 'project)
+  ;;  (setq doom-modeline-major-mode-icon t)
+  ;;  (setq doom-modeline-major-mode-color-icon t)
      ;;all-the-icons integratione
-    (setq doom-modeline-icon (display-graphic-p)))
+  ;;  (setq doom-modeline-icon (display-graphic-p)))
 #+END_SRC
 * sudo-edit
 Edit files as super user.
@@ -507,7 +521,7 @@ No annoying confirmation messages when killing a buffer in ibuffer
 * color theme
 Currently using modus theme.
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-themes
+  (use-package modus-vivendi-theme
     :ensure t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.

@@ -20,14 +20,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (doom-oceanic-next)))
- '(custom-safe-themes
-   (quote
-    ("b5fff23b86b3fd2dd2cc86aa3b27ee91513adaefeaa75adc8af35a45ffb6c499" default)))
  '(org-agenda-files (quote ("~/.emacs.d/config.new.org")))
  '(package-selected-packages
    (quote
-    (elfeed vterm kubernetes rust-mode doom-modeline exwm csv-mode evil-mode crystal-mode symon dired-collapse dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell doom-themes pretty-mode popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode all-the-icons json-mode dashboard dmenu evil linenum-relative linum-relative docker magit spaceline rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
+    (elfeed vterm kubernetes rust-mode doom-modeline exwm csv-mode evil-mode crystal-mode symon dired-collapse dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell doom-themes pretty-mode popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode all-the-icons json-mode dashboard dmenu linenum-relative linum-relative docker magit rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
