@@ -265,7 +265,7 @@ bookmarks, etc. etc.
     (setq dashboard-set-navigator t)
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
-    (setq dashboard-startup-banner "~/.emacs.d/assets/grasshopper.png"))
+    (setq dashboard-startup-banner "~/.emacs.d/assets/egg.png"))
 #+END_SRC
 * magit
 Magit is a very powerful git porcelain.
@@ -289,17 +289,19 @@ knowlege required, sane defaults.
     (setq elfeed-search-filter "@3-months-ago +unread")
     (setq elfeed-show-truncate-long-urls t)
     (setq elfeed-feeds
-	  '(("https://xkcd.com/atom.xml" comic)
-	    ("https://www.smbc-comics.com/comic/rss" comic)
+	  '(("https://xkcd.com/atom.xml" comics)
+	    ("https://www.smbc-comics.com/comic/rss" comics)
 	    ("https://planet.emacslife.com/atom.xml" emacs)
+	    ("https://static.fsf.org/fsforg/rss/blogs.xml" fsf)
+	    ("https://static.fsf.org/fsforg/rss/news.xml" fsf)
 	    ("https://www.phoronix.com/rss.php" linux)
 	    ("https://www.linuxfoundation.org/feed/" linux))))
 #+END_SRC
 * kubernetes
 k8s porcelain, similar to magit.
 #+BEGIN_SRC emacs-lisp
-  ;;(use-package kubernetes
-  ;;  :ensure t)
+  (use-package kubernetes
+    :ensure t)
 #+END_SRC
 * projectile
 Projectile is a project management and navigation tool. Really useful when you are
@@ -309,6 +311,7 @@ working on multiple projects and you need to find files quickly.
     :ensure t
     :config
     (projectile-mode 0)
+    (setq projectile-project-search-path ' ("~/Jupiter" "~/go/src/jupiterintel.com/" "~/dotfiles"))
     :bind
     ("C-c p" . 'projectile-command-map))
 #+END_SRC
@@ -496,6 +499,11 @@ Edit files as super user.
   (use-package markdown-mode
     :ensure t)
 #+END_SRC
+** docker
+#+BEGIN_SRC emacs-lisp
+  (use-package dockerfile-mode
+    :ensure t)
+#+END_SRC
 ** json
 #+BEGIN_SRC emacs-lisp
   (use-package json-mode
@@ -507,6 +515,10 @@ Edit files as super user.
     :ensure t)
 #+END_SRC
 ** toml
+#+BEGIN_SRC emacs-lisp
+  (use-package toml-mode
+    :ensure t)
+#+END_SRC
 ** offset/tabs
 set offset for C to 8 space tabs (defaults to 2)
 #+BEGIN_SRC emacs-lisp
@@ -600,4 +612,13 @@ all-the-icons-dired for subdirectories. This wrapper function solves this.
     (interactive)
     (dired-subtree-toggle)
     (revert-buffer))
+#+END_SRC
+** create-new-scratch-buffer
+Creates a new scratch buffer to evaluate elisp. Bound to *C-c T*.
+#+BEGIN_SRC emacs-lisp
+  (defun create-new-scratch-buffer ()
+    (interactive)
+    (switch-to-buffer (get-buffer-create "*scratch*"))
+    (lisp-interaction-mode))
+  (global-set-key (kbd "C-c T") 'create-new-scratch-buffer)
 #+END_SRC
