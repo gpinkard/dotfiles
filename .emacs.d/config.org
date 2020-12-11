@@ -25,7 +25,7 @@ Disable the annoying toolbar that takes up screen realestate and provides nothin
   (tool-bar-mode 0)
 #+END_SRC
 ** menu bar 
-My hatred for this *goddamn* thing is just as strong as it is for the toolbar, so I turn it off as well.
+My hatred for this thing is just as strong as it is for the toolbar, so I turn it off as well.
 #+BEGIN_SRC emacs-lisp
   (menu-bar-mode 0)
 #+END_SRC
@@ -195,6 +195,12 @@ inside of it).
     :ensure t
     :init
     (add-hook 'dired-mode-hook (lambda () (dired-collapse-mode))))
+#+END_SRC
+** auto refresh
+Automatically refresh dired buffer on file change.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-mode-hook 'auto-revert-mode)
+  (setq auto-revert-verbose nil)
 #+END_SRC
 * company
 Auto completion framework for programming, currently enabled globally.
@@ -458,7 +464,8 @@ Edit files as super user.
     :ensure t
     :bind ("C-c s" . sudo-edit))
 #+END_SRC
-* language specific packages/modes
+* language specific
+Language specific packages, modes, and configurations
 ** go
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
@@ -525,9 +532,12 @@ set offset for C to 8 space tabs (defaults to 2)
   (setq c-basic-offset 8)
 #+END_SRC
 * buffers
-Enable ibuffer (why isn't this the default anyway?)
+Enable ibuffer (why isn't this the default anyway?).
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
+  ;; add hook to enable auto-revert-mode in ibuffer
+  (add-hook 'ibuffer-mode-hook 'auto-revert-mode)
+  (setq auto-revert-verbose nil)
 #+END_SRC
 No annoying confirmation messages when killing a buffer in ibuffer
 #+BEGIN_SRC emacs-lisp
@@ -547,7 +557,7 @@ Make line number portion of buffer use screen realistate conservatively.
 ** org configurations
 Make editing source code in src blocks edit in current window
 #+BEGIN_SRC emacs-lisp
-  (setq org-src-window-setup 'current-window)
+  ;;(setq org-src-window-setup 'current-window)
 #+END_SRC
 Custom snipit <el + TAB will create an elisp source block
 #+BEGIN_SRC emacs-lisp
@@ -621,4 +631,10 @@ Creates a new scratch buffer to evaluate elisp. Bound to *C-c T*.
     (switch-to-buffer (get-buffer-create "*scratch*"))
     (lisp-interaction-mode))
   (global-set-key (kbd "C-c T") 'create-new-scratch-buffer)
+#+END_SRC
+* package
+** binds
+Bind package menu
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c P") 'package-list-packages)
 #+END_SRC
