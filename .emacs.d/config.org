@@ -3,7 +3,7 @@
 #+CREATOR: Gabriel
 * use-package
 Package that is a macro for auto installing and configuring packages. Just drop init.el and
-config.org (this file) into and empty ~/.emacs.d/, and the entire emacs configuration should 
+config.org (this file) into and empty *~/.emacs.d/*, and the entire emacs configuration should 
 bootstrap itself. Pretty neat.
 #+BEGIN_SRC emacs-lisp
   (unless (package-installed-p 'use-package)
@@ -24,7 +24,7 @@ Disable the annoying toolbar that takes up screen realestate and provides nothin
 #+BEGIN_SRC emacs-lisp
   (tool-bar-mode 0)
 #+END_SRC
-** menu bar 
+** menu bar
 My hatred for this thing is just as strong as it is for the toolbar, so I turn it off as well.
 #+BEGIN_SRC emacs-lisp
   (menu-bar-mode 0)
@@ -106,7 +106,81 @@ Complete braces, quotes, parens, so on and so forth.
 ** subword
 Move by word (capital letter) in camel case
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prod-mode-hook (lambda () (subword-mode 1)))
+  (add-hook 'prog-mode-hook (lambda () (subword-mode 1)))
+#+END_SRC
+** edit-indirect
+Edit regions (like markdown code blocks) in separate buffers in their own
+regions (like org-edit-src-code).
+#+BEGIN_SRC emacs-lisp
+  (use-package edit-indirect
+    :ensure t)
+#+END_SRC
+** tabs
+Customizations for tabs in emacs. By default, emacs tends to use spaces
+over tabs, which is very obnoxious. These customizations make emacs use
+tabs over spaces.
+*** tab variables
+Variables for custom tab widths.
+#+BEGIN_SRC emacs-lisp
+  ;; general custom tab width (java python)
+  (setq custom-general-tab-width 4)
+#+END_SRC
+*** enable/disable functions
+Custom functions to enable and disable tabs.
+#+BEGIN_SRC emacs-lisp
+  ;; function to enable tabs
+  (defun enable-tabs ()
+    (interactive)
+    (local-set-key (kbd "TAB") 'tab-to-tab-stop)
+    (setq indent-tabs-mode t)
+    (setq tab-width custom-general-tab-width))
+
+  (global-set-key (kbd "C-c t e") 'enable-tabs)
+
+  ;; function to disable tabs
+  (defun disable-tabs ()
+    (interactive)
+    (setq indent-tabs-mode nil))
+
+  (global-set-key (kbd "C-c t d") 'disable-tabs)
+#+END_SRC
+*** tab hooks
+Hooks for enabling and disabling tabs in certain modes.
+#+BEGIN_SRC emacs-lisp
+  ;; enable tabs in prog mode generally
+  (add-hook 'prog-mode-hook 'enable-tabs)
+
+  ;; disable tabs in lisp mode and elisp mode, tabs don't matter in lisp,
+  ;; alignment matters more.
+  (add-hook 'lisp-mode-hook 'disable-tabs)
+  (add-hook 'emacs-lisp-mode-hook 'disable-tabs)
+#+END_SRC
+*** tab settings
+#+BEGIN_SRC emacs-lisp
+  ;; Tab widths where we want to the default tab width to be different
+  ;; than custom-general-tab-width.
+  ;; javascript
+  (setq-default js-indent-level custom-general-tab-width)
+  ;; c, cpp, java
+  (setq-default c-basic-offset custom-general-tab-width)
+  ;; python
+  (setq-default py-indent-offset custom-general-tab-width)
+
+  ;; make electric indent behave correctly
+  (setq-default electric-indent-inhibit t)
+#+END_SRC
+** whitespace
+#+BEGIN_SRC emacs-lisp
+  ;; enable whitespace mode when we are in programming mode
+  (add-hook 'prog-mode-hook 'whitespace-mode)
+
+  (setq whitespace-style '(face tabs tab-mark trailing))
+
+  (custom-set-faces
+   '(whitespace-tab ((t (:foreground "#93a1a1")))))
+
+  (setq whitespace-display-mappings
+	'((tab-mark 9 [124 9] [92 9])))
 #+END_SRC
 * Emacs X Window Manager (exwm)
 Make emacs act as a window manager. Launch X windows from inside emacs, put them in workspaces, etc. etc.
@@ -196,6 +270,12 @@ inside of it).
     :init
     (add-hook 'dired-mode-hook (lambda () (dired-collapse-mode))))
 #+END_SRC
+** dired-rainbow
+Extra faces for dired.
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-rainbow
+    :ensure t)
+#+END_SRC
 ** auto refresh
 Automatically refresh dired buffer on file change.
 #+BEGIN_SRC emacs-lisp
@@ -282,7 +362,7 @@ Magit is a very powerful git porcelain.
     ("C-c g" . magit-status))
 #+END_SRC
 * ELFEED
-Feed reader, better than GNUS or other alternatives that ship w/ vanilla emacs. No arcane
+Feed reader, better than GNUS or other alternatives that ship with vanilla emacs. No arcane
 knowlege required, sane defaults.
 #+BEGIN_SRC emacs-lisp
   (use-package elfeed
@@ -300,7 +380,11 @@ knowlege required, sane defaults.
 	    ("https://planet.emacslife.com/atom.xml" emacs)
 	    ("https://static.fsf.org/fsforg/rss/blogs.xml" fsf)
 	    ("https://static.fsf.org/fsforg/rss/news.xml" fsf)
-	    ("https://www.phoronix.com/rss.php" linux)
+	    ("https://protesilaos.com/news.xml" prot news)
+	    ("https://protesilaos.com/politics.xml" prot politics)
+	    ("https://protesilaos.com/codelog.xml" prot emacs code)
+	    ("https://www.phoronix.com/rss.php" linux news)
+	    ("https://www.archlinux.org/feeds/news/" linux arch)
 	    ("https://www.linuxfoundation.org/feed/" linux))))
 #+END_SRC
 * kubernetes
@@ -366,7 +450,7 @@ Pretty symbols for certain keywords (i.e. lambda, def, >=, etc.)
   (use-package pretty-mode
     :ensure t
     :config
-    (global-pretty-mode 0))
+    (global-pretty-mode 1))
 #+END_SRC
 * symon
 Print system stats in the modeline
@@ -439,24 +523,6 @@ Popup menu for kill history.
     :ensure t
     :bind ("M-y" . popup-kill-ring))
 #+END_SRC
-* doom-modeline
-Custom modeline from the doom-emacs distribution.
-#+BEGIN_SRC emacs-lisp
-  ;;(use-package doom-modeline
-  ;;  :ensure t
-  ;;  :init
-  ;;  (doom-modeline-mode 1)
-  ;;  :config
-  ;;  (setq doom-modeline-height 1)
-  ;;  (setq doom-modeline-bar-width 1)
-    ;;(set-face-attribute 'mode-line nil :height 140)
-     ;;projectile
-  ;;  (setq doom-modeline-project-detection 'project)
-  ;;  (setq doom-modeline-major-mode-icon t)
-  ;;  (setq doom-modeline-major-mode-color-icon t)
-     ;;all-the-icons integratione
-  ;;  (setq doom-modeline-icon (display-graphic-p)))
-#+END_SRC
 * sudo-edit
 Edit files as super user.
 #+BEGIN_SRC emacs-lisp
@@ -469,11 +535,6 @@ Language specific packages, modes, and configurations
 ** go
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
-    :ensure t)
-#+END_SRC
-** crystal
-#+BEGIN_SRC emacs-lisp
-  (use-package crystal-mode
     :ensure t)
 #+END_SRC
 ** python
@@ -489,6 +550,11 @@ Language specific packages, modes, and configurations
 ** rust
 #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
+    :ensure t)
+#+END_SRC
+** crystal
+#+BEGIN_SRC emacs-lisp
+  (use-package crystal-mode
     :ensure t)
 #+END_SRC
 ** graphql
@@ -526,12 +592,7 @@ Language specific packages, modes, and configurations
   (use-package toml-mode
     :ensure t)
 #+END_SRC
-** offset/tabs
-set offset for C to 8 space tabs (defaults to 2)
-#+BEGIN_SRC emacs-lisp
-  (setq c-basic-offset 8)
-#+END_SRC
-* buffers
+* DONE buffers
 Enable ibuffer (why isn't this the default anyway?).
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -544,9 +605,9 @@ No annoying confirmation messages when killing a buffer in ibuffer
   (setq ibuffer-expert t)
 #+END_SRC
 * color theme
-Currently using modus theme.
+Currently using doom-themes (solarized light).
 #+BEGIN_SRC emacs-lisp
-  (use-package modus-vivendi-theme
+  (use-package doom-themes
     :ensure t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
@@ -633,7 +694,6 @@ Creates a new scratch buffer to evaluate elisp. Bound to *C-c T*.
   (global-set-key (kbd "C-c T") 'create-new-scratch-buffer)
 #+END_SRC
 * package
-** binds
 Bind package menu
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c P") 'package-list-packages)
