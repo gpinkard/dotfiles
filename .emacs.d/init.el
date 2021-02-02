@@ -20,13 +20,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (doom-solarized-light)))
- '(custom-safe-themes
-   (quote
-    ("08a27c4cde8fcbb2869d71fdc9fa47ab7e4d31c27d40d59bf05729c4640ce834" default)))
  '(package-selected-packages
    (quote
-    (dired-rainbow dockerfile-mode elfeed vterm kubernetes rust-mode doom-modeline exwm csv-mode evil-mode crystal-mode symon dired-collapse dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell doom-themes pretty-mode popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode all-the-icons json-mode dashboard dmenu linenum-relative linum-relative docker magit rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
+    (minimap dired-rainbow dockerfile-mode elfeedb vterm kubernetes rust-mode doom-modeline exwm csv-mode evil-mode crystal-mode symon dired-collapse dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell doom-themes pretty-mode popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode all-the-icons json-mode dashboard dmenu linenum-relative linum-relative docker magit rainbow-mode avy org-bullets go-mode beacon ellocate company-mode)))
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
@@ -34,4 +30,9 @@
        (ansi-term shell-pop-term-shell))))))
 
 (custom-set-faces
- '(default ((t (:inherit nil :stipple nil :background "#FDF6E3" :foreground "#556b72" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 200 :width normal :foundry "nil" :family "Terminus (TTF)")))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#000000" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 200 :width normal :foundry "nil" :family "Terminus (TTF)"))))
+ '(line-number ((t (:background "#000000" :foreground "#a8a8a8")))))

@@ -1,6 +1,6 @@
-#+STARTUP: content
+#+STARTUP: overview
 #+TITLE: Gabe's Emacs Configuration
-#+CREATOR: Gabriel
+#+CREATOR: Gabriel Pinkard
 * use-package
 Package that is a macro for auto installing and configuring packages. Just drop init.el and
 config.org (this file) into and empty *~/.emacs.d/*, and the entire emacs configuration should 
@@ -115,73 +115,6 @@ regions (like org-edit-src-code).
   (use-package edit-indirect
     :ensure t)
 #+END_SRC
-** tabs
-Customizations for tabs in emacs. By default, emacs tends to use spaces
-over tabs, which is very obnoxious. These customizations make emacs use
-tabs over spaces.
-*** tab variables
-Variables for custom tab widths.
-#+BEGIN_SRC emacs-lisp
-  ;; general custom tab width (java python)
-  (setq custom-general-tab-width 4)
-#+END_SRC
-*** enable/disable functions
-Custom functions to enable and disable tabs.
-#+BEGIN_SRC emacs-lisp
-  ;; function to enable tabs
-  (defun enable-tabs ()
-    (interactive)
-    (local-set-key (kbd "TAB") 'tab-to-tab-stop)
-    (setq indent-tabs-mode t)
-    (setq tab-width custom-general-tab-width))
-
-  (global-set-key (kbd "C-c t e") 'enable-tabs)
-
-  ;; function to disable tabs
-  (defun disable-tabs ()
-    (interactive)
-    (setq indent-tabs-mode nil))
-
-  (global-set-key (kbd "C-c t d") 'disable-tabs)
-#+END_SRC
-*** tab hooks
-Hooks for enabling and disabling tabs in certain modes.
-#+BEGIN_SRC emacs-lisp
-  ;; enable tabs in prog mode generally
-  (add-hook 'prog-mode-hook 'enable-tabs)
-
-  ;; disable tabs in lisp mode and elisp mode, tabs don't matter in lisp,
-  ;; alignment matters more.
-  (add-hook 'lisp-mode-hook 'disable-tabs)
-  (add-hook 'emacs-lisp-mode-hook 'disable-tabs)
-#+END_SRC
-*** tab settings
-#+BEGIN_SRC emacs-lisp
-  ;; Tab widths where we want to the default tab width to be different
-  ;; than custom-general-tab-width.
-  ;; javascript
-  (setq-default js-indent-level custom-general-tab-width)
-  ;; c, cpp, java
-  (setq-default c-basic-offset custom-general-tab-width)
-  ;; python
-  (setq-default py-indent-offset custom-general-tab-width)
-
-  ;; make electric indent behave correctly
-  (setq-default electric-indent-inhibit t)
-#+END_SRC
-** whitespace
-#+BEGIN_SRC emacs-lisp
-  ;; enable whitespace mode when we are in programming mode
-  (add-hook 'prog-mode-hook 'whitespace-mode)
-
-  (setq whitespace-style '(face tabs tab-mark trailing))
-
-  (custom-set-faces
-   '(whitespace-tab ((t (:foreground "#93a1a1")))))
-
-  (setq whitespace-display-mappings
-	'((tab-mark 9 [124 9] [92 9])))
-#+END_SRC
 * Emacs X Window Manager (exwm)
 Make emacs act as a window manager. Launch X windows from inside emacs, put them in workspaces, etc. etc.
 Great stuff. Now you never have to leave the one true editor again!
@@ -214,7 +147,7 @@ Completion framework for emacs (replaces something like ido), put lists in neat 
     (setq ivy-use-virtual-buffers t)
     (setq enable-recursive-minibuffers t)
     ;;(setq ivy-height 15)
-    (setq ivy-count-format "[%d/%d] "))
+    (setq ivy-count-format "(%d of %d) "))
 #+END_SRC
 ** swiper
 Acts as an isearch replacement for ivy, puts things in a ivy buffer, shows complete line of search hit 
@@ -233,6 +166,7 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
     :bind
     ("M-x" . counsel-M-x)
     ("C-x C-f" . counsel-find-file)
+    ("C-c f" . counsel-fzf)
     ("C-h f" . counsel-describe-function)
     ("C-h v" . counsel-describe-variable)
     ("C-x d" . counsel-dired)
@@ -251,16 +185,6 @@ and more.
 #+END_SRC
 * dired stuff
 Packages and configs for dired
-** dired-subtree
-Expand a folder in dired showing children folders/files w/ visual indent
-#+BEGIN_SRC emacs-lisp
-  (use-package dired-subtree
-    :ensure t
-    :config
-    (bind-keys :map dired-mode-map
-	       ("i" . gabe-dired-subtree-toggle))
-    (setq dired-subtree-cycle-depth 20))
-#+END_SRC
 ** dired-collapse
 Render sub-dir/file in directories w/ only one entry (i.e. a directory which has only another directory
 inside of it).
@@ -268,15 +192,11 @@ inside of it).
   (use-package dired-collapse
     :ensure t
     :init
-    (add-hook 'dired-mode-hook (lambda () (dired-collapse-mode))))
+    (add-hook 'dired-mode-hook (lambda () (dired-collapse-mode)))
+    :config
+    (setq dired-collapse-remote t))
 #+END_SRC
-** dired-rainbow
-Extra faces for dired.
-#+BEGIN_SRC emacs-lisp
-  (use-package dired-rainbow
-    :ensure t)
-#+END_SRC
-** auto refresh
+** auto-revert
 Automatically refresh dired buffer on file change.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-mode-hook 'auto-revert-mode)
@@ -286,9 +206,9 @@ Automatically refresh dired buffer on file change.
 Auto completion framework for programming, currently enabled globally.
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :ensure t
-    :init
-    (add-hook 'after-init-hook 'global-company-mode))
+    :ensure t)
+  ;;  :init
+  ;;  (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 * flycheck
 Linter for various programming languages
@@ -296,20 +216,10 @@ Linter for various programming languages
   (use-package flycheck
     :ensure t
     :config
-    (add-hook 'prog-mode-hook (lambda () (flycheck-mode 1))))
-#+END_SRC
-* flyspell
-Spell checking, enable in text, org, and prog buffers.
-#+BEGIN_SRC emacs-lisp
-  ;;(dolist (hook '(text-mode-hook))
-  ;;  (add-hook hook (lambda () (flyspell-mode 1))))
-  ;;(dolist (hook '(org-mode-hook))
-  ;;  (add-hook hook (lambda () (flyspell-mode 1))))
-
-  ;;(dolist (hook '(prog-mode-hook))
-  ;;  (add-hook hook (lambda () (flyspell-prog-mode))))
-
-  ;;(ispell-change-dictionary "english")
+    (add-hook 'prog-mode-hook (lambda () (flycheck-mode 1)))
+    (setq flycheck-python-flake8-executable "python3")
+    (setq flycheck-python-pycompile-executable "python3")
+    (setq flycheck-python-pylint-executable "python3"))
 #+END_SRC
 * which-key
 Perhaps one of the most awesome emacs packages out there, which key shows completions for keys chords
@@ -319,6 +229,30 @@ in a mini buffer at the bottom of the screen. Super useful for learning new emac
     :ensure t
     :init
     (which-key-mode))
+#+END_SRC
+* dashboard
+Homescreen that is the first buffer I see when I start an emacs session. Holds recent files, projects,
+bookmarks, etc. etc.
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-banner-logo-title "Welcome To Gabe's Editor Macros!")
+    (setq dashboard-items '((recents . 5)
+			    (projects . 5)))
+    (setq dashboard-set-navigator t)
+    ;;(setq dashboard-set-heading-icons t)
+    ;;(setq dashboard-set-file-icons t)
+    (setq dashboard-startup-banner "~/.emacs.d/assets/egg.png"))
+#+END_SRC
+* minimap
+Minimap (like sublime)
+#+BEGIN_SRC emacs-lisp
+  (use-package minimap
+    :ensure t
+    :bind
+    ("C-c m" . minimap-mode))
 #+END_SRC
 * switch-window
 Provides letter overlay when switching windows. Instead of mashing C-x o ten times to get to
@@ -336,22 +270,6 @@ window.
 	  '("a" "s" "d" "f" "g" "h" "j" "k" "l"))
     :bind
     ([remap other-window] . switch-window))
-#+END_SRC
-* dashboard
-Homescreen that is the first buffer I see when I start an emacs session. Holds recent files, projects,
-bookmarks, etc. etc.
-#+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :ensure t
-    :config
-    (dashboard-setup-startup-hook)
-    (setq dashboard-banner-logo-title "Welcome To Gabe's Editor Macros!")
-    (setq dashboard-items '((recents . 5)
-			    (projects . 5)))
-    (setq dashboard-set-navigator t)
-    (setq dashboard-set-heading-icons t)
-    (setq dashboard-set-file-icons t)
-    (setq dashboard-startup-banner "~/.emacs.d/assets/egg.png"))
 #+END_SRC
 * magit
 Magit is a very powerful git porcelain.
@@ -418,47 +336,13 @@ browswer for my os is. Mostly, this is for following RSS links in elfeed.
 #+BEGIN_SRC emacs-lisp
   (setq browse-url-browser-function 'eww-browse-url)
 #+END_SRC
-* icons and symbols
-** all-the-icons
-Icon set for emacs. If this is a fresh install of emacs, make sure to run *M-x all-the-icons-install-fonts*
-#+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons
-    :ensure t)
-#+END_SRC
-** all-the-icons-dired
-Use all-the-icons when in a dired buffer.
-#+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons-dired
-    :ensure t
-    :config
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
-#+END_SRC
-** all-the-icons-ivy
-Use all-the-icons in ivy mini-buffers.
-#+BEGIN_SRC emacs-lisp
-(use-package all-the-icons-ivy
-    :ensure
-    :init
-    (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
-    :config
-    (setq all-the-icons-ivy-file-commands
-	'(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir)))
-#+END_SRC
-** pretty-mode
-Pretty symbols for certain keywords (i.e. lambda, def, >=, etc.)
-#+BEGIN_SRC emacs-lisp
-  (use-package pretty-mode
-    :ensure t
-    :config
-    (global-pretty-mode 1))
-#+END_SRC
 * symon
 Print system stats in the modeline
 #+BEGIN_SRC emacs-lisp
   (use-package symon
     :ensure t
     :bind
-    ("C-c m" . symon-mode)
+    ("C-c o" . symon-mode)
     :config
     (setq symon-refresh-rate 2)
     (setq symon-delay 1))
@@ -516,7 +400,7 @@ Highlight corresponding brackets, parens, etc. with matching colors.
     :config
     (add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode))))
 #+END_SRC
-* kill-ring
+* popup-kill-ring
 Popup menu for kill history.
 #+BEGIN_SRC emacs-lisp
   (use-package popup-kill-ring
@@ -592,7 +476,7 @@ Language specific packages, modes, and configurations
   (use-package toml-mode
     :ensure t)
 #+END_SRC
-* DONE buffers
+* buffers
 Enable ibuffer (why isn't this the default anyway?).
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -604,10 +488,18 @@ No annoying confirmation messages when killing a buffer in ibuffer
 #+BEGIN_SRC emacs-lisp
   (setq ibuffer-expert t)
 #+END_SRC
-* color theme
-Currently using doom-themes (solarized light).
+* beacon
+Highlight curson on scroll, buffer switch.
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-themes
+  (use-package beacon
+    :ensure t
+    :config
+    (beacon-mode 1))
+#+END_SRC
+* color theme
+Currently using modus-vivendi.
+#+BEGIN_SRC emacs-lisp
+  (use-package modus-vivendi-theme
     :ensure t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
@@ -625,14 +517,6 @@ Custom snipit <el + TAB will create an elisp source block
   (add-to-list 'org-structure-template-alist
 	       '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
 #+END_SRC 
-** org bullets
-Pretty bullets for org mode
-#+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :ensure t
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
-#+END_SRC
 ** hide emphasis markers
 Hide emphasis markers (i.e. / * _) for italics, bold, etc.
 #+BEGIN_SRC emacs-lisp
@@ -675,15 +559,6 @@ Instead of staying in current window after a split, put cursor in the new window
     (other-window 1))
   (global-set-key (kbd "C-x 3") 'split-vertically-and-follow)
 #+END_SRC
-** gabe-dired-subtree-toggle
-See dired-subtree and all-the-icons-dired packages . By default, dired-subtree will not show icons from 
-all-the-icons-dired for subdirectories. This wrapper function solves this.
-#+BEGIN_SRC emacs-lisp
-  (defun gabe-dired-subtree-toggle ()
-    (interactive)
-    (dired-subtree-toggle)
-    (revert-buffer))
-#+END_SRC
 ** create-new-scratch-buffer
 Creates a new scratch buffer to evaluate elisp. Bound to *C-c T*.
 #+BEGIN_SRC emacs-lisp
@@ -693,8 +568,12 @@ Creates a new scratch buffer to evaluate elisp. Bound to *C-c T*.
     (lisp-interaction-mode))
   (global-set-key (kbd "C-c T") 'create-new-scratch-buffer)
 #+END_SRC
-* package
-Bind package menu
+* random custom keybindings
+Random keybindings that call built in emacs functions
 #+BEGIN_SRC emacs-lisp
+  ;; open package menu
   (global-set-key (kbd "C-c P") 'package-list-packages)
+
+  ;; customize group
+  (global-set-key (kbd "C-c c") 'customize-group)
 #+END_SRC
