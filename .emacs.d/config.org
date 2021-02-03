@@ -115,6 +115,27 @@ regions (like org-edit-src-code).
   (use-package edit-indirect
     :ensure t)
 #+END_SRC
+* color theme and faces
+** faces
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'default nil :font "Source Code Pro For Powerline" :height 170)
+  (set-face-attribute 'fixed-pitch nil :font "Source Code Pro For Powerline" :height 170)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Source Code Pro For Powerline" :height 170)
+#+END_SRC
+** color theme
+Currently using naysayer theme.
+#+BEGIN_SRC emacs-lisp
+  (use-package naysayer-theme
+    :ensure t)
+#+END_SRC
+Load theme
+#+BEGIN_SRC emacs-lisp
+  (load-theme 'naysayer t)
+#+END_SRC
+Make line number portion of buffer use screen realistate conservatively.
+#+BEGIN_SRC emacs-lisp
+  (setq display-line-numbers-width-start t)
+#+END_SRC
 * Emacs X Window Manager (exwm)
 Make emacs act as a window manager. Launch X windows from inside emacs, put them in workspaces, etc. etc.
 Great stuff. Now you never have to leave the one true editor again!
@@ -141,6 +162,7 @@ dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
 Completion framework for emacs (replaces something like ido), put lists in neat minibuffer.
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
+    :diminish
     :ensure t
     :init
     (ivy-mode 1)
@@ -171,6 +193,7 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
     ("C-h v" . counsel-describe-variable)
     ("C-x d" . counsel-dired)
     ("C-h b" . counsel-descbinds)
+    ("C-c i" . counsel-imenu)
     ("C-x b" . counsel-switch-buffer))
 #+END_SRC
 * avy
@@ -206,9 +229,9 @@ Automatically refresh dired buffer on file change.
 Auto completion framework for programming, currently enabled globally.
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :ensure t)
-  ;;  :init
-  ;;  (add-hook 'after-init-hook 'global-company-mode))
+    :ensure t
+    :init
+    (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 * flycheck
 Linter for various programming languages
@@ -245,14 +268,6 @@ bookmarks, etc. etc.
     ;;(setq dashboard-set-heading-icons t)
     ;;(setq dashboard-set-file-icons t)
     (setq dashboard-startup-banner "~/.emacs.d/assets/egg.png"))
-#+END_SRC
-* minimap
-Minimap (like sublime)
-#+BEGIN_SRC emacs-lisp
-  (use-package minimap
-    :ensure t
-    :bind
-    ("C-c m" . minimap-mode))
 #+END_SRC
 * switch-window
 Provides letter overlay when switching windows. Instead of mashing C-x o ten times to get to
@@ -305,17 +320,12 @@ knowlege required, sane defaults.
 	    ("https://www.archlinux.org/feeds/news/" linux arch)
 	    ("https://www.linuxfoundation.org/feed/" linux))))
 #+END_SRC
-* kubernetes
-k8s porcelain, similar to magit.
-#+BEGIN_SRC emacs-lisp
-  (use-package kubernetes
-    :ensure t)
-#+END_SRC
 * projectile
 Projectile is a project management and navigation tool. Really useful when you are
 working on multiple projects and you need to find files quickly.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
+    :diminish
     :ensure t
     :config
     (projectile-mode 0)
@@ -487,24 +497,6 @@ Enable ibuffer (why isn't this the default anyway?).
 No annoying confirmation messages when killing a buffer in ibuffer
 #+BEGIN_SRC emacs-lisp
   (setq ibuffer-expert t)
-#+END_SRC
-* beacon
-Highlight curson on scroll, buffer switch.
-#+BEGIN_SRC emacs-lisp
-  (use-package beacon
-    :ensure t
-    :config
-    (beacon-mode 1))
-#+END_SRC
-* color theme
-Currently using modus-vivendi.
-#+BEGIN_SRC emacs-lisp
-  (use-package modus-vivendi-theme
-    :ensure t)
-#+END_SRC
-Make line number portion of buffer use screen realistate conservatively.
-#+BEGIN_SRC emacs-lisp
-  (setq display-line-numbers-width-start t)
 #+END_SRC
 * org stuff
 ** org configurations
