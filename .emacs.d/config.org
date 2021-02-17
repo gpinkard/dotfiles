@@ -115,12 +115,23 @@ regions (like org-edit-src-code).
   (use-package edit-indirect
     :ensure t)
 #+END_SRC
+** tabs/offset
+*** C/C++
+Set C/C++ indentation level.
+#+BEGIN_SRC emacs-lisp
+  (setq-default c-basic-offset 8)
+#+END_SRC
+*** Java
+Set Java indentation level.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
+#+END_SRC
 * color theme and faces
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Source Code Pro For Powerline" :height 170)
-  (set-face-attribute 'fixed-pitch nil :font "Source Code Pro For Powerline" :height 170)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Source Code Pro For Powerline" :height 170)
+  (set-face-attribute 'default nil :font "Inconsolata" :height 180)
+  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 180)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 180)
 #+END_SRC
 ** color theme
 Currently using naysayer theme.
@@ -169,7 +180,7 @@ Completion framework for emacs (replaces something like ido), put lists in neat 
     (setq ivy-use-virtual-buffers t)
     (setq enable-recursive-minibuffers t)
     ;;(setq ivy-height 15)
-    (setq ivy-count-format "(%d of %d) "))
+    (setq ivy-count-format "[%d of %d] "))
 #+END_SRC
 ** swiper
 Acts as an isearch replacement for ivy, puts things in a ivy buffer, shows complete line of search hit 
@@ -224,6 +235,11 @@ Automatically refresh dired buffer on file change.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-mode-hook 'auto-revert-mode)
   (setq auto-revert-verbose nil)
+#+END_SRC
+** truncate
+Turn on truncating for dired buffers
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-mode-hook 'toggle-truncate-lines 0)
 #+END_SRC
 * company
 Auto completion framework for programming, currently enabled globally.
@@ -340,23 +356,6 @@ Ivy (counsel) integration with projectile.
     :config
     (counsel-projectile-mode 1))
 #+END_SRC
-* browser
-When I follow a link in emacs, have it open the link in eww instead of whatever the default
-browswer for my os is. Mostly, this is for following RSS links in elfeed.
-#+BEGIN_SRC emacs-lisp
-  (setq browse-url-browser-function 'eww-browse-url)
-#+END_SRC
-* symon
-Print system stats in the modeline
-#+BEGIN_SRC emacs-lisp
-  (use-package symon
-    :ensure t
-    :bind
-    ("C-c o" . symon-mode)
-    :config
-    (setq symon-refresh-rate 2)
-    (setq symon-delay 1))
-#+END_SRC
 * terminal
 ** vterm
 vterm is an alternative to ansi-term or term, written using a C lib called
@@ -381,6 +380,31 @@ my old ansi-term configs around just in case.
 Global keybinding to open a terminal in the current buffer.
 #+BEGIN_SRC emacs-lisp
   ;;(global-set-key (kbd "C-x <return>") 'ansi-term)
+#+END_SRC
+* highlight-symbol
+Highlight uses of a variable under cursor.
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-symbol
+    :ensure t
+    :init
+    (add-hook 'prog-mode-hook #'highlight-symbol-mode))
+#+END_SRC
+* browser
+When I follow a link in emacs, have it open the link in eww instead of whatever the default
+browswer for my os is. Mostly, this is for following RSS links in elfeed.
+#+BEGIN_SRC emacs-lisp
+  (setq browse-url-browser-function 'eww-browse-url)
+#+END_SRC
+* symon
+Print system stats in the modeline
+#+BEGIN_SRC emacs-lisp
+  (use-package symon
+    :ensure t
+    :bind
+    ("C-c o" . symon-mode)
+    :config
+    (setq symon-refresh-rate 2)
+    (setq symon-delay 1))
 #+END_SRC
 * shell-pop
 Pop open a shell in a minibuffer. Really useful if you need to run a quick command and don't
@@ -444,6 +468,9 @@ Language specific packages, modes, and configurations
 ** rust
 #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
+    :ensure t)
+
+  (use-package cargo
     :ensure t)
 #+END_SRC
 ** crystal
