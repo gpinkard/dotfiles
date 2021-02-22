@@ -126,12 +126,16 @@ Set Java indentation level.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
 #+END_SRC
+*** rust
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
+#+END_SRC
 * color theme and faces
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Inconsolata" :height 180)
-  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 180)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 180)
+  (set-face-attribute 'default nil :font "Source Code Pro" :height 120)
+  (set-face-attribute 'fixed-pitch nil :font "Source Code Pro" :height 120)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Source Code Pro" :height 120)
 #+END_SRC
 ** color theme
 Currently using naysayer theme.
@@ -173,7 +177,6 @@ dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
 Completion framework for emacs (replaces something like ido), put lists in neat minibuffer.
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
-    :diminish
     :ensure t
     :init
     (ivy-mode 1)
@@ -218,7 +221,7 @@ and more.
     ("M-s" . avy-goto-char))
 #+END_SRC
 * dired stuff
-Packages and configs for dired
+Packages and configs for dired.
 ** dired-collapse
 Render sub-dir/file in directories w/ only one entry (i.e. a directory which has only another directory
 inside of it).
@@ -237,7 +240,7 @@ Automatically refresh dired buffer on file change.
   (setq auto-revert-verbose nil)
 #+END_SRC
 ** truncate
-Turn on truncating for dired buffers
+Turn off truncating for dired buffers.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-mode-hook 'toggle-truncate-lines 0)
 #+END_SRC
@@ -341,7 +344,6 @@ Projectile is a project management and navigation tool. Really useful when you a
 working on multiple projects and you need to find files quickly.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :diminish
     :ensure t
     :config
     (projectile-mode 0)
@@ -472,6 +474,9 @@ Language specific packages, modes, and configurations
 
   (use-package cargo
     :ensure t)
+
+  ;; run rustfmt when buffer is saved
+  (setq rust-format-on-save t)
 #+END_SRC
 ** crystal
 #+BEGIN_SRC emacs-lisp
