@@ -92,6 +92,32 @@ Alias 'yes' and 'no' to 'y' and 'n' for all emacs confirm flows.
   (setq display-time-24hr-format t)
   (display-time-mode t)
 #+END_SRC
+* icon stuff
+** all-the-icons
+Pretty icons :o (remember to run **M-x all-the-icons-install-fonts**)
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :ensure t)
+#+END_SRC
+** all-the-icons-ivy
+Adds icons for ivy.
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons-ivy
+    :ensure t
+    :init
+    (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
+    :config
+    (setq all-the-icons-ivy-file-commands
+	  '(counsel-find-file counsel-jump-file counsel-recentf counsel-projectile-find-file counsel-projectil-find-dir)))
+#+END_SRC
+** all-the-icons-dired
+Pretty file icons for dired (uses all-the-icons)
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons-dired
+    :ensure t
+    :config
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+#+END_SRC
 * editing
 ** show-paren-mode
 Show matching parens, quotes, braces, etc. etc.
@@ -133,19 +159,19 @@ Set Java indentation level.
 * color theme and faces
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Source Code Pro" :height 120)
-  (set-face-attribute 'fixed-pitch nil :font "Source Code Pro" :height 120)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Source Code Pro" :height 120)
+  (set-face-attribute 'default nil :font "Menlo" :height 170)
+  (set-face-attribute 'fixed-pitch nil :font "Menlo" :height 170)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Menlo" :height 170)
 #+END_SRC
 ** color theme
 Currently using naysayer theme.
 #+BEGIN_SRC emacs-lisp
-  (use-package naysayer-theme
+  (use-package color-theme-sanityinc-tomorrow
     :ensure t)
 #+END_SRC
 Load theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'naysayer t)
+  (load-theme 'sanityinc-tomorrow-day t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
@@ -258,10 +284,7 @@ Linter for various programming languages
   (use-package flycheck
     :ensure t
     :config
-    (add-hook 'prog-mode-hook (lambda () (flycheck-mode 1)))
-    (setq flycheck-python-flake8-executable "python3")
-    (setq flycheck-python-pycompile-executable "python3")
-    (setq flycheck-python-pylint-executable "python3"))
+    (add-hook 'prog-mode-hook (lambda () (flycheck-mode 1))))
 #+END_SRC
 * which-key
 Perhaps one of the most awesome emacs packages out there, which key shows completions for keys chords
@@ -284,8 +307,8 @@ bookmarks, etc. etc.
     (setq dashboard-items '((recents . 5)
 			    (projects . 5)))
     (setq dashboard-set-navigator t)
-    ;;(setq dashboard-set-heading-icons t)
-    ;;(setq dashboard-set-file-icons t)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
     (setq dashboard-startup-banner "~/.emacs.d/assets/egg.png"))
 #+END_SRC
 * switch-window
@@ -340,7 +363,7 @@ knowlege required, sane defaults.
 	    ("https://www.linuxfoundation.org/feed/" linux))))
 #+END_SRC
 * projectile
-Projectile is a project management and navigation tool. Really useful when you are
+  Projectile is a project management and navigation tool. Really useful when you are
 working on multiple projects and you need to find files quickly.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
@@ -456,11 +479,19 @@ Language specific packages, modes, and configurations
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :ensure t)
+
+  ;; format buffer using gofmt on buffer save
+  (add-hook 'go-mode-hook
+	    (lambda () (add-hook 'before-save-hook 'gofmt-before-save)))
 #+END_SRC
 ** python
 #+BEGIN_SRC emacs-lisp
   (use-package python-mode
     :ensure t)
+
+  (setq flycheck-python-flake8-executable "python3")
+  (setq flycheck-python-pycompile-executable "python3")
+  (setq flycheck-python-pylint-executable "python3")
 #+END_SRC
 ** lua
 #+BEGIN_SRC emacs-lisp
@@ -477,6 +508,11 @@ Language specific packages, modes, and configurations
 
   ;; run rustfmt when buffer is saved
   (setq rust-format-on-save t)
+#+END_SRC
+** scala
+#+BEGIN_SRC emacs-lisp
+  (use-package scala-mode
+    :ensure t)
 #+END_SRC
 ** crystal
 #+BEGIN_SRC emacs-lisp
@@ -545,6 +581,14 @@ Custom snipit <el + TAB will create an elisp source block
 Hide emphasis markers (i.e. / * _) for italics, bold, etc.
 #+BEGIN_SRC emacs-lisp
   (setq org-hide-emphasis-markers t)
+#+END_SRC
+** org bullets
+Icons for bullets in org mode.
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
 #+END_SRC
 * my functions
 ** open-config
