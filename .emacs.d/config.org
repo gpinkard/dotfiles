@@ -14,7 +14,7 @@ bootstrap itself. Pretty neat.
     (require 'use-package))
 #+END_SRC
 * modules
-Enable module support
+Enable module support.
 #+BEGIN_SRC emacs-lisp
   (setq module-file-suffix t)
 #+END_SRC
@@ -94,7 +94,7 @@ Alias 'yes' and 'no' to 'y' and 'n' for all emacs confirm flows.
 #+END_SRC
 * icon stuff
 ** all-the-icons
-Pretty icons :o (remember to run **M-x all-the-icons-install-fonts**)
+Pretty icons :o (remember to run *M-x all-the-icons-install-fonts*).
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons
     :ensure t)
@@ -111,7 +111,7 @@ Adds icons for ivy.
 	  '(counsel-find-file counsel-jump-file counsel-recentf counsel-projectile-find-file counsel-projectil-find-dir)))
 #+END_SRC
 ** all-the-icons-dired
-Pretty file icons for dired (uses all-the-icons)
+Pretty file icons for dired (uses all-the-icons).
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons-dired
     :ensure t
@@ -130,7 +130,7 @@ Complete braces, quotes, parens, so on and so forth.
   (electric-pair-mode t)
 #+END_SRC
 ** subword
-Move by word (capital letter) in camel case
+Move by word (capital letter) in camel case.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook (lambda () (subword-mode 1)))
 #+END_SRC
@@ -153,29 +153,30 @@ Set Java indentation level.
   (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
 #+END_SRC
 *** rust
+Format rust buffer on save.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
 #+END_SRC
 * color theme and faces
-** faces
-#+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Menlo" :height 170)
-  (set-face-attribute 'fixed-pitch nil :font "Menlo" :height 170)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Menlo" :height 170)
-#+END_SRC
 ** color theme
-Currently using naysayer theme.
+Color scheme.
 #+BEGIN_SRC emacs-lisp
-  (use-package color-theme-sanityinc-tomorrow
+  (use-package ayu-theme
     :ensure t)
 #+END_SRC
 Load theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'sanityinc-tomorrow-day t)
+  (load-theme 'ayu-light t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
   (setq display-line-numbers-width-start t)
+#+END_SRC
+** faces
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'default nil :font "Source Code Pro for Powerline" :height 170 :weight 'normal :width 'narrow)
+  (set-face-attribute 'fixed-pitch nil :font "Source Code Pro for Powerline" :height 170 :weight 'normal :width 'narrow)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Source Code Pro for Powerline" :height 170 :weight 'normal :width 'narrow)
 #+END_SRC
 * Emacs X Window Manager (exwm)
 Make emacs act as a window manager. Launch X windows from inside emacs, put them in workspaces, etc. etc.
@@ -279,7 +280,7 @@ Auto completion framework for programming, currently enabled globally.
     (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 * flycheck
-Linter for various programming languages
+Linter for various programming languages.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :ensure t
@@ -421,7 +422,7 @@ browswer for my os is. Mostly, this is for following RSS links in elfeed.
   (setq browse-url-browser-function 'eww-browse-url)
 #+END_SRC
 * symon
-Print system stats in the modeline
+Package that prints system stats in the modeline.
 #+BEGIN_SRC emacs-lisp
   (use-package symon
     :ensure t
@@ -444,7 +445,7 @@ want to waste time switching to a terminal buffer.
     :bind (("C-;" . shell-pop)))
 #+END_SRC
 * rainbow-mode
-Set background of hex color codes the the color they represent
+Package that sets background of hex color codes the the color they represent.
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode
     :ensure t
