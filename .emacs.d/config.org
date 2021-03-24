@@ -345,7 +345,7 @@ bookmarks, etc. etc.
     (setq dashboard-set-navigator t)
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
-    (setq dashboard-startup-banner "~/.emacs.d/assets/egg.png"))
+    (setq dashboard-startup-banner "~/.emacs.d/assets/grape.png"))
 #+END_SRC
 * switch-window
 Provides letter overlay when switching windows. Instead of mashing C-x o ten times to get to

@@ -23,7 +23,7 @@
  '(custom-enabled-themes (quote (weyland-yutani)))
  '(package-selected-packages
    (quote
-    (telephone-line org-bullets all-the-icons-dired all-the-icons-ivy all-the-icons scala-mode highlight-symbol cargo dired-rainbow dockerfile-mode elfeed vterm kubernetes rust-mode doom-modeline exwm csv-mode evil-mode crystal-mode symon dired-collapse dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode json-mode dashboard dmenu linenum-relative linum-relative docker magit rainbow-mode avy go-mode beacon ellocate company-mode)))
+    (telephone-line org-bullets all-the-icons-dired all-the-icons-ivy all-the-icons scala-mode highlight-symbol cargo dired-rainbow dockerfile-mode elfeed vterm kubernetes rust-mode doom-modeline exwm csv-mode evil-mode crystal-mode symon dired-collapse dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode json-mode dashboard dmenu linenum-relative linum-relative docker magit rainbow-mode avy go-mode ellocate company-mode)))
  '(shell-pop-shell-type
    (quote
     ("ansi-term" "*ansi-term*"
