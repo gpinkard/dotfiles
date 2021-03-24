@@ -157,27 +157,6 @@ Format rust buffer on save.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
 #+END_SRC
-* color theme and faces
-** color theme
-Color scheme.
-#+BEGIN_SRC emacs-lisp
-  (use-package ayu-theme
-    :ensure t)
-#+END_SRC
-Load theme
-#+BEGIN_SRC emacs-lisp
-  (load-theme 'ayu-light t)
-#+END_SRC
-Make line number portion of buffer use screen realistate conservatively.
-#+BEGIN_SRC emacs-lisp
-  (setq display-line-numbers-width-start t)
-#+END_SRC
-** faces
-#+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Source Code Pro for Powerline" :height 170 :weight 'normal :width 'narrow)
-  (set-face-attribute 'fixed-pitch nil :font "Source Code Pro for Powerline" :height 170 :weight 'normal :width 'narrow)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Source Code Pro for Powerline" :height 170 :weight 'normal :width 'narrow)
-#+END_SRC
 * Emacs X Window Manager (exwm)
 Make emacs act as a window manager. Launch X windows from inside emacs, put them in workspaces, etc. etc.
 Great stuff. Now you never have to leave the one true editor again!
@@ -190,14 +169,6 @@ Great stuff. Now you never have to leave the one true editor again!
     ;;(custom-set-variables
     ;; '(initial-frame-alist (quote ((fullscreen . maximized)))))
     ;;(exwm-config-default))
-#+END_SRC
-* dmenu
-dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
-#+BEGIN_SRC emacs-lisp
-  (use-package dmenu
-    :ensure t
-    :bind
-    ("s-SPC" . 'dmenu))
 #+END_SRC
 * ivy, swiper, and counsel
 ** ivy
@@ -236,6 +207,35 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
     ("C-h b" . counsel-descbinds)
     ("C-c i" . counsel-imenu)
     ("C-x b" . counsel-switch-buffer))
+#+END_SRC
+* color theme and faces
+** color theme
+Color scheme.
+#+BEGIN_SRC emacs-lisp
+  (use-package weyland-yutani-theme
+    :ensure t)
+#+END_SRC
+Load theme
+#+BEGIN_SRC emacs-lisp
+  (load-theme 'weyland-yutani t)
+#+END_SRC
+Make line number portion of buffer use screen realistate conservatively.
+#+BEGIN_SRC emacs-lisp
+  (setq display-line-numbers-width-start t)
+#+END_SRC
+** faces
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'default nil :font "Iosevka" :height 170 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 170 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Iosevka" :height 170 :weight 'normal :width 'normal)
+#+END_SRC
+* dmenu
+dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
+#+BEGIN_SRC emacs-lisp
+  (use-package dmenu
+    :ensure t
+    :bind
+    ("s-SPC" . 'dmenu))
 #+END_SRC
 * avy
 Go to a specific char in a buffer. Useful for jumping around to awkward places in a file. I just bound
@@ -286,6 +286,41 @@ Linter for various programming languages.
     :ensure t
     :config
     (add-hook 'prog-mode-hook (lambda () (flycheck-mode 1))))
+#+END_SRC
+* modeline (telephone-line)
+Pretty modeline (like powerline for vim).
+#+BEGIN_SRC emacs-lisp
+  (use-package telephone-line
+    :ensure t
+    :config
+    ;; faces
+    (defface t-line-red '((t (:foreground "#a9b7ca" :background "#d2344c"))) "")
+    (defface t-line-green '((t (:foreground "#a9b7ca" :background "#7c73cc"))) "")
+
+    (setq telephone-line-faces
+	'((red . (t-line-red . t-line-red))
+	  (green . (t-line-green . t-line-green))
+	  (accent . (telephone-line-accent-active . telephone-line-accent-inactive))
+	  (nil . (mode-line . mode-line-inactive))))
+    ;; separators
+    (setq telephone-line-primary-left-separator 'telephone-line-cubed-left
+	telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left
+	telephone-line-primary-right-separator 'telephone-line-cubed-right
+	telephone-line-secondary-right-separator 'telephone-line-cubed-hollow-right)
+
+    ;; segments
+    (setq telephone-line-lhs
+	  '((red . (telephone-line-buffer-segment))
+	    (green . (telephone-line-airline-position-segment))
+	    (nil   . (telephone-line-vc-segment
+		      telephone-line-projectile-segment))))
+    (setq telephone-line-rhs
+	  '((nil    . (telephone-line-misc-info-segment))
+	    (green . (telephone-line-major-mode-segment))
+	    (red   . (telephone-line-minor-mode-segment))))
+    (setq telephone-line-height 22)
+    (telephone-line-mode 1))
+
 #+END_SRC
 * which-key
 Perhaps one of the most awesome emacs packages out there, which key shows completions for keys chords
