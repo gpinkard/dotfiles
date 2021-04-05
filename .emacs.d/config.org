@@ -225,9 +225,10 @@ Make line number portion of buffer use screen realistate conservatively.
 #+END_SRC
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Iosevka" :height 170 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 170 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Iosevka" :height 170 :weight 'normal :width 'normal)
+  (set-face-attribute 'default nil :font "Unifont" :height 190 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Unifont" :height 190 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Unifont" :height 190 :weight 'normal :width 'normal)
+  (set-face-attribute 'variable-pitch nil :font "Unifont" :height 190 :weight 'normal :width 'normal)
 #+END_SRC
 * dmenu
 dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
@@ -271,6 +272,16 @@ Turn off truncating for dired buffers.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-mode-hook 'toggle-truncate-lines 0)
 #+END_SRC
+* info stuff
+Packages and configs for GNU info.
+** info-colors
+More colors in info buffers.
+#+BEGIN_SRC emacs-lisp
+  (use-package info-colors
+    :ensure t
+    :init
+    (add-hook 'Info-selection-hook 'info-colors-fontify-node))
+#+END_SRC
 * company
 Auto completion framework for programming, currently enabled globally.
 #+BEGIN_SRC emacs-lisp
@@ -295,32 +306,34 @@ Pretty modeline (like powerline for vim).
     :config
     ;; faces
     (defface t-line-red '((t (:foreground "#a9b7ca" :background "#d2344c"))) "")
-    (defface t-line-green '((t (:foreground "#a9b7ca" :background "#7c73cc"))) "")
+    (defface t-line-purple '((t (:foreground "#a9b7ca" :background "#7c73cc"))) "")
 
     (setq telephone-line-faces
 	'((red . (t-line-red . t-line-red))
-	  (green . (t-line-green . t-line-green))
+	  (purple . (t-line-purple . t-line-purple))
 	  (accent . (telephone-line-accent-active . telephone-line-accent-inactive))
 	  (nil . (mode-line . mode-line-inactive))))
+
     ;; separators
-    (setq telephone-line-primary-left-separator 'telephone-line-cubed-left
-	telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left
-	telephone-line-primary-right-separator 'telephone-line-cubed-right
-	telephone-line-secondary-right-separator 'telephone-line-cubed-hollow-right)
+    (setq telephone-line-primary-left-separator 'telephone-line-tan-left
+	telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left
+	telephone-line-primary-right-separator 'telephone-line-tan-right
+	telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right)
 
     ;; segments
     (setq telephone-line-lhs
 	  '((red . (telephone-line-buffer-segment))
-	    (green . (telephone-line-airline-position-segment))
+	    (purple . (telephone-line-airline-position-segment))
 	    (nil   . (telephone-line-vc-segment
 		      telephone-line-projectile-segment))))
     (setq telephone-line-rhs
 	  '((nil    . (telephone-line-misc-info-segment))
-	    (green . (telephone-line-major-mode-segment))
+	    (purple . (telephone-line-major-mode-segment))
 	    (red   . (telephone-line-minor-mode-segment))))
+
+    ;; random settings
     (setq telephone-line-height 22)
     (telephone-line-mode 1))
-
 #+END_SRC
 * which-key
 Perhaps one of the most awesome emacs packages out there, which key shows completions for keys chords
@@ -383,7 +396,7 @@ knowlege required, sane defaults.
     :config
     (setq elfeed-use-curl t)
     (setq elfeed-db-directory "~/.emacs.d/elfeed")
-    (setq elfeed-search-filter "@3-months-ago +unread")
+    (setq elfeed-search-filter "@4-months-ago +unread")
     (setq elfeed-show-truncate-long-urls t)
     (setq elfeed-feeds
 	  '(("https://xkcd.com/atom.xml" comics)
@@ -399,7 +412,7 @@ knowlege required, sane defaults.
 	    ("https://www.linuxfoundation.org/feed/" linux))))
 #+END_SRC
 * projectile
-  Projectile is a project management and navigation tool. Really useful when you are
+Projectile is a project management and navigation tool. Really useful when you are
 working on multiple projects and you need to find files quickly.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
@@ -465,7 +478,8 @@ Package that prints system stats in the modeline.
     ("C-c o" . symon-mode)
     :config
     (setq symon-refresh-rate 2)
-    (setq symon-delay 1))
+    (setq symon-delay 1)
+    (symon-mode 0))
 #+END_SRC
 * shell-pop
 Pop open a shell in a minibuffer. Really useful if you need to run a quick command and don't
