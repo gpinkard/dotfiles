@@ -1,6 +1,18 @@
 #+STARTUP: overview
 #+TITLE: Gabe's Emacs Configuration
 #+CREATOR: Gabriel Pinkard
+* package archives
+Package archives to use.
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("melpa-stable" . "https://stable.melpa.org/packages/")
+			   ("org" . "https://orgmode.org/elpa/")
+			   ("elpa" . "https://elpa.gnu.org/packages/")))
+
+  (package-initialize)
+#+END_SRC
 * use-package
 Package that is a macro for auto installing and configuring packages. Just drop init.el and
 config.org (this file) into and empty *~/.emacs.d/*, and the entire emacs configuration should 
@@ -157,6 +169,11 @@ Format rust buffer on save.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'rust-mode-hook (lambda () (setq indent-tabs-mode nil)))
 #+END_SRC
+** coding system
+Set default coding system to UTF-8
+#+BEGIN_SRC emacs-lisp
+  (set-default-coding-systems 'utf-8)
+#+END_SRC
 * Emacs X Window Manager (exwm)
 Make emacs act as a window manager. Launch X windows from inside emacs, put them in workspaces, etc. etc.
 Great stuff. Now you never have to leave the one true editor again!
@@ -225,10 +242,10 @@ Make line number portion of buffer use screen realistate conservatively.
 #+END_SRC
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Unifont" :height 190 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Unifont" :height 190 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Unifont" :height 190 :weight 'normal :width 'normal)
-  (set-face-attribute 'variable-pitch nil :font "Unifont" :height 190 :weight 'normal :width 'normal)
+  (set-face-attribute 'default nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
+  (set-face-attribute 'variable-pitch nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
 #+END_SRC
 * dmenu
 dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
@@ -332,7 +349,7 @@ Pretty modeline (like powerline for vim).
 	    (red   . (telephone-line-minor-mode-segment))))
 
     ;; random settings
-    (setq telephone-line-height 22)
+    (setq telephone-line-height 24)
     (telephone-line-mode 1))
 #+END_SRC
 * which-key
@@ -384,6 +401,13 @@ Magit is a very powerful git porcelain.
     :ensure t
     :bind
     ("C-c g" . magit-status))
+#+END_SRC
+* kubernetes
+#+BEGIN_SRC emacs-lisp
+  (use-package kubernetes
+    :ensure t
+    :bind
+    ("C-c k" . kubernetes-overview))
 #+END_SRC
 * ELFEED
 Feed reader, better than GNUS or other alternatives that ship with vanilla emacs. No arcane
@@ -489,7 +513,6 @@ want to waste time switching to a terminal buffer.
     :ensure t
     :config
     (setq shell-pop-shell-type "/bin/zsh")
-    ;;(setq shell-pop-shell-type "vterm")
     (setq shell-pop-window-height 40)
     :bind (("C-;" . shell-pop)))
 #+END_SRC
@@ -574,6 +597,12 @@ Language specific packages, modes, and configurations
   (use-package graphql-mode
     :ensure t)
 #+END_SRC
+** k8s-mode
+Major mode for editing kubernetes config file
+#+BEGIN_SRC emacs-lisp
+  (use-package k8s-mode
+    :ensure t)
+#+END_SRC
 ** yaml
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode
@@ -640,6 +669,15 @@ Icons for bullets in org mode.
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
 #+END_SRC
+* transportation
+** bart-mode
+Real time BART departures info.
+#+BEGIN_SRC emacs-lisp
+  (use-package bart-mode
+    :ensure t
+    :config
+    (setq bart-manage-window t))
+#+END_SRC
 * my functions
 ** open-config
 Function that opens this config file, bound to *C-c e*.
@@ -695,3 +733,6 @@ Random keybindings that call built in emacs functions
   ;; customize group
   (global-set-key (kbd "C-c c") 'customize-group)
 #+END_SRC
+* TODOS
+** TODO look into lsp-mode (language server protocol)
+** TODO look into dap-mode (debug server)
