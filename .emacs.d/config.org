@@ -6,10 +6,10 @@ Package archives to use.
 #+BEGIN_SRC emacs-lisp
   (require 'package)
 
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ("melpa-stable" . "https://stable.melpa.org/packages/")
-			   ("org" . "https://orgmode.org/elpa/")
-			   ("elpa" . "https://elpa.gnu.org/packages/")))
+  (setq package-archives '(("melpa" . "http://melpa.org/packages/")
+			   ("melpa-stable" . "http://stable.melpa.org/packages/")
+			   ("org" . "http://orgmode.org/elpa/")
+			   ("elpa" . "http://elpa.gnu.org/packages/")))
 
   (package-initialize)
 #+END_SRC
@@ -217,7 +217,6 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
     :bind
     ("M-x" . counsel-M-x)
     ("C-x C-f" . counsel-find-file)
-    ("C-c f" . counsel-fzf)
     ("C-h f" . counsel-describe-function)
     ("C-h v" . counsel-describe-variable)
     ("C-x d" . counsel-dired)
@@ -229,12 +228,15 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
 ** color theme
 Color scheme.
 #+BEGIN_SRC emacs-lisp
-  (use-package weyland-yutani-theme
+  ;; (use-package weyland-yutani-theme
+  ;;   :ensure t)
+  (use-package nord-theme
     :ensure t)
 #+END_SRC
 Load theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'weyland-yutani t)
+  ;; (load-theme 'weyland-yutani t)
+  (load-theme 'nord t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
@@ -299,6 +301,29 @@ More colors in info buffers.
     :init
     (add-hook 'Info-selection-hook 'info-colors-fontify-node))
 #+END_SRC
+* lsp
+Various settings and packages for language server protocol.
+** lsp-mode
+Package that makes emacs a lsp client.
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :commands lsp)
+#+END_SRC
+** lsp-ui
+High level UI stuff for lsp-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode)
+#+END_SRC
+** lsp-ivy
+Ivy integration for lsp-mode.
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-ivy
+    :ensure t
+    :commands lsp-ivy-workspace-symbol)
+#+END_SRC
 * company
 Auto completion framework for programming, currently enabled globally.
 #+BEGIN_SRC emacs-lisp
@@ -322,12 +347,12 @@ Pretty modeline (like powerline for vim).
     :ensure t
     :config
     ;; faces
-    (defface t-line-red '((t (:foreground "#a9b7ca" :background "#d2344c"))) "")
-    (defface t-line-purple '((t (:foreground "#a9b7ca" :background "#7c73cc"))) "")
+    (defface t-line-blue '((t (:foreground "#E5E9F0" :background "#5E81AC"))) "")
+    (defface t-line-green '((t (:foreground "#4C566A" :background "#8FBCBB"))) "")
 
     (setq telephone-line-faces
-	'((red . (t-line-red . t-line-red))
-	  (purple . (t-line-purple . t-line-purple))
+	'((blue . (t-line-blue . t-line-blue))
+	  (green . (t-line-green . t-line-green))
 	  (accent . (telephone-line-accent-active . telephone-line-accent-inactive))
 	  (nil . (mode-line . mode-line-inactive))))
 
@@ -339,17 +364,17 @@ Pretty modeline (like powerline for vim).
 
     ;; segments
     (setq telephone-line-lhs
-	  '((red . (telephone-line-buffer-segment))
-	    (purple . (telephone-line-airline-position-segment))
+	  '((blue . (telephone-line-buffer-segment))
+	    (green . (telephone-line-airline-position-segment))
 	    (nil   . (telephone-line-vc-segment
 		      telephone-line-projectile-segment))))
     (setq telephone-line-rhs
 	  '((nil    . (telephone-line-misc-info-segment))
-	    (purple . (telephone-line-major-mode-segment))
-	    (red   . (telephone-line-minor-mode-segment))))
+	    (green . (telephone-line-major-mode-segment))
+	    (blue   . (telephone-line-minor-mode-segment))))
 
     ;; random settings
-    (setq telephone-line-height 24)
+    (setq telephone-line-height 22)
     (telephone-line-mode 1))
 #+END_SRC
 * which-key
@@ -375,7 +400,7 @@ bookmarks, etc. etc.
     (setq dashboard-set-navigator t)
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
-    (setq dashboard-startup-banner "~/.emacs.d/assets/grape.png"))
+    (setq dashboard-startup-banner "~/.emacs.d/assets/lain.png"))
 #+END_SRC
 * switch-window
 Provides letter overlay when switching windows. Instead of mashing C-x o ten times to get to
@@ -456,7 +481,7 @@ Ivy (counsel) integration with projectile.
 #+END_SRC
 * terminal
 ** vterm
-vterm is an alternative to ansi-term or term, written using a C lib called
+Vterm is an alternative to ansi-term or term, written using a C lib called
 libvterm. It is much snappier than other built in alternatives, meaning large
 terminal outputs do not lag/act strange.
 #+BEGIN_SRC emacs-lisp
@@ -488,11 +513,27 @@ Highlight uses of a variable under cursor.
     (add-hook 'prog-mode-hook #'highlight-symbol-mode))
 #+END_SRC
 * browser
+** default browser
 When I follow a link in emacs, have it open the link in eww instead of whatever the default
 browswer for my os is. Mostly, this is for following RSS links in elfeed.
 #+BEGIN_SRC emacs-lisp
-  (setq browse-url-browser-function 'eww-browse-url)
-#+END_SRC
+  (setq browse-url-browser-function 'eww-browse-url
+	shr-use-colors nil
+	shr-bullet "• "
+	shr-folding-mode t
+	eww-search-prefix "https://duckduckgo.com/html?q="
+	url-privacy-level '(email agent cookies lastloc))
+#+END_SRC   
+** browse-url
+ Package that helps browsing in emacs when my browser needs javascript support on osx.
+ #+BEGIN_SRC emacs-lisp
+   ;; (use-package osx-browse
+   ;;   :ensure t
+   ;;   :config
+   ;;   (osx-browse-mode 1)
+   ;;   ;; prefer firefox (3)
+   ;;   (setq osx-browse-prefer-browser "Firefox"))
+ #+END_SRC
 * symon
 Package that prints system stats in the modeline.
 #+BEGIN_SRC emacs-lisp
@@ -562,9 +603,9 @@ Language specific packages, modes, and configurations
   (use-package python-mode
     :ensure t)
 
-  (setq flycheck-python-flake8-executable "python3")
-  (setq flycheck-python-pycompile-executable "python3")
-  (setq flycheck-python-pylint-executable "python3")
+  ;;(setq flycheck-python-flake8-executable "python3")
+  ;;(setq flycheck-python-pycompile-executable "python3")
+  ;;(setq flycheck-python-pylint-executable "python3")
 #+END_SRC
 ** lua
 #+BEGIN_SRC emacs-lisp
@@ -733,6 +774,3 @@ Random keybindings that call built in emacs functions
   ;; customize group
   (global-set-key (kbd "C-c c") 'customize-group)
 #+END_SRC
-* TODOS
-** TODO look into lsp-mode (language server protocol)
-** TODO look into dap-mode (debug server)
