@@ -6,10 +6,10 @@ Package archives to use.
 #+BEGIN_SRC emacs-lisp
   (require 'package)
 
-  (setq package-archives '(("melpa" . "http://melpa.org/packages/")
-			   ("melpa-stable" . "http://stable.melpa.org/packages/")
-			   ("org" . "http://orgmode.org/elpa/")
-			   ("elpa" . "http://elpa.gnu.org/packages/")))
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("melpa-stable" . "https://stable.melpa.org/packages/")
+			   ("org" . "https://orgmode.org/elpa/")
+			   ("elpa" . "https://elpa.gnu.org/packages/")))
 
   (package-initialize)
 #+END_SRC
@@ -228,15 +228,12 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
 ** color theme
 Color scheme.
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package weyland-yutani-theme
-  ;;   :ensure t)
-  (use-package nord-theme
+  (use-package poet-theme
     :ensure t)
 #+END_SRC
 Load theme
 #+BEGIN_SRC emacs-lisp
-  ;; (load-theme 'weyland-yutani t)
-  (load-theme 'nord t)
+  (load-theme 'poet t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
@@ -244,10 +241,10 @@ Make line number portion of buffer use screen realistate conservatively.
 #+END_SRC
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
-  (set-face-attribute 'variable-pitch nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
+  (set-face-attribute 'default nil :font "Iosevka" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Iosevka" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'variable-pitch nil :font "Iosevka" :height 160 :weight 'normal :width 'normal)
 #+END_SRC
 * dmenu
 dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
@@ -347,12 +344,12 @@ Pretty modeline (like powerline for vim).
     :ensure t
     :config
     ;; faces
-    (defface t-line-blue '((t (:foreground "#E5E9F0" :background "#5E81AC"))) "")
-    (defface t-line-green '((t (:foreground "#4C566A" :background "#8FBCBB"))) "")
+    (defface t-line-tan '((t (:foreground "#E5E9F0" :background "#8D6E63"))) "")
+    (defface t-line-red '((t (:foreground "#E5E9F0" :background "#c2185b"))) "")
 
     (setq telephone-line-faces
-	'((blue . (t-line-blue . t-line-blue))
-	  (green . (t-line-green . t-line-green))
+	'((tan . (t-line-tan . t-line-tan))
+	  (red . (t-line-red . t-line-red))
 	  (accent . (telephone-line-accent-active . telephone-line-accent-inactive))
 	  (nil . (mode-line . mode-line-inactive))))
 
@@ -364,17 +361,17 @@ Pretty modeline (like powerline for vim).
 
     ;; segments
     (setq telephone-line-lhs
-	  '((blue . (telephone-line-buffer-segment))
-	    (green . (telephone-line-airline-position-segment))
+	  '((tan . (telephone-line-buffer-segment))
+	    (red . (telephone-line-airline-position-segment))
 	    (nil   . (telephone-line-vc-segment
 		      telephone-line-projectile-segment))))
     (setq telephone-line-rhs
 	  '((nil    . (telephone-line-misc-info-segment))
-	    (green . (telephone-line-major-mode-segment))
-	    (blue   . (telephone-line-minor-mode-segment))))
+	    (red . (telephone-line-major-mode-segment))
+	    (tan   . (telephone-line-minor-mode-segment))))
 
     ;; random settings
-    (setq telephone-line-height 22)
+    (setq telephone-line-height 25)
     (telephone-line-mode 1))
 #+END_SRC
 * which-key
@@ -387,8 +384,8 @@ in a mini buffer at the bottom of the screen. Super useful for learning new emac
     (which-key-mode))
 #+END_SRC
 * dashboard
-Homescreen that is the first buffer I see when I start an emacs session. Holds recent files, projects,
-bookmarks, etc. etc.
+Homescreen that is the first buffer I see when I start an emacs session. Holds recent
+files, projects, bookmarks, etc. etc.
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :ensure t
@@ -396,7 +393,8 @@ bookmarks, etc. etc.
     (dashboard-setup-startup-hook)
     (setq dashboard-banner-logo-title "Welcome To Gabe's Editor Macros!")
     (setq dashboard-items '((recents . 5)
-			    (projects . 5)))
+			    (projects . 5)
+			    (bookmarks . 5)))
     (setq dashboard-set-navigator t)
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
@@ -765,11 +763,21 @@ Creates a new scratch buffer to evaluate elisp. Bound to *C-c T*.
     (lisp-interaction-mode))
   (global-set-key (kbd "C-c T") 'create-new-scratch-buffer)
 #+END_SRC
+** refresh-and-list-packages
+Custom function that refreshes package archives and then lists packages.
+#+BEGIN_SRC emacs-lisp
+  (defun refresh-and-list-packages ()
+    (interactive)
+    (package-refresh-contents)
+    (package-list-packages))
+
+  (global-set-key (kbd "C-c P") 'refresh-and-list-packages)
+#+END_SRC
 * random custom keybindings
 Random keybindings that call built in emacs functions
 #+BEGIN_SRC emacs-lisp
   ;; open package menu
-  (global-set-key (kbd "C-c P") 'package-list-packages)
+  ;;(global-set-key (kbd "C-c P") 'package-list-packages)
 
   ;; customize group
   (global-set-key (kbd "C-c c") 'customize-group)
