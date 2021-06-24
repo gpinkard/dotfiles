@@ -228,12 +228,12 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
 ** color theme
 Color scheme.
 #+BEGIN_SRC emacs-lisp
-  (use-package poet-theme
+  (use-package naysayer-theme
     :ensure t)
 #+END_SRC
 Load theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'poet t)
+  (load-theme 'naysayer t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
@@ -241,10 +241,10 @@ Make line number portion of buffer use screen realistate conservatively.
 #+END_SRC
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Iosevka" :height 160 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 160 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Iosevka" :height 160 :weight 'normal :width 'normal)
-  (set-face-attribute 'variable-pitch nil :font "Iosevka" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'default nil :font "Menlo" :height 140 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Menlo" :height 140 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Menlo" :height 140 :weight 'normal :width 'normal)
+  (set-face-attribute 'variable-pitch nil :font "Menlo" :height 140 :weight 'normal :width 'normal)
 #+END_SRC
 * dmenu
 dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
@@ -344,34 +344,34 @@ Pretty modeline (like powerline for vim).
     :ensure t
     :config
     ;; faces
-    (defface t-line-tan '((t (:foreground "#E5E9F0" :background "#8D6E63"))) "")
-    (defface t-line-red '((t (:foreground "#E5E9F0" :background "#c2185b"))) "")
+    (defface t-line-blue '((t (:foreground "#062329" :background "#66D9EF"))) "")
+    (defface t-line-green '((t (:foreground "#c1d1e3" :background "#126367"))) "")
 
     (setq telephone-line-faces
-	'((tan . (t-line-tan . t-line-tan))
-	  (red . (t-line-red . t-line-red))
-	  (accent . (telephone-line-accent-active . telephone-line-accent-inactive))
-	  (nil . (mode-line . mode-line-inactive))))
+	 '((blue . (t-line-blue . t-line-blue))
+	   (green . (t-line-green . t-line-green))
+	   (accent . (telephone-line-accent-active . telephone-line-accent-inactive))
+	   (nil . (mode-line . mode-line-inactive))))
 
     ;; separators
     (setq telephone-line-primary-left-separator 'telephone-line-tan-left
-	telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left
-	telephone-line-primary-right-separator 'telephone-line-tan-right
-	telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right)
+	 telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left
+	 telephone-line-primary-right-separator 'telephone-line-tan-right
+	 telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right)
 
     ;; segments
     (setq telephone-line-lhs
-	  '((tan . (telephone-line-buffer-segment))
-	    (red . (telephone-line-airline-position-segment))
-	    (nil   . (telephone-line-vc-segment
-		      telephone-line-projectile-segment))))
+	   '((blue . (telephone-line-buffer-segment))
+	     (green . (telephone-line-airline-position-segment))
+	     (nil   . (telephone-line-vc-segment
+		       telephone-line-projectile-segment))))
     (setq telephone-line-rhs
-	  '((nil    . (telephone-line-misc-info-segment))
-	    (red . (telephone-line-major-mode-segment))
-	    (tan   . (telephone-line-minor-mode-segment))))
+	   '((nil    . (telephone-line-misc-info-segment))
+	     (green . (telephone-line-major-mode-segment))
+	     (blue   . (telephone-line-minor-mode-segment))))
 
     ;; random settings
-    (setq telephone-line-height 25)
+    (setq telephone-line-height 22)
     (telephone-line-mode 1))
 #+END_SRC
 * which-key
