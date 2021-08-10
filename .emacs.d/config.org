@@ -228,12 +228,12 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
 ** color theme
 Color scheme.
 #+BEGIN_SRC emacs-lisp
-  (use-package naysayer-theme
+  (use-package weyland-yutani-theme
     :ensure t)
 #+END_SRC
 Load theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'naysayer t)
+  (load-theme 'weyland-yutani t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
@@ -241,10 +241,10 @@ Make line number portion of buffer use screen realistate conservatively.
 #+END_SRC
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Menlo" :height 140 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Menlo" :height 140 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Menlo" :height 140 :weight 'normal :width 'normal)
-  (set-face-attribute 'variable-pitch nil :font "Menlo" :height 140 :weight 'normal :width 'normal)
+  (set-face-attribute 'default nil :font "Jetbrains Mono" :height 140 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Jetbrains Mono" :height 140 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Jetbrains Mono" :height 140 :weight 'normal :width 'normal)
+  (set-face-attribute 'variable-pitch nil :font "Jetbrains Mono" :height 140 :weight 'normal :width 'normal)
 #+END_SRC
 * dmenu
 dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
@@ -305,21 +305,30 @@ Package that makes emacs a lsp client.
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :ensure t
-    :commands lsp)
+    :commands lsp
+    :custom
+    (lsp-rust-analyzer-cargo-watch-command "clippy")
+    (lsp-idle-delay 0.6)
+    :config
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 #+END_SRC
 ** lsp-ui
 High level UI stuff for lsp-mode
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-ui
     :ensure t
-    :commands lsp-ui-mode)
+    :commands lsp-ui-mode
+    :bind
+    ("C-c C-c p" . lsp-ui-doc-focus-frame)
+    :config
+    (setq lsp-ui-sideline-show-diagnosics))
 #+END_SRC
 ** lsp-ivy
 Ivy integration for lsp-mode.
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-ivy
-    :ensure t
-    :commands lsp-ivy-workspace-symbol)
+  ;; (use-package lsp-ivy
+  ;;   :ensure t
+  ;;   :commands lsp-ivy-workspace-symbol)
 #+END_SRC
 * company
 Auto completion framework for programming, currently enabled globally.
@@ -344,8 +353,8 @@ Pretty modeline (like powerline for vim).
     :ensure t
     :config
     ;; faces
-    (defface t-line-blue '((t (:foreground "#062329" :background "#66D9EF"))) "")
-    (defface t-line-green '((t (:foreground "#c1d1e3" :background "#126367"))) "")
+    (defface t-line-blue '((t (:foreground "#26282c" :background "#94a5d0"))) "")
+    (defface t-line-green '((t (:foreground "#26282c" :background "#90b55b"))) "")
 
     (setq telephone-line-faces
 	 '((blue . (t-line-blue . t-line-blue))
@@ -371,7 +380,7 @@ Pretty modeline (like powerline for vim).
 	     (blue   . (telephone-line-minor-mode-segment))))
 
     ;; random settings
-    (setq telephone-line-height 22)
+    (setq telephone-line-height 26)
     (telephone-line-mode 1))
 #+END_SRC
 * which-key
@@ -487,6 +496,17 @@ terminal outputs do not lag/act strange.
     :ensure t
     :bind
     ("C-x <return>" . 'vterm))
+
+  ;; colors
+  ;;(set-face-attribute 'vterm-color-default nil :foreground "#d1b897" :background "#062329")
+  (set-face-attribute 'vterm-color-black nil :foreground "#535353" :background "#FFFFFF")
+  (set-face-attribute 'vterm-color-red nil :foreground "#d2344c" :background "#242733")
+  (set-face-attribute 'vterm-color-green nil :foreground "#86dc2f" :background "#242733")
+  (set-face-attribute 'vterm-color-yellow nil :foreground "#ffbb1c" :background "#242733")
+  (set-face-attribute 'vterm-color-blue nil :foreground "#4F9FD2" :background "#242733")
+  (set-face-attribute 'vterm-color-magenta nil :foreground "#C264C6" :background "#242733")
+  (set-face-attribute 'vterm-color-cyan nil :foreground "#59b9b4" :background "#242733")
+  (set-face-attribute 'vterm-color-white nil :foreground "#C3D0DF" :background "#242733")
 #+END_SRC
 ** ansi-term
 Now I use vterm, which uses a C library instead of elisp. This makes it much
@@ -501,6 +521,12 @@ my old ansi-term configs around just in case.
 Global keybinding to open a terminal in the current buffer.
 #+BEGIN_SRC emacs-lisp
   ;;(global-set-key (kbd "C-x <return>") 'ansi-term)
+#+END_SRC
+** colors
+Set the color vector for vterm/ansi-term
+#+BEGIN_SRC emacs-lisp
+  '(ansi-color-names-vector
+    ["#000000" "#F92672" "#A6E22" "#E6DB74" "#66D9EF" "#AE81FF" "#A1EFE4" "gray90"])
 #+END_SRC
 * highlight-symbol
 Highlight uses of a variable under cursor.
@@ -605,6 +631,10 @@ Language specific packages, modes, and configurations
   ;;(setq flycheck-python-pycompile-executable "python3")
   ;;(setq flycheck-python-pylint-executable "python3")
 #+END_SRC
+** javascript
+#+BEGIN_SRC emacs-lisp
+  (setq js-indent-level 2)
+#+END_SRC   
 ** lua
 #+BEGIN_SRC emacs-lisp
   (use-package lua-mode
@@ -617,6 +647,12 @@ Language specific packages, modes, and configurations
 
   (use-package cargo
     :ensure t)
+
+  (use-package flycheck-rust
+    :ensure t
+    :config
+    (with-eval-after-load 'rust-mode
+      (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
 
   ;; run rustfmt when buffer is saved
   (setq rust-format-on-save t)
@@ -634,6 +670,11 @@ Language specific packages, modes, and configurations
 ** graphql
 #+BEGIN_SRC emacs-lisp
   (use-package graphql-mode
+    :ensure t)
+#+END_SRC
+** rego (OPA)
+#+BEGIN_SRC emacs-lisp
+  (use-package rego-mode
     :ensure t)
 #+END_SRC
 ** k8s-mode
@@ -771,13 +812,13 @@ Custom function that refreshes package archives and then lists packages.
     (package-refresh-contents)
     (package-list-packages))
 
-  (global-set-key (kbd "C-c P") 'refresh-and-list-packages)
+  ;;(global-set-key (kbd "C-c P") 'refresh-and-list-packages)
 #+END_SRC
-* random custom keybindings
+n* random custom keybindings
 Random keybindings that call built in emacs functions
 #+BEGIN_SRC emacs-lisp
   ;; open package menu
-  ;;(global-set-key (kbd "C-c P") 'package-list-packages)
+  (global-set-key (kbd "C-c P") 'package-list-packages)
 
   ;; customize group
   (global-set-key (kbd "C-c c") 'customize-group)
