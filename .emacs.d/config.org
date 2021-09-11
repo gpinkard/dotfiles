@@ -228,12 +228,15 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
 ** color theme
 Color scheme.
 #+BEGIN_SRC emacs-lisp
-  (use-package weyland-yutani-theme
+  (use-package exotica-theme
+    :config
+    (setq exotica-theme-enable-italics t)
     :ensure t)
 #+END_SRC
 Load theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'weyland-yutani t)
+  (load-theme 'exotica t)
+  ;;(load-theme 'poet t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
@@ -241,10 +244,10 @@ Make line number portion of buffer use screen realistate conservatively.
 #+END_SRC
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Jetbrains Mono" :height 140 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Jetbrains Mono" :height 140 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Jetbrains Mono" :height 140 :weight 'normal :width 'normal)
-  (set-face-attribute 'variable-pitch nil :font "Jetbrains Mono" :height 140 :weight 'normal :width 'normal)
+  (set-face-attribute 'default nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
+  (set-face-attribute 'variable-pitch nil :font "Roboto" :height 160 :weight 'normal :width 'normal)
 #+END_SRC
 * dmenu
 dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
@@ -318,10 +321,10 @@ High level UI stuff for lsp-mode
   (use-package lsp-ui
     :ensure t
     :commands lsp-ui-mode
-    :bind
-    ("C-c C-c p" . lsp-ui-doc-focus-frame)
     :config
-    (setq lsp-ui-sideline-show-diagnosics))
+    (setq lsp-ui-doc-enable t)
+    (setq lsp-ui-doc-show-with-cursor t)
+    (setq lsp-ui-doc-delay 0.1))
 #+END_SRC
 ** lsp-ivy
 Ivy integration for lsp-mode.
@@ -353,8 +356,8 @@ Pretty modeline (like powerline for vim).
     :ensure t
     :config
     ;; faces
-    (defface t-line-blue '((t (:foreground "#26282c" :background "#94a5d0"))) "")
-    (defface t-line-green '((t (:foreground "#26282c" :background "#90b55b"))) "")
+    (defface t-line-blue '((t (:foreground "#000000" :background "#c488ff"))) "")
+    (defface t-line-green '((t (:foreground "#000000" :background "#2fcddf"))) "")
 
     (setq telephone-line-faces
 	 '((blue . (t-line-blue . t-line-blue))
@@ -463,6 +466,9 @@ knowlege required, sane defaults.
 	    ("https://protesilaos.com/news.xml" prot news)
 	    ("https://protesilaos.com/politics.xml" prot politics)
 	    ("https://protesilaos.com/codelog.xml" prot emacs code)
+	    ("https://theintercept.com/feed/?rss" the_intercept politics)
+	    ("https://fivethirtyeight.com/politics/feed/" fivethirtyeight politics)
+	    ("https://defence-blog.com/feed/" military politics news)
 	    ("https://www.phoronix.com/rss.php" linux news)
 	    ("https://www.archlinux.org/feeds/news/" linux arch)
 	    ("https://www.linuxfoundation.org/feed/" linux))))
@@ -499,14 +505,14 @@ terminal outputs do not lag/act strange.
 
   ;; colors
   ;;(set-face-attribute 'vterm-color-default nil :foreground "#d1b897" :background "#062329")
-  (set-face-attribute 'vterm-color-black nil :foreground "#535353" :background "#FFFFFF")
-  (set-face-attribute 'vterm-color-red nil :foreground "#d2344c" :background "#242733")
-  (set-face-attribute 'vterm-color-green nil :foreground "#86dc2f" :background "#242733")
-  (set-face-attribute 'vterm-color-yellow nil :foreground "#ffbb1c" :background "#242733")
-  (set-face-attribute 'vterm-color-blue nil :foreground "#4F9FD2" :background "#242733")
-  (set-face-attribute 'vterm-color-magenta nil :foreground "#C264C6" :background "#242733")
-  (set-face-attribute 'vterm-color-cyan nil :foreground "#59b9b4" :background "#242733")
-  (set-face-attribute 'vterm-color-white nil :foreground "#C3D0DF" :background "#242733")
+  (set-face-attribute 'vterm-color-black nil :foreground "#FFFFFF" :background "#444444")
+  (set-face-attribute 'vterm-color-red nil :foreground "#ff4a6f" :background "#444444")
+  (set-face-attribute 'vterm-color-green nil :foreground "#60cfa2" :background "#444444")
+  (set-face-attribute 'vterm-color-yellow nil :foreground "#ffd03e" :background "#444444")
+  (set-face-attribute 'vterm-color-blue nil :foreground "#2fafff" :background "#444444")
+  (set-face-attribute 'vterm-color-magenta nil :foreground "#c488ff" :background "#444444")
+  (set-face-attribute 'vterm-color-cyan nil :foreground "#00d3d0" :background "#444444")
+  (set-face-attribute 'vterm-color-white nil :foreground "#C3D0DF" :background "#444444")
 #+END_SRC
 ** ansi-term
 Now I use vterm, which uses a C library instead of elisp. This makes it much
