@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export SHELL="/bin/zsh"
+export SHELL="/bin/bash"
 export BROWSER="firefox"
 
 if [ -z $ACME_FONT ]; then

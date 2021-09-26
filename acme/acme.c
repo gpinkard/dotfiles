@@ -954,7 +954,6 @@ rfclose(Reffont *r)
 	}
 }
 
-
 Cursor boxcursor = {
 	{-7, -7},
 	{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -1043,7 +1042,6 @@ iconinit(void)
 
 	if(tagcols[BACK] == nil) {
 		/* Column colors */
-
 		tagcols[BACK] = allocimage(display, Rect(0,0,1,1), screen->chan, 1, COL_BG);
 		tagcols[HIGH] = allocimage(display, Rect(0,0,1,1), screen->chan, 1, COL_HBG);
 		tagcols[BORD] = allocimage(display, Rect(0,0,1,1), screen->chan, 1, COL_BORD);
