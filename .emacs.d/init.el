@@ -7,8 +7,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("dc2cdca2f32386a308057cac6abde24c07b470cf17847c784c79ecd3a23ee09a" default))
  '(package-selected-packages
-   '(exotica-theme javascript-mode flycheck-rust rego-mode osx-browse lsp-ivy lsp-ui lsp-mode k8s-mode ivy-avy bart-mode info-colors telephone-line org-bullets all-the-icons-dired all-the-icons-ivy all-the-icons scala-mode highlight-symbol cargo dired-rainbow dockerfile-mode elfeed vterm kubernetes rust-mode doom-modeline exwm csv-mode evil-mode crystal-mode symon dired-collapse dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode json-mode dashboard dmenu linenum-relative linum-relative docker magit rainbow-mode avy go-mode ellocate company-mode))
+   '(weyland-yutani-theme lsp javascript-mode rego-mode lsp-ivy lsp-ui lsp-mode k8s-mode ivy-avy bart-mode info-colors telephone-line org-bullets all-the-icons-dired all-the-icons-ivy all-the-icons scala-mode highlight-symbol cargo dired-rainbow dockerfile-mode elfeed vterm kubernetes rust-mode doom-modeline exwm csv-mode evil-mode crystal-mode symon dired-collapse dired-subtree markdown-mode counsel-projectile projectile exec-path-from-shell popup-kill-ring kill-ring toml-mode lua-mode sudo-edit graphql-mode json-mode dashboard dmenu linenum-relative linum-relative docker magit rainbow-mode avy go-mode ellocate company-mode))
  '(shell-pop-shell-type
    '("ansi-term" "*ansi-term*"
      (lambda nil

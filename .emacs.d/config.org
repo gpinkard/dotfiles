@@ -187,6 +187,14 @@ Great stuff. Now you never have to leave the one true editor again!
     ;; '(initial-frame-alist (quote ((fullscreen . maximized)))))
     ;;(exwm-config-default))
 #+END_SRC
+* dmenu
+dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
+#+BEGIN_SRC emacs-lisp
+  (use-package dmenu
+    :ensure t
+    :bind
+    ("s-SPC" . 'dmenu))
+#+END_SRC
 * ivy, swiper, and counsel
 ** ivy
 Completion framework for emacs (replaces something like ido), put lists in neat minibuffer.
@@ -228,15 +236,15 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
 ** color theme
 Color scheme.
 #+BEGIN_SRC emacs-lisp
-  (use-package exotica-theme
-    :config
-    (setq exotica-theme-enable-italics t)
+  ;; (use-package naysayer-theme
+  ;;   :ensure t)
+
+  (use-package weyland-yutani-theme
     :ensure t)
 #+END_SRC
 Load theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'exotica t)
-  ;;(load-theme 'poet t)
+  (load-theme 'weyland-yutani t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
@@ -244,18 +252,10 @@ Make line number portion of buffer use screen realistate conservatively.
 #+END_SRC
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Iosevka" :height 150 :weight 'normal :width 'normal)
-  (set-face-attribute 'variable-pitch nil :font "Roboto" :height 160 :weight 'normal :width 'normal)
-#+END_SRC
-* dmenu
-dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
-#+BEGIN_SRC emacs-lisp
-  (use-package dmenu
-    :ensure t
-    :bind
-    ("s-SPC" . 'dmenu))
+  (set-face-attribute 'default nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'variable-pitch nil :font "Roboto" :height 140 :weight 'normal :width 'normal)
 #+END_SRC
 * avy
 Go to a specific char in a buffer. Useful for jumping around to awkward places in a file. I just bound
@@ -308,23 +308,23 @@ Package that makes emacs a lsp client.
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :ensure t
-    :commands lsp
-    :custom
-    (lsp-rust-analyzer-cargo-watch-command "clippy")
-    (lsp-idle-delay 0.6)
+    :commands
+    (lsp lsp-deferred)
+    :init
+    (setq lsp-keymap-prefix "C-c l")
     :config
-    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+    (lsp-enable-which-key-integration t))
 #+END_SRC
 ** lsp-ui
 High level UI stuff for lsp-mode
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-ui
-    :ensure t
-    :commands lsp-ui-mode
-    :config
-    (setq lsp-ui-doc-enable t)
-    (setq lsp-ui-doc-show-with-cursor t)
-    (setq lsp-ui-doc-delay 0.1))
+  ;; (use-package lsp-ui
+  ;;   :ensure t
+  ;;   :commands lsp-ui-mode
+  ;;   :config
+  ;;   (setq lsp-ui-doc-enable t)
+  ;;   (setq lsp-ui-doc-show-with-cursor t)
+  ;;   (setq lsp-ui-doc-delay 0.1))
 #+END_SRC
 ** lsp-ivy
 Ivy integration for lsp-mode.
@@ -336,18 +336,18 @@ Ivy integration for lsp-mode.
 * company
 Auto completion framework for programming, currently enabled globally.
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :init
-    (add-hook 'after-init-hook 'global-company-mode))
+  ;; (use-package company
+  ;;   :ensure t
+  ;;   :init
+  ;;   (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 * flycheck
 Linter for various programming languages.
 #+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :ensure t
-    :config
-    (add-hook 'prog-mode-hook (lambda () (flycheck-mode 1))))
+  ;; (use-package flycheck
+  ;;   :ensure t
+  ;;   :config
+  ;;   (add-hook 'prog-mode-hook (lambda () (flycheck-mode 1))))
 #+END_SRC
 * modeline (telephone-line)
 Pretty modeline (like powerline for vim).
@@ -356,8 +356,8 @@ Pretty modeline (like powerline for vim).
     :ensure t
     :config
     ;; faces
-    (defface t-line-blue '((t (:foreground "#000000" :background "#c488ff"))) "")
-    (defface t-line-green '((t (:foreground "#000000" :background "#2fcddf"))) "")
+    (defface t-line-blue '((t (:foreground "#000000" :background "#94a5d0"))) "")
+    (defface t-line-green '((t (:foreground "#000000" :background "#7ABE5B"))) "")  
 
     (setq telephone-line-faces
 	 '((blue . (t-line-blue . t-line-blue))
@@ -383,7 +383,7 @@ Pretty modeline (like powerline for vim).
 	     (blue   . (telephone-line-minor-mode-segment))))
 
     ;; random settings
-    (setq telephone-line-height 26)
+    (setq telephone-line-height 27)
     (telephone-line-mode 1))
 #+END_SRC
 * which-key
@@ -554,16 +554,6 @@ browswer for my os is. Mostly, this is for following RSS links in elfeed.
 	eww-search-prefix "https://duckduckgo.com/html?q="
 	url-privacy-level '(email agent cookies lastloc))
 #+END_SRC   
-** browse-url
- Package that helps browsing in emacs when my browser needs javascript support on osx.
- #+BEGIN_SRC emacs-lisp
-   ;; (use-package osx-browse
-   ;;   :ensure t
-   ;;   :config
-   ;;   (osx-browse-mode 1)
-   ;;   ;; prefer firefox (3)
-   ;;   (setq osx-browse-prefer-browser "Firefox"))
- #+END_SRC
 * symon
 Package that prints system stats in the modeline.
 #+BEGIN_SRC emacs-lisp
@@ -574,7 +564,7 @@ Package that prints system stats in the modeline.
     :config
     (setq symon-refresh-rate 2)
     (setq symon-delay 1)
-    (symon-mode 0))
+    (symon-mode -1))
 #+END_SRC
 * shell-pop
 Pop open a shell in a minibuffer. Really useful if you need to run a quick command and don't
@@ -622,16 +612,29 @@ Language specific packages, modes, and configurations
 ** go
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
-    :ensure t)
+    :ensure t
+    :mode "\\.go\\'"
+    :hook
+    (go-mode . lsp-deferred))
 
   ;; format buffer using gofmt on buffer save
   (add-hook 'go-mode-hook
 	    (lambda () (add-hook 'before-save-hook 'gofmt-before-save)))
+
+  ;; Function that adds hooks for lsp for go-mode
+  (defun lsp-go-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+  (add-hook 'go-mode-hook #'lsp-go-save-hooks)
 #+END_SRC
 ** python
 #+BEGIN_SRC emacs-lisp
   (use-package python-mode
-    :ensure t)
+    :ensure t
+    :mode "\\.py\\'"
+    :hook
+    (python-mode . lsp-deferred))
 
   ;;(setq flycheck-python-flake8-executable "python3")
   ;;(setq flycheck-python-pycompile-executable "python3")
@@ -644,21 +647,21 @@ Language specific packages, modes, and configurations
 ** lua
 #+BEGIN_SRC emacs-lisp
   (use-package lua-mode
-    :ensure t)
+    :ensure t
+    :mode "\\.lua\\'"
+    :hook
+    (lua-mode . lsp-deferred))
 #+END_SRC
 ** rust
 #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
-    :ensure t)
+    :ensure t
+    :mode "\\.rs\\'"
+    :hook
+    (rust-mode . lsp-deferred))
 
   (use-package cargo
     :ensure t)
-
-  (use-package flycheck-rust
-    :ensure t
-    :config
-    (with-eval-after-load 'rust-mode
-      (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
 
   ;; run rustfmt when buffer is saved
   (setq rust-format-on-save t)
