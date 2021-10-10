@@ -236,15 +236,13 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
 ** color theme
 Color scheme.
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package naysayer-theme
-  ;;   :ensure t)
-
-  (use-package weyland-yutani-theme
+  (use-package modus-themes
     :ensure t)
 #+END_SRC
 Load theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'weyland-yutani t)
+  ;; (load-theme 'weyland-yutani t)
+  (load-theme 'modus-vivendi t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
@@ -252,10 +250,10 @@ Make line number portion of buffer use screen realistate conservatively.
 #+END_SRC
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
-  (set-face-attribute 'variable-pitch nil :font "Roboto" :height 140 :weight 'normal :width 'normal)
+  (set-face-attribute 'default nil :font "Inconsolata" :height 120 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 120 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 120 :weight 'normal :width 'normal)
+  (set-face-attribute 'variable-pitch nil :font "Inconsolata" :height 120 :weight 'normal :width 'normal)
 #+END_SRC
 * avy
 Go to a specific char in a buffer. Useful for jumping around to awkward places in a file. I just bound
@@ -318,13 +316,12 @@ Package that makes emacs a lsp client.
 ** lsp-ui
 High level UI stuff for lsp-mode
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package lsp-ui
-  ;;   :ensure t
-  ;;   :commands lsp-ui-mode
-  ;;   :config
-  ;;   (setq lsp-ui-doc-enable t)
-  ;;   (setq lsp-ui-doc-show-with-cursor t)
-  ;;   (setq lsp-ui-doc-delay 0.1))
+  (use-package lsp-ui
+    :ensure t
+    :hook
+    (lsp-mode . lsp-ui-mode)
+    :custom
+    (lsp-ui-doc-position 'bottom))
 #+END_SRC
 ** lsp-ivy
 Ivy integration for lsp-mode.
@@ -335,11 +332,32 @@ Ivy integration for lsp-mode.
 #+END_SRC
 * company
 Auto completion framework for programming, currently enabled globally.
+** company-mode
+The mode itself, plus configuration.
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package company
-  ;;   :ensure t
-  ;;   :init
-  ;;   (add-hook 'after-init-hook 'global-company-mode))
+  (use-package company
+    :ensure t
+    :after lsp-mode
+    :hook
+    (lsp-mode . company-mode)
+    :bind
+    (:map company-active-map
+	  ("<tab>" . company-complete-selection))
+    (:map lsp-mode-map
+	  ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 2)
+    (company-idle-delay 0.0)
+    :init
+    (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC   
+** company-box
+Aesthetic improvement to company mode completions.
+#+BEGIN_SRC emacs-lisp
+  (use-package company-box
+    :ensure t
+    :hook
+    (company-mode . company-box-mode))
 #+END_SRC
 * flycheck
 Linter for various programming languages.
@@ -356,20 +374,20 @@ Pretty modeline (like powerline for vim).
     :ensure t
     :config
     ;; faces
-    (defface t-line-blue '((t (:foreground "#000000" :background "#94a5d0"))) "")
-    (defface t-line-green '((t (:foreground "#000000" :background "#7ABE5B"))) "")  
+    (defface t-line-color1 '((t (:foreground "#FFFFFF" :background "#125458"))) "")
+    (defface t-line-color2 '((t (:foreground "#000000" :background "#b6a0ff"))) "")  
 
     (setq telephone-line-faces
-	 '((blue . (t-line-blue . t-line-blue))
-	   (green . (t-line-green . t-line-green))
+	 '((blue . (t-line-color1 . t-line-color1))
+	   (green . (t-line-color2 . t-line-color2))
 	   (accent . (telephone-line-accent-active . telephone-line-accent-inactive))
 	   (nil . (mode-line . mode-line-inactive))))
 
     ;; separators
-    (setq telephone-line-primary-left-separator 'telephone-line-tan-left
-	 telephone-line-secondary-left-separator 'telephone-line-tan-hollow-left
-	 telephone-line-primary-right-separator 'telephone-line-tan-right
-	 telephone-line-secondary-right-separator 'telephone-line-tan-hollow-right)
+    (setq telephone-line-primary-left-separator 'telephone-line-identity-left
+	 telephone-line-secondary-left-separator 'telephone-line-identity-hollow-left
+	 telephone-line-primary-right-separator 'telephone-line-identity-right
+	 telephone-line-secondary-right-separator 'telephone-line-identity-hollow-right)
 
     ;; segments
     (setq telephone-line-lhs
@@ -383,7 +401,7 @@ Pretty modeline (like powerline for vim).
 	     (blue   . (telephone-line-minor-mode-segment))))
 
     ;; random settings
-    (setq telephone-line-height 27)
+    (setq telephone-line-height 23)
     (telephone-line-mode 1))
 #+END_SRC
 * which-key
@@ -665,6 +683,7 @@ Language specific packages, modes, and configurations
 
   ;; run rustfmt when buffer is saved
   (setq rust-format-on-save t)
+  (setq lsp-rust-server 'rust-analyzer)
 #+END_SRC
 ** scala
 #+BEGIN_SRC emacs-lisp
