@@ -250,10 +250,10 @@ Make line number portion of buffer use screen realistate conservatively.
 #+END_SRC
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Inconsolata" :height 120 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 120 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 120 :weight 'normal :width 'normal)
-  (set-face-attribute 'variable-pitch nil :font "Inconsolata" :height 120 :weight 'normal :width 'normal)
+  (set-face-attribute 'default nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'variable-pitch nil :font "Roboto" :height 140 :weight 'normal :width 'normal)
 #+END_SRC
 * avy
 Go to a specific char in a buffer. Useful for jumping around to awkward places in a file. I just bound
@@ -321,7 +321,7 @@ High level UI stuff for lsp-mode
     :hook
     (lsp-mode . lsp-ui-mode)
     :custom
-    (lsp-ui-doc-position 'bottom))
+    (lsp-ui-doc-position 'top))
 #+END_SRC
 ** lsp-ivy
 Ivy integration for lsp-mode.
@@ -359,13 +359,135 @@ Aesthetic improvement to company mode completions.
     :hook
     (company-mode . company-box-mode))
 #+END_SRC
-* flycheck
-Linter for various programming languages.
+* language specific
+Language specific packages, modes, and configurations
+** elisp
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package flycheck
-  ;;   :ensure t
-  ;;   :config
-  ;;   (add-hook 'prog-mode-hook (lambda () (flycheck-mode 1))))
+  ;; enable company mode in elisp buffers
+  (add-hook 'emacs-lisp-mode-hook
+	    (lambda () (company-mode)))
+#+END_SRC
+** go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :ensure t
+    :mode "\\.go\\'"
+    :hook
+    (go-mode . lsp-deferred))
+
+  ;; format buffer using gofmt on buffer save
+  (add-hook 'go-mode-hook
+	    (lambda () (add-hook 'before-save-hook 'gofmt-before-save)))
+
+  ;; Function that adds hooks for lsp for go-mode
+  (defun lsp-go-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+  (add-hook 'go-mode-hook #'lsp-go-save-hooks)
+#+END_SRC
+** python
+#+BEGIN_SRC emacs-lisp
+  (use-package python-mode
+    :ensure t
+    :mode "\\.py\\'"
+    :hook
+    (python-mode . lsp-deferred))
+
+  ;; lsp for pyright
+  (use-package lsp-pyright
+    :ensure t
+    :hook
+    (python-mode . (lambda ()
+		     (require 'lsp-pyright)
+		     (lsp-deferred))))
+
+  ;;(setq flycheck-python-flake8-executable "python3")
+  ;;(setq flycheck-python-pycompile-executable "python3")
+  ;;(setq flycheck-python-pylint-executable "python3")
+#+END_SRC
+** javascript
+#+BEGIN_SRC emacs-lisp
+  (setq js-indent-level 2)
+#+END_SRC   
+** lua
+#+BEGIN_SRC emacs-lisp
+  (use-package lua-mode
+    :ensure t
+    :mode "\\.lua\\'"
+    :hook
+    (lua-mode . lsp-deferred))
+#+END_SRC
+** rust
+#+BEGIN_SRC emacs-lisp
+  (use-package rust-mode
+    :ensure t
+    :mode "\\.rs\\'"
+    :hook
+    (rust-mode . lsp-deferred))
+
+  (use-package cargo
+    :ensure t)
+
+  ;; run rustfmt when buffer is saved
+  (setq rust-format-on-save t)
+  (setq lsp-rust-server 'rust-analyzer)
+#+END_SRC
+** scala
+#+BEGIN_SRC emacs-lisp
+  (use-package scala-mode
+    :ensure t)
+#+END_SRC
+** crystal
+#+BEGIN_SRC emacs-lisp
+  (use-package crystal-mode
+    :ensure t)
+#+END_SRC
+** graphql
+#+BEGIN_SRC emacs-lisp
+  (use-package graphql-mode
+    :ensure t)
+#+END_SRC
+** rego (OPA)
+#+BEGIN_SRC emacs-lisp
+  (use-package rego-mode
+    :ensure t)
+#+END_SRC
+** k8s-mode
+Major mode for editing kubernetes config file
+#+BEGIN_SRC emacs-lisp
+  (use-package k8s-mode
+    :ensure t)
+#+END_SRC
+** yaml
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :ensure t)
+#+END_SRC
+** markdown
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :ensure t)
+#+END_SRC
+** docker
+#+BEGIN_SRC emacs-lisp
+  (use-package dockerfile-mode
+    :ensure t)
+#+END_SRC
+** json
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode
+    :ensure t)
+#+END_SRC
+** csv
+#+BEGIN_SRC emacs-lisp
+  (use-package csv-mode
+    :ensure t)
+#+END_SRC
+** toml
+#+BEGIN_SRC emacs-lisp
+  (use-package toml-mode
+    :ensure t)
 #+END_SRC
 * modeline (telephone-line)
 Pretty modeline (like powerline for vim).
@@ -374,8 +496,8 @@ Pretty modeline (like powerline for vim).
     :ensure t
     :config
     ;; faces
-    (defface t-line-color1 '((t (:foreground "#FFFFFF" :background "#125458"))) "")
-    (defface t-line-color2 '((t (:foreground "#000000" :background "#b6a0ff"))) "")  
+    (defface t-line-color1 '((t (:foreground "#000000" :background "#b6a0ff"))) "")
+    (defface t-line-color2 '((t (:foreground "#FFFFFF" :background "#125458"))) "")
 
     (setq telephone-line-faces
 	 '((blue . (t-line-color1 . t-line-color1))
@@ -625,122 +747,6 @@ Edit files as super user.
     :ensure t
     :bind ("C-c s" . sudo-edit))
 #+END_SRC
-* language specific
-Language specific packages, modes, and configurations
-** go
-#+BEGIN_SRC emacs-lisp
-  (use-package go-mode
-    :ensure t
-    :mode "\\.go\\'"
-    :hook
-    (go-mode . lsp-deferred))
-
-  ;; format buffer using gofmt on buffer save
-  (add-hook 'go-mode-hook
-	    (lambda () (add-hook 'before-save-hook 'gofmt-before-save)))
-
-  ;; Function that adds hooks for lsp for go-mode
-  (defun lsp-go-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-  (add-hook 'go-mode-hook #'lsp-go-save-hooks)
-#+END_SRC
-** python
-#+BEGIN_SRC emacs-lisp
-  (use-package python-mode
-    :ensure t
-    :mode "\\.py\\'"
-    :hook
-    (python-mode . lsp-deferred))
-
-  ;;(setq flycheck-python-flake8-executable "python3")
-  ;;(setq flycheck-python-pycompile-executable "python3")
-  ;;(setq flycheck-python-pylint-executable "python3")
-#+END_SRC
-** javascript
-#+BEGIN_SRC emacs-lisp
-  (setq js-indent-level 2)
-#+END_SRC   
-** lua
-#+BEGIN_SRC emacs-lisp
-  (use-package lua-mode
-    :ensure t
-    :mode "\\.lua\\'"
-    :hook
-    (lua-mode . lsp-deferred))
-#+END_SRC
-** rust
-#+BEGIN_SRC emacs-lisp
-  (use-package rust-mode
-    :ensure t
-    :mode "\\.rs\\'"
-    :hook
-    (rust-mode . lsp-deferred))
-
-  (use-package cargo
-    :ensure t)
-
-  ;; run rustfmt when buffer is saved
-  (setq rust-format-on-save t)
-  (setq lsp-rust-server 'rust-analyzer)
-#+END_SRC
-** scala
-#+BEGIN_SRC emacs-lisp
-  (use-package scala-mode
-    :ensure t)
-#+END_SRC
-** crystal
-#+BEGIN_SRC emacs-lisp
-  (use-package crystal-mode
-    :ensure t)
-#+END_SRC
-** graphql
-#+BEGIN_SRC emacs-lisp
-  (use-package graphql-mode
-    :ensure t)
-#+END_SRC
-** rego (OPA)
-#+BEGIN_SRC emacs-lisp
-  (use-package rego-mode
-    :ensure t)
-#+END_SRC
-** k8s-mode
-Major mode for editing kubernetes config file
-#+BEGIN_SRC emacs-lisp
-  (use-package k8s-mode
-    :ensure t)
-#+END_SRC
-** yaml
-#+BEGIN_SRC emacs-lisp
-  (use-package yaml-mode
-    :ensure t)
-#+END_SRC
-** markdown
-#+BEGIN_SRC emacs-lisp
-  (use-package markdown-mode
-    :ensure t)
-#+END_SRC
-** docker
-#+BEGIN_SRC emacs-lisp
-  (use-package dockerfile-mode
-    :ensure t)
-#+END_SRC
-** json
-#+BEGIN_SRC emacs-lisp
-  (use-package json-mode
-    :ensure t)
-#+END_SRC
-** csv
-#+BEGIN_SRC emacs-lisp
-  (use-package csv-mode
-    :ensure t)
-#+END_SRC
-** toml
-#+BEGIN_SRC emacs-lisp
-  (use-package toml-mode
-    :ensure t)
-#+END_SRC
 * buffers
 Enable ibuffer (why isn't this the default anyway?).
 #+BEGIN_SRC emacs-lisp
@@ -849,5 +855,5 @@ Random keybindings that call built in emacs functions
   (global-set-key (kbd "C-c P") 'package-list-packages)
 
   ;; customize group
-  (global-set-key (kbd "C-c c") 'customize-group)
+  ;;(global-set-key (kbd "C-c c") 'customize-group)
 #+END_SRC
