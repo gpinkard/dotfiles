@@ -144,7 +144,7 @@ Complete braces, quotes, parens, so on and so forth.
 ** subword
 Move by word (capital letter) in camel case.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook (lambda () (subword-mode 1)))
+  ;;(add-hook 'prog-mode-hook (lambda () (subword-mode 1)))
 #+END_SRC
 ** edit-indirect
 Edit regions (like markdown code blocks) in separate buffers in their own
@@ -173,27 +173,6 @@ Format rust buffer on save.
 Set default coding system to UTF-8
 #+BEGIN_SRC emacs-lisp
   (set-default-coding-systems 'utf-8)
-#+END_SRC
-* Emacs X Window Manager (exwm)
-Make emacs act as a window manager. Launch X windows from inside emacs, put them in workspaces, etc. etc.
-Great stuff. Now you never have to leave the one true editor again!
-#+BEGIN_SRC emacs-lisp
-  ;;(use-package exwm
-    ;;:ensure t
-    ;;:config
-    ;;(require 'exwm-config)
-    ;; make emacs fullscreen if using exwm 
-    ;;(custom-set-variables
-    ;; '(initial-frame-alist (quote ((fullscreen . maximized)))))
-    ;;(exwm-config-default))
-#+END_SRC
-* dmenu
-dmenu for emacs, use it to launch programs (usually graphical ones) for exwm.
-#+BEGIN_SRC emacs-lisp
-  (use-package dmenu
-    :ensure t
-    :bind
-    ("s-SPC" . 'dmenu))
 #+END_SRC
 * ivy, swiper, and counsel
 ** ivy
@@ -236,12 +215,17 @@ Replace emacs commands w/ improved versions that work well with ivy, i.e. find-f
 ** color theme
 Color scheme.
 #+BEGIN_SRC emacs-lisp
-  (use-package srcery-theme
-    :ensure t)
+  (use-package kaolin-themes
+    :ensure t
+    :config
+    (setq kaolin-themes-bold t)
+    (setq kaolin-themes-comments-style 'alt)
+    (setq kaolin-themes-italic t)
+    (setq kaolin-themes-italic-comments t))
 #+END_SRC
 Load theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'srcery t)
+  (load-theme 'kaolin-ocean t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
@@ -315,7 +299,8 @@ Package that makes emacs a lsp client.
     (go-mode . lsp)
     (python-mode . lsp)
     (rust-mode . lsp)
-    (javascript-mode lsp)
+    (javascript-mode . lsp)
+    (elixir-mode . lsp)
     :config
     (setq lsp-enable-which-key-integration t)
     (setq lsp-enable-snippet nil))
@@ -329,15 +314,16 @@ High level UI stuff for lsp-mode
     (lsp-mode . lsp-ui-mode)
     :config
     ;; disable lsp-ui-sideline
-    (setq lsp-ui-sideline-enable t)
+    (setq lsp-ui-sideline-enable nil)
     ;; lsp-ui-doc stuff
     (setq lsp-ui-doc-enable t)
     (setq lsp-ui-doc-position 'at-point)
-    (setq lsp-ui-doc-delay 1.5)
+    (setq lsp-ui-doc-delay 0.0)
     (setq lsp-ui-doc-show-with-cursor t)
     (setq lsp-ui-doc-show-with-mouse t)
-    (setq lsp-ui-doc-header t)
-    (setq lsp-ui-doc-use-webkit nil)
+    (setq lsp-ui-doc-header nil)
+    ;; (setq lsp-ui-doc-border "gray30")
+    ;; (setq lsp-ui-doc-use-webkit t)
     (setq lsp-ui-doc-use-childframe t)
     (setq lsp-ui-doc-include-signature t))
 #+END_SRC
@@ -357,7 +343,7 @@ The mode itself, plus configuration.
     (:map lsp-mode-map
 	  ("<tab>" . company-indent-or-complete-common))
     :custom
-    (company-minimum-prefix-length 2)
+    (company-minimum-prefix-length 3)
     (company-idle-delay 0.0)
     :init
     (add-hook 'after-init-hook 'global-company-mode))
@@ -444,6 +430,13 @@ Language specific packages, modes, and configurations
   (use-package crystal-mode
     :ensure t)
 #+END_SRC
+** elixir
+#+BEGIN_SRC emacs-lisp
+  (use-package elixir-mode
+    :ensure t)
+    ;; :config
+    ;; (setq lsp-elixir-local-server-command "/Users/gabrielpinkard/.local/share/elixir-ls/release/language_server.sh"))
+#+END_SRC   
 ** graphql
 #+BEGIN_SRC emacs-lisp
   (use-package graphql-mode
@@ -497,9 +490,9 @@ Pretty modeline (like powerline for vim).
     :ensure t
     :config
     ;; faces
-    (defface t-line-color1 '((t (:foreground "#FCE8C3" :background "#005f5f"))) "")
-    (defface t-line-color2 '((t (:foreground "#262626" :background "#98BC37"))) "")
-  
+    (defface t-line-color1 '((t (:foreground "#000000" :background "orange1"))) "")
+    (defface t-line-color2 '((t (:foreground "#000000" :background "cyan3"))) "")
+
     (setq telephone-line-faces
 	 '((blue . (t-line-color1 . t-line-color1))
 	   (green . (t-line-color2 . t-line-color2))
@@ -534,7 +527,11 @@ in a mini buffer at the bottom of the screen. Super useful for learning new emac
   (use-package which-key
     :ensure t
     :init
-    (which-key-mode))
+    (which-key-mode)
+    :config
+    (setq which-key-compute-remaps t)
+    (setq which-key-show-docstrings t)
+    (setq which-key-idle-delay 0.5))
 #+END_SRC
 * dashboard
 Homescreen that is the first buffer I see when I start an emacs session. Holds recent
@@ -585,6 +582,25 @@ Magit is a very powerful git porcelain.
     :bind
     ("C-c k" . kubernetes-overview))
 #+END_SRC
+* projectile
+Projectile is a project management and navigation tool. Really useful when you are
+working on multiple projects and you need to find files quickly.
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :config
+    (projectile-mode 0)
+    (setq projectile-project-search-path '("~/dotfiles"))
+    :bind
+    ("C-c p" . 'projectile-command-map))
+#+END_SRC
+Ivy (counsel) integration with projectile.
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel-projectile
+    :ensure t
+    :config
+    (counsel-projectile-mode 1))
+#+END_SRC
 * ELFEED
 Feed reader, better than GNUS or other alternatives that ship with vanilla emacs. No arcane
 knowlege required, sane defaults.
@@ -614,25 +630,6 @@ knowlege required, sane defaults.
 	    ("https://www.archlinux.org/feeds/news/" linux arch)
 	    ("https://www.linuxfoundation.org/feed/" linux))))
 #+END_SRC
-* projectile
-Projectile is a project management and navigation tool. Really useful when you are
-working on multiple projects and you need to find files quickly.
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :ensure t
-    :config
-    (projectile-mode 0)
-    (setq projectile-project-search-path ' ("~/Jupiter" "~/go/src/jupiterintel.com/" "~/dotfiles"))
-    :bind
-    ("C-c p" . 'projectile-command-map))
-#+END_SRC
-Ivy (counsel) integration with projectile.
-#+BEGIN_SRC emacs-lisp
-  (use-package counsel-projectile
-    :ensure t
-    :config
-    (counsel-projectile-mode 1))
-#+END_SRC
 * terminal
 ** vterm
 Vterm is an alternative to ansi-term or term, written using a C lib called
@@ -646,14 +643,14 @@ terminal outputs do not lag/act strange.
 
   ;; colors
   ;;(set-face-attribute 'vterm-color-default nil :foreground "#d1b897" :background "#062329")
-  (set-face-attribute 'vterm-color-black nil :foreground "#FFFFFF" :background "#444444")
-  (set-face-attribute 'vterm-color-red nil :foreground "#ff4a6f" :background "#444444")
-  (set-face-attribute 'vterm-color-green nil :foreground "#60cfa2" :background "#444444")
-  (set-face-attribute 'vterm-color-yellow nil :foreground "#ffd03e" :background "#444444")
-  (set-face-attribute 'vterm-color-blue nil :foreground "#2fafff" :background "#444444")
-  (set-face-attribute 'vterm-color-magenta nil :foreground "#c488ff" :background "#444444")
-  (set-face-attribute 'vterm-color-cyan nil :foreground "#00d3d0" :background "#444444")
-  (set-face-attribute 'vterm-color-white nil :foreground "#C3D0DF" :background "#444444")
+  (set-face-attribute 'vterm-color-black nil :foreground "azure4" :background "#ffffff")
+  (set-face-attribute 'vterm-color-red nil :foreground "red3" :background "#ffffff")
+  (set-face-attribute 'vterm-color-green nil :foreground "green3" :background "#ffffff")
+  (set-face-attribute 'vterm-color-yellow nil :foreground "yellow3" :background "#ffffff")
+  (set-face-attribute 'vterm-color-blue nil :foreground "DodgerBlue1" :background "#ffffff")
+  (set-face-attribute 'vterm-color-magenta nil :foreground "magenta3" :background "#ffffff")
+  (set-face-attribute 'vterm-color-cyan nil :foreground "cyan3" :background "#ffffff")
+  (set-face-attribute 'vterm-color-white nil :foreground "azure3" :background "#ffffff")
 #+END_SRC
 ** ansi-term
 Now I use vterm, which uses a C library instead of elisp. This makes it much
@@ -764,7 +761,7 @@ No annoying confirmation messages when killing a buffer in ibuffer
 ** org configurations
 Make editing source code in src blocks edit in current window.
 #+BEGIN_SRC emacs-lisp
-  ;;(setq org-src-window-setup 'current-window)
+  (setq org-src-window-setup 'current-window)
 #+END_SRC
 Custom snipit <el + TAB will create an elisp source block.
 #+BEGIN_SRC emacs-lisp
