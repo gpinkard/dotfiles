@@ -6,6 +6,11 @@ Package archives to use.
 #+BEGIN_SRC emacs-lisp
   (require 'package)
 
+  ;; f macos
+  (when (and (equal emacs-version "27.2")
+	     (eql system-type 'darwin))
+    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 			   ("melpa-stable" . "https://stable.melpa.org/packages/")
 			   ("org" . "https://orgmode.org/elpa/")
@@ -101,8 +106,8 @@ Alias 'yes' and 'no' to 'y' and 'n' for all emacs confirm flows.
 #+END_SRC
 ** clock
 #+BEGIN_SRC emacs-lisp
-  (setq display-time-24hr-format t)
-  (display-time-mode t)
+  ;; (setq display-time-24hr-format t)
+  ;; (display-time-mode t)
 #+END_SRC
 * icon stuff
 ** all-the-icons
@@ -226,6 +231,7 @@ Color scheme.
 Load theme
 #+BEGIN_SRC emacs-lisp
   (load-theme 'kaolin-ocean t)
+  ;;(load-theme 'kaolin-valley-light t)
 #+END_SRC
 Make line number portion of buffer use screen realistate conservatively.
 #+BEGIN_SRC emacs-lisp
@@ -233,9 +239,9 @@ Make line number portion of buffer use screen realistate conservatively.
 #+END_SRC
 ** faces
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 160 :weight 'normal :width 'normal)
+  (set-face-attribute 'default nil :font "Inconsolata" :height 155 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 155 :weight 'normal :width 'normal)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 155 :weight 'normal :width 'normal)
   (set-face-attribute 'variable-pitch nil :font "Roboto" :height 150 :weight 'normal :width 'normal)
 #+END_SRC
 * avy
@@ -299,6 +305,9 @@ Package that makes emacs a lsp client.
     (go-mode . lsp)
     (python-mode . lsp)
     (rust-mode . lsp)
+    (c-mode . lsp)
+    (clojure-mode . lsp)
+    (scala-mode . lsp)
     (javascript-mode . lsp)
     (elixir-mode . lsp)
     :config
@@ -314,15 +323,15 @@ High level UI stuff for lsp-mode
     (lsp-mode . lsp-ui-mode)
     :config
     ;; disable lsp-ui-sideline
-    (setq lsp-ui-sideline-enable nil)
+    (setq lsp-ui-sideline-enable t)
     ;; lsp-ui-doc stuff
     (setq lsp-ui-doc-enable t)
     (setq lsp-ui-doc-position 'at-point)
-    (setq lsp-ui-doc-delay 0.0)
+    (setq lsp-ui-doc-delay 1.0)
     (setq lsp-ui-doc-show-with-cursor t)
     (setq lsp-ui-doc-show-with-mouse t)
     (setq lsp-ui-doc-header nil)
-    ;; (setq lsp-ui-doc-border "gray30")
+    ;; (setq lsp-ui-doc-border "red")
     ;; (setq lsp-ui-doc-use-webkit t)
     (setq lsp-ui-doc-use-childframe t)
     (setq lsp-ui-doc-include-signature t))
@@ -420,10 +429,22 @@ Language specific packages, modes, and configurations
   (setq rust-format-on-save t)
   (setq lsp-rust-server 'rust-analyzer)
 #+END_SRC
+** clojure
+#+BEGIN_SRC emacs-lisp
+  (use-package clojure-mode
+    :ensure t)
+#+END_SRC
 ** scala
 #+BEGIN_SRC emacs-lisp
   (use-package scala-mode
     :ensure t)
+
+  ;; lsp server for scala
+  (use-package lsp-metals
+    :ensure t)
+    ;; :config
+    ;; (lsp-metals-server-args
+    ;;  '("-J-Dmetals.allow-multiline-string-formatting=off")))
 #+END_SRC
 ** crystal
 #+BEGIN_SRC emacs-lisp
@@ -433,9 +454,9 @@ Language specific packages, modes, and configurations
 ** elixir
 #+BEGIN_SRC emacs-lisp
   (use-package elixir-mode
-    :ensure t)
-    ;; :config
-    ;; (setq lsp-elixir-local-server-command "/Users/gabrielpinkard/.local/share/elixir-ls/release/language_server.sh"))
+    :ensure t
+    :config
+    (setq lsp-elixir-local-server-command "/Users/gabrielpinkard/.local/share/elixir-ls/release/language_server.sh"))
 #+END_SRC   
 ** graphql
 #+BEGIN_SRC emacs-lisp
@@ -482,6 +503,10 @@ Major mode for editing kubernetes config file
 #+BEGIN_SRC emacs-lisp
   (use-package toml-mode
     :ensure t)
+#+END_SRC
+** c/c++
+#+BEGIN_SRC emacs-lisp
+  ;; (setq lsp-langd-binary-path "/usr/bin/clangd")
 #+END_SRC
 * modeline (telephone-line)
 Pretty modeline (like powerline for vim).
@@ -542,9 +567,9 @@ files, projects, bookmarks, etc. etc.
     :config
     (dashboard-setup-startup-hook)
     (setq dashboard-banner-logo-title "Welcome To Gabe's Editor Macros!")
-    (setq dashboard-items '((recents . 5)
-			    (projects . 5)
-			    (bookmarks . 5)))
+    (setq dashboard-items '((projects . 5)
+			    (recents . 5)
+			    (agenda . 5)))
     (setq dashboard-set-navigator t)
     (setq dashboard-set-heading-icons t)
     (setq dashboard-set-file-icons t)
@@ -573,7 +598,9 @@ Magit is a very powerful git porcelain.
   (use-package magit
     :ensure t
     :bind
-    ("C-c g" . magit-status))
+    ("C-c g" . magit-status)
+    :config
+    (setq magit-auto-revert-mode t))
 #+END_SRC
 * kubernetes
 #+BEGIN_SRC emacs-lisp
@@ -590,7 +617,7 @@ working on multiple projects and you need to find files quickly.
     :ensure t
     :config
     (projectile-mode 0)
-    (setq projectile-project-search-path '("~/dotfiles"))
+    (setq projectile-project-search-path '("~/Jupiter" "~/go/src/jupiterintel.com/" "~/dotfiles"))
     :bind
     ("C-c p" . 'projectile-command-map))
 #+END_SRC
@@ -645,8 +672,8 @@ terminal outputs do not lag/act strange.
   ;;(set-face-attribute 'vterm-color-default nil :foreground "#d1b897" :background "#062329")
   (set-face-attribute 'vterm-color-black nil :foreground "azure4" :background "#ffffff")
   (set-face-attribute 'vterm-color-red nil :foreground "red3" :background "#ffffff")
-  (set-face-attribute 'vterm-color-green nil :foreground "green3" :background "#ffffff")
-  (set-face-attribute 'vterm-color-yellow nil :foreground "yellow3" :background "#ffffff")
+  (set-face-attribute 'vterm-color-green nil :foreground "green4" :background "#ffffff")
+  (set-face-attribute 'vterm-color-yellow nil :foreground "orange1" :background "#ffffff")
   (set-face-attribute 'vterm-color-blue nil :foreground "DodgerBlue1" :background "#ffffff")
   (set-face-attribute 'vterm-color-magenta nil :foreground "magenta3" :background "#ffffff")
   (set-face-attribute 'vterm-color-cyan nil :foreground "cyan3" :background "#ffffff")
