@@ -79,15 +79,13 @@ Alias 'yes' and 'no' to 'y' and 'n' for all emacs confirm flows
 ** faces
 Fonts to use.
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :font "Inconsolata" :height 155 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 155 :weight 'normal :width 'normal)
-  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 155 :weight 'normal :width 'normal)
-  (set-face-attribute 'variable-pitch nil :font "Roboto" :height 150 :weight 'normal :width 'normal)
-#+END_SRC
-** color theme
-Set color theme.
-#+BEGIN_SRC emacs-lisp
-  (load-theme 'tao-yang t)
+  (set-face-attribute 'default nil :font "Inconsolata" :height 120);; :weight 'regular :width 'Regular)
+  (set-face-attribute 'fixed-pitch nil :font "Inconsolata" :height 120);; :weight 'regular :width 'Regular)
+  (set-face-attribute 'fixed-pitch-serif nil :font "Inconsolata" :height 120);; 'regular :width 'Regular)
+  (set-face-attribute 'variable-pitch nil :font "Inconsolata" :height 120);; :weight 'regular :width 'Regular)
+
+  (custom-set-faces
+   '(mode-line ((t (:background "#FFFFFF" :foreground "#201D0E" :box (:line-width 2 :color "black" :style released-button) :height 1.0)))))
 #+END_SRC
 ** macos specific
 I have to use a Mac for work currently. While this configuration targets Linux, I still want my emacs 
@@ -129,6 +127,16 @@ Set C/C++ indentation level.
 Set Java indentation level.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
+#+END_SRC
+* modeline
+Configuration for the emacs modeline.
+** buffer position stuff
+#+BEGIN_SRC emacs-lisp
+  ;; display column number in modeline
+  (setq column-number-mode t)
+
+  ;; display size indication
+  (setq size-indication-mode t)
 #+END_SRC
 * ansi-term
 Configuration for ansi-term.
@@ -231,9 +239,35 @@ files, projects, bookmarks, etc. etc.
 ** tao-theme
 Color theme.
 #+BEGIN_SRC emacs-lisp
+  (defun custom-tao-theme-scale ()
+    '(0 0 0 0 0 0 0 0 5 9 14 23 37 60 97 97 158 158 195 218 232 241 246 250 252 253 254 254 255 255 255 255))
+
+
   (use-package tao-theme
+    :ensure t
+    :config
+    (setq tao-theme-scale-fn 'custom-tao-theme-scale))
+
+  ;; Set color theme.
+  (load-theme 'tao-yang t)
+#+END_SRC
+** language specific
+Language specific modes.
+*** go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
     :ensure t)
 #+END_SRC
+*** yaml
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :ensure t)
+#+END_SRC
+*** markdown
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :ensure t)
+#+END_SRC    
 * my functions
 ** split and follow
 Functions for following a window after a split.
