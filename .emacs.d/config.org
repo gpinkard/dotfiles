@@ -98,6 +98,11 @@ Color theme (tao-theme).
 ** faces
 Fonts to use.
 #+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'dired-directory nil
+		      :foreground "#4E4B3D"
+		      :slant 'italic
+		      :weight 'ultra-bold)
+
   (set-face-attribute 'default nil
 		      :font "Roboto Mono"
 		      :height 135
@@ -128,20 +133,10 @@ Fonts to use.
 		      :height 1.0
 		      :box '(:line-width 2 :color "#000000" :style released-button))
 
-  ;; (set-face-attribute 'mode-line-inactive nil
-  ;; 		    :background "#FFFFFF"
-  ;; 		    :foreground "#201D0E"
-  ;; 		    :height 1.0
-  ;; 		    :box '(:line-width 2 :color "#000000" :style released-button))
-
-  (set-face-attribute 'dired-directory nil
+  (set-face-attribute 'mode-line-inactive nil
+		      :background "#D5D2C8"
 		      :foreground "#4E4B3D"
-		      :slant 'italic
-		      :weight 'ultra-bold)
-
-  ;; (custom-set-faces
-  ;;  '(mode-line ((t (:background "#FFFFFF" :foreground "#201D0E" :box (:line-width 2 :color "black" :style released-button) :height 1.0))))
-  ;;  '(dired-directory ((t (:foreground "#4E4B3D" :slant italic :weight ultra-bold)))))
+		      :height 1.0)
 #+END_SRC
 ** macos specific
 I have to use a Mac for work currently. While this configuration targets Linux, I still want my emacs 
@@ -345,8 +340,10 @@ Language server protocol for emacs
     (setq lsp-keymap-prefix "C-c l")
     :hook
     (go-mode . lsp-deferred)
+    (python-mode . lsp-deferred)
     :config
     (setq lsp-enable-which-key-integration t)
+    (setq lsp-diagnostic-provider :auto)
     (setq lsp-completion-provider :capf))
 #+END_SRC
 ** lsp-ui
@@ -360,6 +357,11 @@ Language server protocol for emacs
     (setq lsp-ui-doc-show-with-cursor t)
     (setq lsp-ui-doc-show-with-mouse t)
     (setq lsp-ui-doc-use-childframe t))
+
+  ;; custom faces for lsp-ui
+  (set-face-attribute 'lsp-face-highlight-read nil
+		      :background "#b3b3b3"
+		      :foreground "#201D0E")
 #+END_SRC
 ** lsp-ivy
 #+BEGIN_SRC emacs-lisp
@@ -383,6 +385,16 @@ IDE like autocompletions.
     (setq company-idle-delay 0.1)
     (setq company-minimum-prefix-length 1))
 #+END_SRC
+** flycheck
+Syntax checking package. Alternative is flymake, which is built into emacs, but I prefer
+this package as it has wider language support, supports async checking for all languages,
+automatically shecks syntax, etc.
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :hook
+    (prog-mode . flycheck-mode))
+#+END_SRC
 ** projectile
 Package for switching between projects and finding files.
 #+BEGIN_SRC emacs-lisp
@@ -403,14 +415,12 @@ files, projects, bookmarks, etc. etc.
     :ensure t
     :config
     (dashboard-setup-startup-hook)
-    (setq dashboard-banner-logo-title "=== Welcome To Gabe's Editor Macros! ===")
+    (setq dashboard-banner-logo-title "=== Gabe's Editor Macros ===")
     ;; (setq dashboard-banner-logo-title "If one does not know to which port one is sailing, no wind is favorable.")
     (setq dashboard-items '((projects . 5)
 			    (recents . 5)
 			    (agenda . 5)))
     (setq dashboard-set-navigator t)
-    ;;(setq dashboard-set-heading-icons t)
-    ;;(setq dashboard-set-file-icons t)
     (setq dashboard-startup-banner "~/.emacs.d/assets/lain.png"))
 #+END_SRC
 ** elfeed
@@ -460,6 +470,7 @@ Language specific modes.
   ;; 		    (cider-mode))))
 #+END_SRC
 *** python
+To install lsp server for python run: `pip install *'python-lsp-server[all]'*.
 #+BEGIN_SRC emacs-lisp
   (use-package python-mode
     :ensure t
