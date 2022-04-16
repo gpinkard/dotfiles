@@ -90,53 +90,11 @@ Color theme (tao-theme).
   (use-package tao-theme
     :ensure t
     :config
-    (setq tao-theme-scale-fn 'custom-tao-theme-scale))
+    ;; (setq tao-theme-scale-fn 'custom-tao-theme-scale)
+    (setq tao-theme-use-sepia nil))
 
   ;; Set color theme.
-  (load-theme 'tao-yang t)
-#+END_SRC
-** faces
-Fonts to use.
-#+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'dired-directory nil
-		      :foreground "#4E4B3D"
-		      :slant 'italic
-		      :weight 'ultra-bold)
-
-  (set-face-attribute 'default nil
-		      :font "Roboto Mono"
-		      :height 135
-		      :weight 'regular
-		      :width 'regular)
-
-  (set-face-attribute 'fixed-pitch nil
-		      :font "Roboto Mono"
-		      :height 135
-		      :weight 'regular
-		      :width 'regular)
-
-  (set-face-attribute 'fixed-pitch-serif nil
-		      :font "Roboto Mono"
-		      :height 135
-		      :weight 'regular
-		      :width 'regular)
-
-  (set-face-attribute 'variable-pitch nil
-		      :font "Roboto Mono"
-		      :height 135
-		      :weight 'regular
-		      :width 'regular)
-
-  (set-face-attribute 'mode-line nil
-		      :background "#FFFFFF"
-		      :foreground "#201D0E"
-		      :height 1.0
-		      :box '(:line-width 2 :color "#000000" :style released-button))
-
-  (set-face-attribute 'mode-line-inactive nil
-		      :background "#D5D2C8"
-		      :foreground "#4E4B3D"
-		      :height 1.0)
+  (load-theme 'tao-yin t)
 #+END_SRC
 ** macos specific
 I have to use a Mac for work currently. While this configuration targets Linux, I still want my emacs 
@@ -253,6 +211,8 @@ Open a terminal in current buffer (global keybinding).
 Set ibuffer as default.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
+
+  (add-hook 'ibuffer-hook (lambda () (hl-line-mode)))
 #+END_SRC
 No annoying confirmation messages when killing a buffer in ibuffer
 #+BEGIN_SRC emacs-lisp
@@ -279,20 +239,6 @@ Edit files as super user.
   (use-package sudo-edit
     :ensure t
     :bind ("C-c p s" . sudo-edit))
-#+END_SRC
-** shell-pop
-Pop open a shell in a minibuffer.
-#+BEGIN_SRC emacs-lisp
-  (use-package shell-pop
-    :ensure t
-    :config
-    (setq shell-pop-shell-type "/bin/zsh")
-    (setq shell-pop-window-height 30)
-    (setq shell-pop-shell-type
-	  '("ansi-term" "*ansi-term*"
-	    (lambda nil
-	      (ansi-term shell-pop-term-shell))))
-    :bind (("C-;" . shell-pop)))
 #+END_SRC
 ** rainbow-mode
 Package that sets background of hex color codes the the color they represent.
@@ -529,4 +475,47 @@ Open configuration file.
     (find-file "~/.emacs.d/config.org"))
 
   (global-set-key (kbd "C-c c e") 'open-config)
+#+END_SRC
+* faces
+Fonts to use.
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'default nil
+		      :font "Roboto Mono"
+		      :height 135
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'fixed-pitch nil
+		      :font "Roboto Mono"
+		      :height 135
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'fixed-pitch-serif nil
+		      :font "Roboto Mono"
+		      :height 135
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'variable-pitch nil
+		      :font "Roboto Mono"
+		      :height 135
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'mode-line nil
+		      :background "#0E0E0E"
+		      :foreground "#D5D2C8"
+		      :height 1.0
+		      :box '(:line-width 2 :color "#FFFFFF" :style released-button))
+
+  (set-face-attribute 'mode-line-inactive nil
+		      :background "#3C3C3C"
+		      :foreground "#C3C3C3"
+		      :height 1.0)
+
+  (set-face-attribute 'dired-directory nil
+		      :background "#3C3C3C"
+		      :slant 'italic
+		      :weight 'ultra-bold)
 #+END_SRC
