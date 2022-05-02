@@ -1,0 +1,278 @@
+#+STARTUP: overview
+#+TITLE: Gabe's Minimal EXWM Emacs Configuration
+#+CREATOR: Gabriel Pinkard
+* package archives
+* use-package
+Package that is a macro for auto installing and configuring packages.
+#+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  (eval-when-compile
+    (require 'use-package))
+#+END_SRC
+* ui/feel
+** tool bar
+Disable the toolbar.
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode 0)
+#+END_SRC
+** menu bar
+Disable the menubar.
+#+BEGIN_SRC emacs-lisp
+  (menu-bar-mode 0)
+#+END_SRC
+** scrolling
+Disable scrollbar.
+#+BEGIN_SRC emacs-lisp
+  (scroll-bar-mode 0)
+#+END_SRC
+Scroll line by line instead of half the buffer at a time.
+#+BEGIN_SRC emacs-lisp
+  (setq scroll-conservatively 100)
+#+END_SRC
+** cursor
+#+BEGIN_SRC emacs-lisp
+  (blink-cursor-mode -1)
+#+END_SRC
+** startup screen
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-message nil)
+#+END_SRC
+** prevent UI dialog prompts
+#+BEGIN_SRC emacs-lisp
+  (setq use-dialog-box nil)
+#+END_SRC
+* editing
+** show-paren-mode
+Show matching parens, quotes, braces, etc.
+#+BEGIN_SRC emacs-lisp
+  (show-paren-mode t)
+  (setq show-paren-delay 0)
+#+END_SRC
+** electric-pair-mode
+Complete braces, quotes, parens, etc.
+#+BEGIN_SRC emacs-lisp
+  (electric-pair-mode t)
+#+END_SRC
+** encoding
+Set default coding system to UTF-8.
+#+BEGIN_SRC emacs-lisp
+  (set-default-coding-systems 'utf-8)
+#+END_SRC
+** line numbers
+#+BEGIN_SRC emacs-lisp
+  (when (version<= "26.0.50" emacs-version)
+    (add-hook 'find-file-hook (lambda () (display-line-numbers-mode))))
+#+END_SRC
+** save-place-mode
+Have emacs remember the last place you visited in a file.
+#+BEGIN_SRC emacs-lisp
+  (save-place-mode 1)
+#+END_SRC
+** auto-revert-mode
+Automaticall refresh buffers on file changes (i.e. git checkout).
+#+BEGIN_SRC emacs-lisp
+  (global-auto-revert-mode 1)
+  (setq auto-revert-verbose nil)
+#+END_SRC
+* faces/themes
+** theme
+#+BEGIN_SRC emacs-lisp
+  (use-package tao-theme
+    :ensure t
+    :config
+    ;; (setq tao-theme-scale-fn 'custom-tao-theme-scale)
+    (setq tao-theme-use-sepia nil))
+
+  ;; Set color theme.
+  (load-theme 'tao-yin t)
+#+END_SRC
+** faces
+Fonts to use.
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'default nil
+		      :font "Roboto Mono"
+		      :height 135
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'fixed-pitch nil
+		      :font "Roboto Mono"
+		      :height 135
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'fixed-pitch-serif nil
+		      :font "Roboto Mono"
+		      :height 135
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'variable-pitch nil
+		      :font "Roboto Mono"
+		      :height 135
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'mode-line nil
+		      :background "#0E0E0E"
+		      :foreground "#D5D2C8"
+		      :height 1.0
+		      :box '(:line-width 2 :color "#FFFFFF" :style released-button))
+
+  (set-face-attribute 'mode-line-inactive nil
+		      :background "#3C3C3C"
+		      :foreground "#C3C3C3"
+		      :height 1.0)
+
+  ;; using set-face-attribute on dired-directory fails for some reason,
+  ;; use custom-set-faces instead
+
+  (custom-set-faces
+   '(dired-directory ((t (:background "#3C3C3C" :foreground "#C3C3C3" :weight bold)))))
+
+  ;; (set-face-attribute 'dired-directory nil
+  ;; 		    :background "#3C3C3C")
+#+END_SRC
+* terminal
+Configuration for ansi-term.
+#+BEGIN_SRC emacs-lisp
+  (defvar term-shell "/bin/zsh")
+  (defadvice ansi-term (before force-zsh)
+    (interactive (list term-shell)))
+  (ad-activate 'ansi-term)
+#+END_SRC
+Open a terminal in current buffer (global keybinding).
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x <return>") 'ansi-term)
+#+END_SRC
+* dired
+Settings for dired.
+** auto-revert dired
+Make dired buffers automatically refresh when files are created/deleted.
+#+BEGIN_SRC emacs-lisp
+  (setq global-auto-revert-non-file-buffers t)
+#+END_SRC
+* packages
+** EXWM
+#+BEGIN_SRC emacs-lisp
+  (use-package exwm
+    :ensure t
+    :init
+    (exwm-config-example))
+#+END_SRC
+** sudo-edit
+Edit files as super user.
+#+BEGIN_SRC emacs-lisp
+  (use-package sudo-edit
+    :ensure t
+    :bind ("C-c p s" . sudo-edit))
+#+END_SRC
+** elfeed
+RSS reader.
+#+BEGIN_SRC emacs-lisp
+  (use-package elfeed
+    :ensure t
+    :bind
+    ("C-c p e" . elfeed)
+    :config
+    (setq elfeed-use-curl t)
+    (setq elfeed-db-directory "~/.emacs.d/elfeed")
+    (setq elfeed-search-filter "@4-months-ago +unread")
+    (setq elfeed-show-truncate-long-urls t)
+    (setq elfeed-feeds
+	    '(("https://xkcd.com/atom.xml" comics)
+	      ("https://www.smbc-comics.com/comic/rss" comics)
+	      ("https://planet.emacslife.com/atom.xml" emacs)
+	      ("https://static.fsf.org/fsforg/rss/blogs.xml" fsf)
+	      ("https://static.fsf.org/fsforg/rss/news.xml" fsf)
+	      ("https://protesilaos.com/news.xml" prot news)
+	      ("https://protesilaos.com/politics.xml" prot politics)
+	      ("https://protesilaos.com/codelog.xml" prot emacs code)
+	      ("https://theintercept.com/feed/?rss" the_intercept politics)
+	      ("https://fivethirtyeight.com/politics/feed/" fivethirtyeight politics)
+	      ("https://defence-blog.com/feed/" military politics news)
+	      ("https://www.phoronix.com/rss.php" linux news)
+	      ("https://www.archlinux.org/feeds/news/" linux arch)
+	      ("https://www.linuxfoundation.org/feed/" linux))))
+#+END_SRC
+** language specific
+*** go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :ensure t)
+#+END_SRC
+*** yaml
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :ensure t)
+#+END_SRC
+*** markdown
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :ensure t)
+#+END_SRC    
+** dashboard
+Homescreen that is the first buffer I see when I start an emacs session. Holds recent
+files, projects, bookmarks, etc. etc.
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-banner-logo-title "=== Gabe's Editor Macros ===")
+    ;; (setq dashboard-banner-logo-title "If one does not know to which port one is sailing, no wind is favorable.")
+    (setq dashboard-items '((projects . 5)
+			    (recents . 5)
+			    (agenda . 5)))
+    (setq dashboard-set-navigator t)
+    (setq dashboard-startup-banner "~/.emacs.d/assets/lain.png"))
+#+END_SRC
+** which-key
+Package that shows completions for key-chords in a minibuffer.
+#+BEGIN_SRC emacs-lisp
+    (use-package which-key
+      :ensure t
+      :init
+      (which-key-mode)
+      :config
+      ;;(setq which-key-compute-remaps t)
+      (setq which-key-show-docstrings t)
+      (setq which-key-idle-delay 1.0))
+#+END_SRC
+* my functions
+** split and follow
+Functions for following a window after a split.
+Instead of staying in current window after a split, put cursor in the new window.
+#+BEGIN_SRC emacs-lisp
+  ;; horizontal split
+  (defun split-horizontally-and-follow ()
+    (interactive)
+    (split-window-below)
+    (balance-windows)
+    (other-window 1))
+
+  (global-set-key (kbd "C-x 2") 'split-horizontally-and-follow)
+
+  ;; vertical split
+  (defun split-vertically-and-follow ()
+    (interactive)
+    (split-window-right)
+    (balance-windows)
+    (other-window 1))
+
+  (global-set-key (kbd "C-x 3") 'split-vertically-and-follow)
+#+END_SRC
+** reload config
+Reload configuration file.
+#+BEGIN_SRC emacs-lisp
+  ;; reload configuration file
+  (defun reload-config ()
+    (interactive)
+    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+
+  (global-set-key (kbd "C-c c r") 'reload-config)
+#+END_SRC
+** open config

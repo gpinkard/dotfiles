@@ -514,8 +514,12 @@ Fonts to use.
 		      :foreground "#C3C3C3"
 		      :height 1.0)
 
-  (set-face-attribute 'dired-directory nil
-		      :background "#3C3C3C"
-		      :slant 'italic
-		      :weight 'ultra-bold)
+  ;; using set-face-attribute on dired-directory fails for some reason,
+  ;; use custom-set-faces instead
+
+  (custom-set-faces
+   '(dired-directory ((t (:background "#3C3C3C" :foreground "#C3C3C3" :weight bold)))))
+
+  ;; (set-face-attribute 'dired-directory nil
+  ;; 		    :background "#3C3C3C")
 #+END_SRC
