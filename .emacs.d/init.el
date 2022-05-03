@@ -9,4 +9,4 @@
  ;; If there is more than one, they won't work right.
  '(mouse-wheel-progressive-speed nil)
  '(package-selected-packages
-   '(rustic flycheck-rust rust-mode flycheck python-mode company lsp-ui lsp-ivy lsp-mode clojure-mode counsel swiper ivy tao-theme dashboard projectile rainbow-mode sudo-edit which-key exec-path-from-shell use-package)))
+   '(dmenu rustic flycheck-rust rust-mode flycheck python-mode company lsp-ui lsp-ivy lsp-mode clojure-mode counsel swiper ivy tao-theme dashboard projectile rainbow-mode sudo-edit which-key exec-path-from-shell use-package)))
