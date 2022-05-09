@@ -1,5 +1,5 @@
 #+STARTUP: overview
-#+TITLE: Gabe's EXWM Configuration
+#+TITLE: Gabe's Emacs Configuration
 #+CREATOR: Gabriel Pinkard
 * package archives
 Package archives to use.
@@ -84,17 +84,11 @@ Stop emacs from using UI dialog boxes.
 ** theme
 Color theme (tao-theme).
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package tao-theme
-  ;;   :ensure t
-  ;;   :config
-  ;;   ;; (setq tao-theme-scale-fn 'custom-tao-theme-scale)
-  ;;   (setq tao-theme-use-sepia nil))
-
-  (use-package srcery-theme
+  (use-package kaolin-themes
     :ensure t)
 
-  ;; Set color theme.
-  (load-theme 'srcery t)
+  ;; Set color theme
+  (load-theme 'kaolin-dark t)
 #+END_SRC
 ** macos specific
 I have to use a Mac for work currently. While this configuration targets Linux, I still want my emacs 
@@ -213,7 +207,8 @@ No annoying confirmation messages when killing a buffer in ibuffer
   (setq ibuffer-expert t)
 #+END_SRC
 * packages
-Custom packages
+I try to keep this relatively minimalistic, but there is some bloat (i.e. lsp). I also use Ivy, Swiper,
+and Counsel, just because they provide a better overall experience
 ** EXWM
 Make emacs a window manager, now you never have to leave.
 #+BEGIN_SRC emacs-lisp
@@ -265,6 +260,18 @@ dmenu like launcher for emacs (useful for EXWM)
     :ensure t
     :bind
     ("s-SPC" . dmenu))
+#+END_SRC
+** which-key
+Package that shows completions for key-chords in a minibuffer.
+#+BEGIN_SRC emacs-lisp
+    (use-package which-key
+      :ensure t
+      :init
+      (which-key-mode)
+      :config
+      ;;(setq which-key-compute-remaps t)
+      (setq which-key-show-docstrings t)
+      (setq which-key-idle-delay 0.5))
 #+END_SRC
 ** icons
 *** all-the-icons
@@ -318,9 +325,9 @@ Add pretty headings to org headings
     :config
     (ivy-rich-mode 1)
 
-    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 
-    (setq ivy-rich-path-style 'absolute))
+    (setq ivy-rich-path-style 'absolute)
 #+END_SRC
 ** swiper
 #+BEGIN_SRC emacs-lisp
@@ -426,18 +433,6 @@ Edit files as super user.
   (use-package sudo-edit
     :ensure t
     :bind ("C-c p s" . sudo-edit))
-#+END_SRC
-** which-key
-Package that shows completions for key-chords in a minibuffer.
-#+BEGIN_SRC emacs-lisp
-    (use-package which-key
-      :ensure t
-      :init
-      (which-key-mode)
-      :config
-      ;;(setq which-key-compute-remaps t)
-      (setq which-key-show-docstrings t)
-      (setq which-key-idle-delay 0.5))
 #+END_SRC
 ** ace-window
 Better window switching

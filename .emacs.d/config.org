@@ -84,17 +84,11 @@ Stop emacs from using UI dialog boxes.
 ** theme
 Color theme (tao-theme).
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package tao-theme
-  ;;   :ensure t
-  ;;   :config
-  ;;   ;; (setq tao-theme-scale-fn 'custom-tao-theme-scale)
-  ;;   (setq tao-theme-use-sepia nil))
-
-  (use-package srcery-theme
+  (use-package kaolin-themes
     :ensure t)
 
-  ;; Set color theme.
-  (load-theme 'srcery t)
+  ;; Set color theme
+  (load-theme 'kaolin-dark t)
 #+END_SRC
 ** macos specific
 I have to use a Mac for work currently. While this configuration targets Linux, I still want my emacs 
@@ -279,9 +273,9 @@ Add pretty headings to org headings
     :config
     (ivy-rich-mode 1)
 
-    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 
-    (setq ivy-rich-path-style 'absolute))
+    (setq ivy-rich-path-style 'absolute)
 #+END_SRC
 ** swiper
 #+BEGIN_SRC emacs-lisp
