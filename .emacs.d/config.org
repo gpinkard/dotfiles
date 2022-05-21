@@ -55,7 +55,7 @@ Disable blinking cursor.
 #+END_SRC
 Highlight current line.
 #+BEGIN_SRC emacs-lisp
-  ;; (global-hl-line-mode nil)
+  (global-hl-line-mode nil)
 #+END_SRC
 ** backup/auto-save
 Disable emacs backup files and auto-save files.
@@ -87,7 +87,7 @@ Color theme (gruvbox).
   (use-package gruvbox-theme
     :ensure t)
 
-  (load-theme 'solarized-light t)
+  (load-theme 'gruvbox-dark-soft t)
 #+END_SRC
 ** macos specific
 I have to use a Mac for work currently. While this configuration targets Linux, I still want my emacs 
@@ -136,8 +136,8 @@ Set Java indentation level.
 #+END_SRC
 ** line numbers
 #+BEGIN_SRC emacs-lisp
-  ;; (when (version<= "26.0.50" emacs-version)
-  ;;   (add-hook 'find-file-hook (lambda () (display-line-numbers-mode))))
+  (when (version<= "26.0.50" emacs-version)
+    (add-hook 'find-file-hook (lambda () (display-line-numbers-mode))))
 #+END_SRC
 ** save-place-mode
 Have emacs remember the last place you visited in a file.
@@ -544,31 +544,31 @@ Fonts to use.
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil
 		      :font "Monaco"
-		      :height 135
+		      :height 130
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch nil
 		      :font "Monaco"
-		      :height 135
+		      :height 130
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch-serif nil
 		      :font "Monaco"
-		      :height 135
+		      :height 130
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'variable-pitch nil
 		      :font "Monaco"
-		      :height 135
+		      :height 130
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'mode-line nil
 		      :height 1.0
-		      :box '(:line-width 1 :color "#928374" :style released-button))
+		      :box '(:line-width 1 :color "#928374" :style flat))
 
   ;; (set-face-attribute 'dired-directory nil
   ;; 		    :slant 'italic)
