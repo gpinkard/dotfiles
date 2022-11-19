@@ -157,7 +157,7 @@ Configuration for ansi-term.
 #+END_SRC
 Open a terminal in current buffer (global keybinding).
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x <return>") 'ansi-term)
+  ;; (global-set-key (kbd "C-x <return>") 'ansi-term)
 #+END_SRC
 * ibuffer
 Settings for ibuffer
@@ -174,26 +174,26 @@ No annoying confirmation messages when killing a buffer in ibuffer
 Faces to use.
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil
-		      :font "Source Code Pro For Powerline"
-		      :height 140
+		      :font "Terminus (TTF)"
+		      :height 160
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch nil
-		      :font "Source Code Pro For Powerline"
-		      :height 140
+		      :font "Terminus (TTF)"
+		      :height 160
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch-serif nil
-		      :font "Source Code Pro For Powerline"
-		      :height 140
+		      :font "Terminus (TTF)"
+		      :height 160
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'variable-pitch nil
-		      :font "Source Code Pro For Powerline"
-		      :height 140
+		      :font "Terminus (TTF)"
+		      :height 160
 		      :weight 'regular
 		      :width 'regular)
 #+END_SRC
@@ -303,7 +303,7 @@ Packages that are used across emacs modes and should be there for all tasks.
   (use-package ivy-rich
     :ensure t
     :config
-    (ivy-rich-mode 1)
+    (ivy-rich-mode t)
     (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 #+END_SRC
 *** which key
@@ -505,14 +505,13 @@ Language specific modes.
   (use-package clojure-mode
     :ensure t)
 
-  ;; (use-package cider
-  ;;   :ensure t
-  ;;   :hook
-  ;;   (clojure-mode . (lambda ()
-  ;; 		    (cider-mode))))
+  ;; useful package for clojure
+  (use-package cider
+    :ensure t
+    :hook
+    (clojure-mode . (lambda () (cider-mode))))
 #+END_SRC
 **** python
-To install lsp server for python run: `pip install *'python-lsp-server[all]'*.
 #+BEGIN_SRC emacs-lisp
   (use-package python-mode
     :ensure t
@@ -536,6 +535,24 @@ To install lsp server for python run: `pip install *'python-lsp-server[all]'*.
     :ensure t)
 #+END_SRC
 ** other packages
+*** vterm
+Better terminal than ansi-term.
+**** vterm
+Vterm itself.
+#+BEGIN_SRC emacs-lisp
+  (use-package vterm
+    :ensure t
+    :config
+    (setq vterm-always-compile-module t))
+#+END_SRC
+**** multi-vterm
+Multiple vterm instances.
+#+BEGIN_SRC emacs-lisp
+  (use-package multi-vterm
+    :ensure t
+    :bind
+    ("C-x <return>" . multi-vterm))
+#+END_SRC
 *** elfeed
 RSS reader.
 #+BEGIN_SRC emacs-lisp
@@ -560,6 +577,11 @@ RSS reader.
 	      ("https://theintercept.com/feed/?rss" the_intercept politics)
 	      ("https://fivethirtyeight.com/politics/feed/" fivethirtyeight politics)
 	      ("https://defence-blog.com/feed/" military politics news)
+	      ("https://www.nasa.gov/rss/dyn/breaking_news.rss" space nasa)
+	      ("https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss" space nasa)
+	      ("http://blogs.nasa.gov/stationreport/feed/" space nasa iss)
+	      ("http://www.nasa.gov/rss/dyn/chandra_images.rss" space nasa chandra_mission)
+	      ("https://www.nasa.gov/rss/dyn/mission_pages/kepler/news/kepler-newsandfeatures-RSS.rss" space nasa keplar_mission)
 	      ("https://www.phoronix.com/rss.php" linux news)
 	      ("https://www.archlinux.org/feeds/news/" linux arch)
 	      ("https://www.linuxfoundation.org/feed/" linux))))
@@ -584,4 +606,10 @@ Homescreen that is the first buffer I see when I start an emacs session.
     (setq dashboard-set-file-icons t)
 
     (setq dashboard-startup-banner "~/.emacs.d/assets/lain.png"))
+#+END_SRC
+*** bart
+Get bart train schedule.
+#+BEGIN_SRC emacs-lisp
+  (use-package bart-mode
+    :ensure t)
 #+END_SRC
