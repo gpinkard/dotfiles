@@ -19,18 +19,25 @@ Disable the scroll bar.
   (scroll-bar-mode 0)
 #+END_SRC
 ** cursor
-Disable blinking cursor.
+Blinking cursor configurations.
 #+BEGIN_SRC emacs-lisp
-  (blink-cursor-mode -1)
+  ;; enable blinking cursor
+  (blink-cursor-mode 0)
+
+  ;; blink indefinitely
+  (setq blink-cursor-blinks 0)
+
+  ;; time to start blinking
+  (setq blink-cursor-delay 0.3)
 #+END_SRC
 Set cursor shape.
 #+BEGIN_SRC emacs-lisp
-  ;; (setq cursor-type 'block)
+  (setq-default cursor-type 'box)
 #+END_SRC
 ** startup screen
 Disable the startup screen.
 #+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-message nil)
+  (setq inhibit-startup-message t)
 #+END_SRC
 ** dialog prompts
 Stop emacs from using UI dialog boxes.
@@ -43,6 +50,10 @@ Configurations that impact the editing experience and general feel of emacs.
 Show matching parens, quotes, braces, etc.
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode t)
+#+END_SRC
+Paren visual match delay.
+#+BEGIN_SRC emacs-lisp
+  (setq blink-matching-delay 0.5)
 #+END_SRC
 Complete braces, quotes, parens, etc.
 #+BEGIN_SRC emacs-lisp
@@ -98,12 +109,36 @@ Alias 'yes' and 'no' to 'y' and 'n' for all emacs confirmation flows.
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
+** backups/autosaving
+Disable the creation of backup files/autosaving.
+#+BEGIN_SRC emacs-lisp
+  ;; no backup files
+  (setq make-backup-files nil)
+
+  ;; no auto save files
+  (setq auto-save-default nil)
+#+END_SRC
+** disable audio bell
+Disable the audio beep for keyboard-quit
+#+BEGIN_SRC emacs-lisp
+  (setq ring-bell-function 'ignore)
+#+END_SRC
+** programming mode hooks
+Highlight current line when in prog mode.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook (lambda () (hl-line-mode)))
+#+END_SRC
 * Dired
 Settings for directory editor.
 ** auto revert
 Make dired refresh directory contents on changes.
 #+BEGIN_SRC emacs-lisp
   (setq global-auto-revert-non-file-buffers t)
+#+END_SRC
+** hooks
+Enable hl-line-mode in dired buffers.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-mode-hook (lambda () (hl-line-mode)))
 #+END_SRC
 * OSX
 This configuration targets gnu/linux, but I often have to use a mac for work. These
@@ -139,7 +174,7 @@ Force ansi-term to use zsh.
 #+END_SRC
 Global keybinding to open a terminal in the current frame.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c <return>") 'ansi-term)
+  ;; (global-set-key (kbd "C-c <return>") 'ansi-term)
 #+END_SRC
 * Ibuffer
 Bind C-x C-b to ibuffer instead of list-buffers.
@@ -218,6 +253,35 @@ Package that is a macro for installing and configuring packages.
   (eval-when-compile
     (require 'use-package))
 #+END_SRC
+** icons
+#+BEGIN_SRC emacs-lisp
+  (use-package nerd-icons
+    :ensure t)
+    ;; :config
+    ;; (setq nerd-icons-font-family "RobotoMono Nerd Font Mono"))
+
+  (use-package nerd-icons-dired
+    :ensure t
+    :hook
+    (dired-mode . nerd-icons-dired-mode))
+
+  (use-package nerd-icons-ibuffer
+    :ensure t
+    :hook
+    (ibuffer-mode . nerd-icons-ibuffer-mode)
+    :config
+    (setq nerd-icons-ibuffer-icon t)
+    (setq nerd-icons-ibuffer-human-readable-size t)
+    (setq nerd-ibuffer-color-icon t))
+
+  (use-package nerd-icons-completion
+    :ensure t
+    :after marginalia
+    :config
+    (nerd-icons-completion-mode)
+    :hook
+    (marginalia-mode . nerd-icons-completion-marginalia-setup))
+#+END_SRC
 ** vertico
 Vertical completion framework that works nicely with native emacs completions.
 #+BEGIN_SRC emacs-lisp
@@ -225,6 +289,8 @@ Vertical completion framework that works nicely with native emacs completions.
     :ensure t
     :init
     (vertico-mode)
+    (vertico-indexed-mode)
+    (vertico-mouse-mode)
     :custom
     (vertico-cycle t))
 #+END_SRC
@@ -249,7 +315,7 @@ Adds useful information to minibuffer completions.
     (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil)))
 #+END_SRC
 ** orderless
-Orderless completion style.
+A better (orderless) completion style.
 #+BEGIN_SRC emacs-lisp
   (use-package orderless
     :ensure t
@@ -272,7 +338,14 @@ Better search and navigation commands (similar to Counsel package).
     ("C-x b" . consult-buffer)
     ("M-g M-g" . consult-goto-line)
     ("M-y" . consult-yank-pop)
-    ("C-c p c g" . consult-grep))
+    ("C-c p c g" . consult-grep)
+    ("C-c p c f" . consult-find))
+
+  ;; git version control information in consult
+  (use-package consult-vc-modified-files
+    :ensure t
+    :bind
+    ("C-c p c v" . consult-vc-modified-files))
 #+END_SRC
 ** projectile
 Package for easily finding files and switching between projects.
@@ -297,7 +370,7 @@ A package that allows you to jump to text quickly.
     ("C-;" . avy-goto-char-2))
 #+END_SRC
 ** ace window
-Better window switching.
+Faster window switching.
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
     :ensure t
@@ -316,6 +389,64 @@ Package that shows completions of key-chords in a minibuffer.
     (setq which-key-compute-remaps t)
     (setq which-key-show-docstrings t)
     (setq which-key-idle-delay 1.5))
+#+END_SRC
+** lsp
+Language server protocol implimentation for emacs.
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :init
+    (setq lsp-keymap-prefix "C-c p l")
+    :hook
+    (js-mode . lsp-deferred)
+    (typescript-mode . lsp-deferred)
+    (typescript-ts-mode . lsp-deferred)
+    (rust-mode . lsp-deferred)
+    (lsp-mode . lsp-enable-which-key-integration)
+    (lsp-after-apply-edits . (lambda (operation-name)
+			       (when (eq operation-name 'rename)
+				 (save-buffer)))))
+#+END_SRC
+** lsp ui
+User interface elements for lsp-mode.
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-ui
+    :ensure t
+    :config
+    (setq lsp-ui-doc-enable t)
+    (setq lsp-ui-doc-position 'at-point)
+    (setq lsp-ui-doc-delay 0.8)
+    (setq lsp-ui-doc-show-with-cursor t)
+    (setq lsp-ui-doc-show-with-mouse t)
+    (setq lsp-ui-doc-use-childframe t)
+    (setq lsp-ui-sideline-enable nil))
+#+END_SRC
+** dap
+Debug adapter protocol implimentation for emacs.
+#+BEGIN_SRC emacs-lisp
+  (use-package dap-mode
+    :ensure t
+    :config
+    (setq dap-auto-configure-features '(sessions locals controls tooltip))
+  
+    ;; javascrip/typescript
+    (require 'dap-node))
+#+END_SRC
+** company mode
+COMPlete ANYthing text completion framework.
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :hook
+    (prog-mode . company-mode))
+#+END_SRC
+** flycheck
+Syntax checker for emacs.
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :hook
+    (prog-mode . flycheck-mode))
 #+END_SRC
 ** vterm
 A faster, more responsive terminal in emacs. May need to install whatever the libvterm package
@@ -351,7 +482,9 @@ Programming language modes.
 
   ;; rust
   (use-package rust-mode
-    :ensure t)
+    :ensure t
+    :config
+    (setq rust-format-on-save t))
 
   ;; clojure
   (use-package clojure-mode
@@ -359,7 +492,7 @@ Programming language modes.
   (use-package cider
     :ensure t
     :hook
-    (clojure-mode . (lambda () (cider-mode))))
+    (clojure-mode . cider-mode))
 
   ;; typescript
   (use-package typescript-mode
@@ -367,6 +500,10 @@ Programming language modes.
 
   ;; python
   (use-package python-mode
+    :ensure t)
+
+  ;; graphql
+  (use-package graphql-mode
     :ensure t)
 
   ;; docker
@@ -423,38 +560,67 @@ RSS feed reader for emacs.
 	      ("https://www.linuxfoundation.org/feed/" linux))))
   
 #+END_SRC
+** dashboard
+Emacs start screen replacement.
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-banner-logo-title "=== Gabe's Editor Macros ===")
+    (setq dashboard-items '((projects . 5)
+			      (recents . 5)))
+    (setq dashboard-set-navigator t)
+    (setq dashboard-display-icons-p t)
+    (setq dashboard-icon-type 'nerd-icons)
+    (setq dashboard-set-heading-icons nil)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-startup-banner "~/.emacs.d/assets/lain.png"))
+#+END_SRC
+** spacious padding
+Better padding around buffers.
+#+BEGIN_SRC emacs-lisp
+  (use-package spacious-padding
+    :ensure t
+    :bind
+    ("C-c p s" . spacious-padding-mode)
+    :config
+    (setq spacious-padding-subtle-mode-line t))
+    ;; :init
+    ;; (spacious-padding-mode))
+#+END_SRC
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
-   (use-package kaolin-themes
-     :ensure t)
+  (use-package kanagawa-themes
+    :ensure t)
 
-   (load-theme 'kaolin-temple t)
+  (load-theme 'kanagawa-wave t)
 #+END_SRC
-* Face
+* Faces
 Faces to use.
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil
-		      :font "Menlo"
-		      :height 130
+		      :font "RobotoMono Nerd Font Mono"
+		      :height 160
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch nil
-		      :font "Menlo"
-		      :height 130
+		      :font "RobotoMono Nerd Font Mono"
+		      :height 160
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch-serif nil
-		      :font "Menlo"
-		      :height 130
+		      :font "RobotoMono Nerd Font Mono"
+		      :height 160
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'variable-pitch nil
-		      :font "Menlo"
-		      :height 130
+		      :font "RobotoMono Nerd Font Mono"
+		      :height 160
 		      :weight 'regular
 		      :width 'regular)
 #+END_SRC
