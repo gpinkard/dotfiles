@@ -1,10 +1,10 @@
 #+STARTUP: overview
 #+TITLE: Gabe's Emacs Configuration
 #+CREATOR: Gabriel Pinkard
-* ui
+* User Interface 
 User interface configurations (i.e. tool bar, cursor, etc.).
 ** tool bar
-Disable the toolbar.
+Disable the tool bar.
 #+BEGIN_SRC emacs-lisp
   (tool-bar-mode 0)
 #+END_SRC
@@ -13,131 +13,113 @@ Disable the menubar.
 #+BEGIN_SRC emacs-lisp
   (menu-bar-mode 0)
 #+END_SRC
+** scroll bar
+Disable the scroll bar.
+#+BEGIN_SRC emacs-lisp
+  (scroll-bar-mode 0)
+#+END_SRC
 ** cursor
 Disable blinking cursor.
 #+BEGIN_SRC emacs-lisp
   (blink-cursor-mode -1)
 #+END_SRC
-Highlight current line (disabled).
+Set cursor shape.
 #+BEGIN_SRC emacs-lisp
-  ;; (global-hl-line-mode nil)
+  ;; (setq cursor-type 'block)
 #+END_SRC
 ** startup screen
-Disable startup screen.
+Disable the startup screen.
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message nil)
 #+END_SRC
-** prevent UI dialog prompts
+** dialog prompts
 Stop emacs from using UI dialog boxes.
 #+BEGIN_SRC emacs-lisp
   (setq use-dialog-box nil)
 #+END_SRC
-* editing
-Configurations that inpact editing/feel in emacs.
-** show-paren-mode
+* Editing
+Configurations that impact the editing experience and general feel of emacs.
+** parens/braces/quotes/etc.
 Show matching parens, quotes, braces, etc.
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode t)
 #+END_SRC
-** electric-pair-mode
 Complete braces, quotes, parens, etc.
 #+BEGIN_SRC emacs-lisp
   (electric-pair-mode t)
 #+END_SRC
-** encoding
- Set default coding system to UTF-8.
- #+BEGIN_SRC emacs-lisp
-   (set-default-coding-systems 'utf-8)
- #+END_SRC
+** file encoding
+Set default coding system to UTF-8.
+#+BEGIN_SRC emacs-lisp
+  (set-default-coding-systems 'utf-8)
+#+END_SRC
 ** tabs/offset
-*** C/C++
-Set C/C++ indentation level.
+Configurations for tab/offset size for various languages.
 #+BEGIN_SRC emacs-lisp
+  ;; C/C++ indentation level
   (setq-default c-basic-offset 8)
-#+END_SRC
-*** Java
-Set Java indentation level.
-#+BEGIN_SRC emacs-lisp
+
+  ;; Java indentation level
   (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
-#+END_SRC
-*** javascript
-#+BEGIN_SRC emacs-lisp
+
+  ;; JavaScript indentation level
   (setq js-indent-level 2)
+
+  ;; TypeScript indentation level
+  (setq typescript-indent-level 2)
 #+END_SRC
 ** line numbers
+Enable line numbers when we are in a programming mode.
 #+BEGIN_SRC emacs-lisp
   (when (version<= "26.0.50" emacs-version)
     (add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode))))
 #+END_SRC
-** save-place-mode
-Have emacs remember the last place you visited in a file.
+** remember place in file
+Have emacs remember the last cursor position of a file you visited.
 #+BEGIN_SRC emacs-lisp
-  (save-place-mode 1)
+  (save-place-mode t)
 #+END_SRC
-** auto-revert-mode
-Automaticall refresh buffers on file changes (i.e. git checkout).
+** automatically refresh buffers
+Automatically refresh buffers on file changes (i.e. git checkout).
 #+BEGIN_SRC emacs-lisp
   (global-auto-revert-mode 1)
-  (setq auto-revert-verbose nil)
-#+END_SRC
-** backup/auto-save
-Disable emacs backup files and auto-save files.
-#+BEGIN_SRC emacs-lisp
-  ;; no backup files
-  (setq make-backup-files nil)
 
-  ;; no auto save files
-  (setq auto-save-default nil)
+  ;; log that file was reloaded to *Messages* buffer
+  (setq auto-revert-verbose t)
 #+END_SRC
 ** scrolling
-Disable scrollbar.
+Configurations that effect how emacs scrolls text.
 #+BEGIN_SRC emacs-lisp
-  (scroll-bar-mode 0)
-#+END_SRC
-Scroll line by line instead of half the buffer at a time.
-#+BEGIN_SRC emacs-lisp
+  ;; scroll line by line instead of half a buffer at a time
   (setq scroll-conservatively 100)
 #+END_SRC
 ** alias yes-or-no-p
-Alias 'yes' and 'no' to 'y' and 'n' for all emacs confirm flows
+Alias 'yes' and 'no' to 'y' and 'n' for all emacs confirmation flows.
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
-** macos stuff
-I have to use a Mac for work currently. While this configuration targets Linux, I still want my emacs 
-to run on Mac if I have to use one.
- #+BEGIN_SRC emacs-lisp
-   ;; use correct path
-   ;; (use-package exec-path-from-shell
-   ;;   :ensure t
-   ;;   :init
-   ;;   (when (memq window-system '(mac ns x))
-   ;;     (exec-path-from-shell-initialize)))
-
-   ;; set meta key to alt for osx instead of option key
-   (setq mac-command-modifier 'meta)
- #+END_SRC
-* dired
-Settings for dired.
-** auto-revert dired
-Make dired buffers automatically refresh when files are created/deleted.
+* Dired
+Settings for directory editor.
+** auto revert
+Make dired refresh directory contents on changes.
 #+BEGIN_SRC emacs-lisp
   (setq global-auto-revert-non-file-buffers t)
 #+END_SRC
-** random settings/hooks
-Random settings/hooks for dired
+* OSX
+This configuration targets gnu/linux, but I often have to use a mac for work. These
+configurations make using emacs for osx more bareable.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'dired-mode-hook (lambda () (hl-line-mode)))
+  (setq mac-command-modifier 'meta)
 #+END_SRC
-* org
-Configuration for org settings.
+* Org
+Configurations for org mode.
 ** source code editing
 Force org to edit src blocks in the same window.
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
 #+END_SRC
-* browser/eww
-Settings for Emacs web wowser.
+* Browser/EWW
+Configurations for browsers in emacs, and the emacs web wowser.
 #+BEGIN_SRC emacs-lisp
   ;; set default browser to eww
   (setq browse-url-browser-function 'eww-browse-url)
@@ -145,110 +127,79 @@ Settings for Emacs web wowser.
   ;; use duckduckgo by default
   (setq eww-search-prefix "https://duckduckgo.com/html?q=")
 #+END_SRC
-* terminal
-Settings for terminals in emacs.
-** ansi term
-Configuration for ansi-term.
+* Terminal
+Configurations for the built in terminals in emacs.
+** ansi-term
+Force ansi-term to use zsh.
 #+BEGIN_SRC emacs-lisp
   (defvar term-shell "/bin/zsh")
   (defadvice ansi-term (before force-zsh)
     (interactive (list term-shell)))
   (ad-activate 'ansi-term)
 #+END_SRC
-Open a terminal in current buffer (global keybinding).
+Global keybinding to open a terminal in the current frame.
 #+BEGIN_SRC emacs-lisp
-  ;; (global-set-key (kbd "C-x <return>") 'ansi-term)
+  (global-set-key (kbd "C-c <return>") 'ansi-term)
 #+END_SRC
-* ibuffer
-Settings for ibuffer
+* Ibuffer
+Bind C-x C-b to ibuffer instead of list-buffers.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
-
+#+END_SRC
+Highlight current line when in ibuffer.
+#+BEGIN_SRC emacs-lisp
   (add-hook 'ibuffer-hook (lambda () (hl-line-mode)))
 #+END_SRC
-No annoying confirmation messages when killing a buffer in ibuffer
+Disable confirmation messages when killing a buffer in ibuffer.
 #+BEGIN_SRC emacs-lisp
   (setq ibuffer-expert t)
 #+END_SRC
-* faces
-Faces to use.
-#+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil
-		      :font "Terminus (TTF)"
-		      :height 160
-		      :weight 'regular
-		      :width 'regular)
-
-  (set-face-attribute 'fixed-pitch nil
-		      :font "Terminus (TTF)"
-		      :height 160
-		      :weight 'regular
-		      :width 'regular)
-
-  (set-face-attribute 'fixed-pitch-serif nil
-		      :font "Terminus (TTF)"
-		      :height 160
-		      :weight 'regular
-		      :width 'regular)
-
-  (set-face-attribute 'variable-pitch nil
-		      :font "Terminus (TTF)"
-		      :height 160
-		      :weight 'regular
-		      :width 'regular)
-#+END_SRC
-* my functions
-Simple functions I wrote.
-** split and follow
-Functions for following a window after a split.
+* My Functions
+Custom functions I have written for various tasks.
+** split and follow windows
+Functions for following a window after split.
 #+BEGIN_SRC emacs-lisp
   ;; horizontal split
-  (defun split-horizontally-and-follow ()
+  (defun gabe/split-horizontally-and-follow ()
     (interactive)
     (split-window-below)
     (balance-windows)
     (other-window 1))
 
-  (global-set-key (kbd "C-x 2") 'split-horizontally-and-follow)
+  (global-set-key (kbd "C-x 2") 'gabe/split-horizontally-and-follow)
 
   ;; vertical split
-  (defun split-vertically-and-follow ()
+  (defun gabe/split-vertically-and-follow ()
     (interactive)
     (split-window-right)
     (balance-windows)
     (other-window 1))
 
-  (global-set-key (kbd "C-x 3") 'split-vertically-and-follow)
+  (global-set-key (kbd "C-x 3") 'gabe/split-vertically-and-follow)
 #+END_SRC
 ** reload config
-Reload configuration file.
+Reload the configuration file.
 #+BEGIN_SRC emacs-lisp
-  ;; reload configuration file
-  (defun reload-config ()
+  (defun gabe/reload-config ()
     (interactive)
     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 
-  (global-set-key (kbd "C-c c r") 'reload-config)
+  (global-set-key (kbd "C-c c r") 'gabe/reload-config)
 #+END_SRC
 ** open config
-Open configuration file.
+Open the configuration file in the current frame.
 #+BEGIN_SRC emacs-lisp
-  (defun open-config ()
+  (defun gabe/open-config ()
     (interactive)
     (find-file "~/.emacs.d/config.org"))
 
-  (global-set-key (kbd "C-c c e") 'open-config)
+  (global-set-key (kbd "C-c c e") 'gabe/open-config)
 #+END_SRC
-* packages
+* Packages
 ** package archives
-Package archives to use.
+Setup the package archives to use.
 #+BEGIN_SRC emacs-lisp
   (require 'package)
-
-  ;; stupid macos crap
-  (when (and (equal emacs-version "27.2")
-	     (eql system-type 'darwin))
-    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 			   ;;("melpa-stable" . "https://stable.melpa.org/packages/")
@@ -257,8 +208,8 @@ Package archives to use.
 
   (package-initialize)
 #+END_SRC
-** use-package
-Package that is a macro for auto installing and configuring packages.
+** use package
+Package that is a macro for installing and configuring packages.
 #+BEGIN_SRC emacs-lisp
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
@@ -267,59 +218,86 @@ Package that is a macro for auto installing and configuring packages.
   (eval-when-compile
     (require 'use-package))
 #+END_SRC
-** general packages
-Packages that are used across emacs modes and should be there for all tasks.
-*** ivy
+** vertico
+Vertical completion framework that works nicely with native emacs completions.
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy
+  (use-package vertico
     :ensure t
     :init
-    (ivy-mode 1)
-    (setq ivy-count-format "[%d of %d] "))
+    (vertico-mode)
+    :custom
+    (vertico-cycle t))
 #+END_SRC
-*** swiper
+** savehist
+Saves minibuffer history to an external file. Vertico uses this to sort the position
+of completions.
 #+BEGIN_SRC emacs-lisp
-  (use-package swiper
+  (use-package savehist
     :ensure t
+    :init
+    (savehist-mode))
+#+END_SRC
+** marginalia
+Adds useful information to minibuffer completions.
+#+BEGIN_SRC emacs-lisp
+  (use-package marginalia
+    :after vertico
+    :ensure t
+    :init
+    (marginalia-mode)
+    :custom
+    (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil)))
+#+END_SRC
+** orderless
+Orderless completion style.
+#+BEGIN_SRC emacs-lisp
+  (use-package orderless
+    :ensure t
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles basic partial-completion)))))
+#+END_SRC
+** consult
+Better search and navigation commands (similar to Counsel package).
+#+BEGIN_SRC emacs-lisp
+  (use-package consult
+    :ensure t
+    :hook
+    (completion-list-mode . consult-preview-at-point-mode)
+    :init
+    (setq register-preview-delay 0.5)
+    (setq register-preview-function #'consult-register-format)
     :bind
-    ("C-s" . swiper))
+    ("C-s" . consult-line)
+    ("C-x b" . consult-buffer)
+    ("M-g M-g" . consult-goto-line)
+    ("M-y" . consult-yank-pop)
+    ("C-c p c g" . consult-grep))
 #+END_SRC
-*** counsel
+** projectile
+Package for easily finding files and switching between projects.
 #+BEGIN_SRC emacs-lisp
-  (use-package counsel
+  (use-package projectile
     :ensure t
-    :bind
-    ("M-x" . counsel-M-x)
-    ("C-x C-f" . counsel-find-file)
-    ("C-h f" . counsel-describe-function)
-    ("C-h v" . counsel-describe-variable)
-    ("C-x d" . counsel-dired)
-    ("C-h b" . counsel-descbinds)
-    ("C-c i" . counsel-imenu)
-    ("C-x b" . ivy-switch-buffer))
-#+END_SRC
-*** ivy rich
-#+BEGIN_SRC emacs-lisp
-  (use-package ivy-rich
-    :ensure t
+    :init
+    (projectile-mode +1)
     :config
-    (ivy-rich-mode t)
-    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+    (setq projectile-indexing-method 'alien)
+    (setq projectile-sort-order 'recentf)
+    (setq projectile-project-search-path '("~/dotfiles" "~/Projects" "~/.emacs.d"))
+    :bind
+    ("C-c p p" . projectile-command-map))
 #+END_SRC
-*** which key
-Package that shows completions for key-chords in a minibuffer.
+** avy
+A package that allows you to jump to text quickly.
 #+BEGIN_SRC emacs-lisp
-    (use-package which-key
-      :ensure t
-      :init
-      (which-key-mode)
-      :config
-      ;;(setq which-key-compute-remaps t)
-      (setq which-key-show-docstrings t)
-      (setq which-key-idle-delay 2.0))
+  (use-package avy
+    :ensure t
+    :bind
+    ("C-;" . avy-goto-char-2))
 #+END_SRC
-*** ace window
-Better window switching
+** ace window
+Better window switching.
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
     :ensure t
@@ -327,234 +305,92 @@ Better window switching
     (global-set-key (kbd "C-x o") 'ace-window)
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 #+END_SRC
-** ui packages
-*** icons
-Icons for emacs (all the icons and integration packages)
-**** all-the-icons
-Pretty icons
+** which key
+Package that shows completions of key-chords in a minibuffer.
 #+BEGIN_SRC emacs-lisp
-  ;; run M-x all-the-icons-install-fonts
-
-  (use-package all-the-icons
-    :if (display-graphic-p)
-    :ensure t
-    :config
-    (setq all-the-icons-color-icons nil))
-#+END_SRC
-**** icons for dired
-Add icons to dired buffers
-#+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons-dired
-    :if (display-graphic-p)
-    :ensure t
-    :hook
-    (dired-mode . all-the-icons-dired-mode))
-#+END_SRC
-**** icons for ivy
-#+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons-ivy
+  (use-package which-key
     :ensure t
     :init
-    (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
-#+END_SRC
-**** org icons
-Add pretty headings to org headings
-#+BEGIN_SRC emacs-lisp
-  (use-package org-superstar
-    :if (display-graphic-p)
-    :ensure t
-    :hook
-    (org-mode . org-superstar-mode)
+    (which-key-mode)
     :config
-    (setq org-hide-leading-stars 1))
+    (setq which-key-compute-remaps t)
+    (setq which-key-show-docstrings t)
+    (setq which-key-idle-delay 1.5))
 #+END_SRC
-*** rainbow mode
-Package that sets background of hex color codes the the color they represent.
+** vterm
+A faster, more responsive terminal in emacs. May need to install whatever the libvterm package
+is on the OS.
 #+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode
-    :ensure t
-    :init
-    (add-hook 'prog-mode-hook (lambda () (rainbow-mode))))
-#+END_SRC
-*** theme
-Color theme.
-#+BEGIN_SRC emacs-lisp
-  (use-package kaolin-themes
-    :ensure t)
-
-  (load-theme 'kaolin-temple t)
-#+END_SRC
-*** moody
-#+BEGIN_SRC emacs-lisp
-  (use-package moody
-    :ensure t
-    :config
-    (setq x-underline-at-descent-line t)
-    (setq moody-mode-line-height 22)
-    (moody-replace-mode-line-buffer-identification)
-    (moody-replace-vc-mode)
-    (moody-replace-eldoc-minibuffer-message-function))
-#+END_SRC
-*** minions
-#+BEGIN_SRC emacs-lisp
-  (use-package minions
-    :ensure t
-    :config
-    (minions-mode 1))
-#+END_SRC
-** programming packages
-Packages specific for programming
-*** lsp
-Packages for language server protocol.
-**** lsp
-Language server protocol for emacs
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :ensure t
-    :init
-    (setq lsp-keymap-prefix "C-c l")
-    :hook
-    (go-mode . lsp-deferred)
-    (python-mode . lsp-deferred)
-    :config
-    (setq lsp-enable-which-key-integration t)
-    (setq lsp-diagnostic-provider :auto)
-    ;; (setq lsp-clients-pylsp-library-directories "/Users/gabrielpinkard/.pyenv/shims/pylsp")
-    (setq lsp-completion-provider :capf)
-    (setq lsp-go-gopls-server-path "/Users/gabrielpinkard/go/bin/gopls"))
-#+END_SRC
-**** lsp ui
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-ui
-    :ensure t
-    :config
-    (setq lsp-ui-doc-enable t)
-    (setq lsp-ui-doc-position 'at-point)
-    (setq lsp-ui-doc-delay 0.8)
-    (setq lsp-ui-doc-show-with-cursor t)
-    (setq lsp-ui-doc-show-with-mouse t)
-    (setq lsp-ui-doc-use-childframe t))
-#+END_SRC
-**** lsp pyright
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-pyright
-    :ensure t)
-#+END_SRC
-**** lsp ivy
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-ivy
-    :ensure t
-    :commands lsp-ivy-workspace-symbol
-    :bind ("C-c l i" . lsp-ivy-workspace-symbol))
-#+END_SRC
-*** company mode
-IDE like completions.
-#+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :hook
-    (emacs-lisp-mode . (lambda ()
-			 ;; set company backend for elisp
-			 (setq-local company-backends '(company-elisp))))
-    (emacs-lisp-mode . company-mode)
-    (go-mode . company-mode)
-    :config
-    (setq company-idle-delay 0.1)
-    (setq company-minimum-prefix-length 1))
-#+END_SRC
-*** flycheck
-Syntax checking package (better than flymake).
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :ensure t
-    :hook
-    (prog-mode . flycheck-mode))
-#+END_SRC
-*** projectile
-Package for switching between projects and finding files.
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :ensure t
-    :bind
-    ("C-c p p" . 'projectile-command-map)
-    :config
-    (projectile-mode 1)
-    (setq projectile-project-search-path
-	  '("~/Jupiter" "~/Projects" "~/dotfiles")))
-#+END_SRC
-*** magit
-Git wrapper.
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :ensure t)
-#+END_SRC
-*** language specific modes
-Language specific modes.
-**** go
-#+BEGIN_SRC emacs-lisp
-  (use-package go-mode
-    :ensure t)
-#+END_SRC
-**** rust
-#+BEGIN_SRC emacs-lisp
-  (use-package rust-mode
-    :ensure t)
-#+END_SRC
-**** clojure
-#+BEGIN_SRC emacs-lisp
-  (use-package clojure-mode
-    :ensure t)
-
-  ;; useful package for clojure
-  (use-package cider
-    :ensure t
-    :hook
-    (clojure-mode . (lambda () (cider-mode))))
-#+END_SRC
-**** python
-#+BEGIN_SRC emacs-lisp
-  (use-package python-mode
-    :ensure t
-    :custom
-    ;; might need to make "python3" depending on distro
-    (python-shell-interpreter "python"))
-#+END_SRC
-**** docker
-#+BEGIN_SRC emacs-lisp
-  (use-package dockerfile-mode
-    :ensure t)
-#+END_SRC
-**** yaml
-#+BEGIN_SRC emacs-lisp
-  (use-package yaml-mode
-    :ensure t)
-#+END_SRC
-**** markdown
-#+BEGIN_SRC emacs-lisp
-  (use-package markdown-mode
-    :ensure t)
-#+END_SRC
-** other packages
-*** vterm
-Better terminal than ansi-term.
-**** vterm
-Vterm itself.
-#+BEGIN_SRC emacs-lisp
+  ;; vterm package itself
   (use-package vterm
     :ensure t
     :config
     (setq vterm-always-compile-module t))
-#+END_SRC
-**** multi-vterm
-Multiple vterm instances.
-#+BEGIN_SRC emacs-lisp
+
+  ;; package that enables multiple vterm instances
   (use-package multi-vterm
     :ensure t
     :bind
-    ("C-x <return>" . multi-vterm))
+    ("C-c <return>" . multi-vterm))
 #+END_SRC
-*** elfeed
-RSS reader.
+** exec from shell
+Make emacs use environment variables from the shell.
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :init
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+#+END_SRC
+** language specific modes
+Programming language modes.
+#+BEGIN_SRC emacs-lisp
+  ;; golang
+  (use-package go-mode
+    :ensure t)
+
+  ;; rust
+  (use-package rust-mode
+    :ensure t)
+
+  ;; clojure
+  (use-package clojure-mode
+    :ensure t)
+  (use-package cider
+    :ensure t
+    :hook
+    (clojure-mode . (lambda () (cider-mode))))
+
+  ;; typescript
+  (use-package typescript-mode
+    :ensure t)
+
+  ;; python
+  (use-package python-mode
+    :ensure t)
+
+  ;; docker
+  (use-package dockerfile-mode
+    :ensure t)
+
+  ;; yaml
+  (use-package yaml-mode
+    :ensure t)
+
+  ;; markdown
+  (use-package markdown-mode
+    :ensure t)
+#+END_SRC
+** rainbow mode
+Package that sets background of hex color codes the the color they represent.
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode
+    :ensure t
+    :hook
+    (prog-mode . rainbow-mode))
+#+END_SRC
+** elfeed
+RSS feed reader for emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package elfeed
     :ensure t
@@ -585,31 +421,40 @@ RSS reader.
 	      ("https://www.phoronix.com/rss.php" linux news)
 	      ("https://www.archlinux.org/feeds/news/" linux arch)
 	      ("https://www.linuxfoundation.org/feed/" linux))))
+  
 #+END_SRC
-*** dashboard
-Homescreen that is the first buffer I see when I start an emacs session.
+** theme
+Color theme to use.
 #+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :ensure t
-    :config
-    (dashboard-setup-startup-hook)
-    (setq dashboard-banner-logo-title "=== Gabe's Editor Macros ===")
-    ;; (setq dashboard-banner-logo-title "If one does not know to which port one is sailing, no wind is favorable.")
-    (setq dashboard-items '((projects . 5)
-			    (recents . 5)
-			    (agenda . 5)))
+   (use-package kaolin-themes
+     :ensure t)
 
-    (setq dashboard-set-navigator t)
-
-    ;; icons (all-the-icons)
-    (setq dashboard-heading-icons t)
-    (setq dashboard-set-file-icons t)
-
-    (setq dashboard-startup-banner "~/.emacs.d/assets/lain.png"))
+   (load-theme 'kaolin-temple t)
 #+END_SRC
-*** bart
-Get bart train schedule.
+* Face
+Faces to use.
 #+BEGIN_SRC emacs-lisp
-  (use-package bart-mode
-    :ensure t)
+  (set-face-attribute 'default nil
+		      :font "Menlo"
+		      :height 130
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'fixed-pitch nil
+		      :font "Menlo"
+		      :height 130
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'fixed-pitch-serif nil
+		      :font "Menlo"
+		      :height 130
+		      :weight 'regular
+		      :width 'regular)
+
+  (set-face-attribute 'variable-pitch nil
+		      :font "Menlo"
+		      :height 130
+		      :weight 'regular
+		      :width 'regular)
 #+END_SRC
