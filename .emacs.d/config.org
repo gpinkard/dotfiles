@@ -151,7 +151,7 @@ Configurations for org mode.
 ** source code editing
 Force org to edit src blocks in the same window.
 #+BEGIN_SRC emacs-lisp
-  (setq org-src-window-setup 'current-window)
+  (setq org-src-window-setup 'other-window)
 #+END_SRC
 * Browser/EWW
 Configurations for browsers in emacs, and the emacs web wowser.
@@ -191,24 +191,43 @@ Disable confirmation messages when killing a buffer in ibuffer.
 #+END_SRC
 * My Functions
 Custom functions I have written for various tasks.
+** demap is open
+Returns true if a demap buffer is open
+#+BEGIN_SRC emacs-lisp
+  ;; Returns true if there is a demap buffer open, else nil.
+  (defun gabe/demap-buffer-is-open-p ()
+    (let ((minimap-buffer (get-buffer "*Minimap*")))
+      (and minimap-buffer
+	   (if (get-buffer-window minimap-buffer) t nil))))
+
+  ;; Holds state on whether a demap buffer exists or not. This is uesed in
+  ;; gabe/split-*-and-follow functions to not mess up the rebalancing of windows.
+  (setq gabe/demap-is-open nil)
+#+END_SRC
 ** split and follow windows
 Functions for following a window after split.
 #+BEGIN_SRC emacs-lisp
-  ;; horizontal split
+  ;; Better horizontal split.
   (defun gabe/split-horizontally-and-follow ()
     (interactive)
+    (setq gabe/demap-is-open (gabe/demap-buffer-is-open-p))
+    (if gabe/demap-is-open (demap-toggle))
     (split-window-below)
     (balance-windows)
-    (other-window 1))
+    (other-window 1)
+    (if gabe/demap-is-open (demap-toggle)))
 
   (global-set-key (kbd "C-x 2") 'gabe/split-horizontally-and-follow)
 
-  ;; vertical split
+  ;; Better vertical split.
   (defun gabe/split-vertically-and-follow ()
     (interactive)
+    (setq gabe/demap-is-open (gabe/demap-buffer-is-open-p))
+    (if gabe/demap-is-open (demap-toggle))
     (split-window-right)
     (balance-windows)
-    (other-window 1))
+    (other-window 1)
+    (if gabe/demap-is-open (demap-toggle)))
 
   (global-set-key (kbd "C-x 3") 'gabe/split-vertically-and-follow)
 #+END_SRC
@@ -338,14 +357,26 @@ Better search and navigation commands (similar to Counsel package).
     ("C-x b" . consult-buffer)
     ("M-g M-g" . consult-goto-line)
     ("M-y" . consult-yank-pop)
-    ("C-c p c g" . consult-grep)
-    ("C-c p c f" . consult-find))
+    ("C-c p c g" . affe-grep)
+    ("C-c p c f" . affe-find))
 
   ;; git version control information in consult
   (use-package consult-vc-modified-files
     :ensure t
     :bind
     ("C-c p c v" . consult-vc-modified-files))
+#+END_SRC
+** affe
+Asynchronous Fuzzy Finder for Emacs.
+#+BEGIN_SRC emacs-lisp
+  (use-package affe
+    :ensure t)
+
+  (defun affe-orderless-regexp-compiler (input _type _ignorecase)
+    (setq input (cdr (orderless-compile input)))
+    (cons input (apply-partially #'orderless--highlight input t)))
+
+  (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
 #+END_SRC
 ** projectile
 Package for easily finding files and switching between projects.
@@ -369,14 +400,27 @@ A package that allows you to jump to text quickly.
     :bind
     ("C-;" . avy-goto-char-2))
 #+END_SRC
-** ace window
+** magit
+A *magical* git porcelain.
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :ensure t)
+#+END_SRC
+** switch window
 Faster window switching.
 #+BEGIN_SRC emacs-lisp
-  (use-package ace-window
+  (use-package switch-window
     :ensure t
     :config
-    (global-set-key (kbd "C-x o") 'ace-window)
-    (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+    (setq switch-window-input-style 'minibuffer)
+    (setq switch-window-increase 4)
+    (setq switch-window-threshold 2)
+    (setq switch-window-shortcut-style 'qwerty)
+    (setq switch-window-qwerty-shortcuts
+	  '("a" "s" "d" "f" "g" "h" "j" "k" "l"))
+    (setq switch-window-shortcut-appearance 'asciiart)
+    :bind
+    ([remap other-window] . switch-window))
 #+END_SRC
 ** which key
 Package that shows completions of key-chords in a minibuffer.
@@ -575,7 +619,18 @@ Emacs start screen replacement.
     (setq dashboard-icon-type 'nerd-icons)
     (setq dashboard-set-heading-icons nil)
     (setq dashboard-set-file-icons t)
-    (setq dashboard-startup-banner "~/.emacs.d/assets/lain.png"))
+    (setq dashboard-startup-banner "~/.emacs.d/assets/kim.png"))
+#+END_SRC
+** demap (minimap)
+Minimap showing file on the side of the buffer (like sublime).
+#+BEGIN_SRC emacs-lisp
+  (use-package demap
+    :ensure t
+    :bind
+    ("C-c p m" . demap-toggle)
+    :config
+    (setq demap-minimap-window-side 'left)
+    (setq demap-minimap-window-width 18))
 #+END_SRC
 ** spacious padding
 Better padding around buffers.
@@ -589,38 +644,49 @@ Better padding around buffers.
     ;; :init
     ;; (spacious-padding-mode))
 #+END_SRC
+** crystal point
+Dynamically change the cursor foreground and background color for maximum visibility.
+#+BEGIN_SRC emacs-lisp
+  (use-package crystal-point
+    :ensure t
+    :config
+    (crystal-point-enable))
+#+END_SRC
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
-  (use-package kanagawa-themes
-    :ensure t)
+  (use-package catppuccin-theme
+    :ensure t
+    :config
+    (setq catppuccin-flavor 'frappe))
 
-  (load-theme 'kanagawa-wave t)
+  (load-theme 'catppuccin t)
 #+END_SRC
 * Faces
 Faces to use.
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil
 		      :font "RobotoMono Nerd Font Mono"
-		      :height 160
+		      :height 180
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch nil
 		      :font "RobotoMono Nerd Font Mono"
-		      :height 160
+		      :height 180
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch-serif nil
 		      :font "RobotoMono Nerd Font Mono"
-		      :height 160
+		      :height 180
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'variable-pitch nil
 		      :font "RobotoMono Nerd Font Mono"
-		      :height 160
+		      :height 180
+
 		      :weight 'regular
 		      :width 'regular)
 #+END_SRC
