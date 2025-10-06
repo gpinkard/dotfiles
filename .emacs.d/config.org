@@ -667,26 +667,25 @@ Faces to use.
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil
 		      :font "RobotoMono Nerd Font Mono"
-		      :height 180
+		      :height 140
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch nil
 		      :font "RobotoMono Nerd Font Mono"
-		      :height 180
+		      :height 140
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch-serif nil
 		      :font "RobotoMono Nerd Font Mono"
-		      :height 180
+		      :height 140
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'variable-pitch nil
 		      :font "RobotoMono Nerd Font Mono"
-		      :height 180
-
+		      :height 140
 		      :weight 'regular
 		      :width 'regular)
 #+END_SRC
