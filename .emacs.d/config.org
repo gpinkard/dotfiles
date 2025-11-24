@@ -1,6 +1,24 @@
 #+STARTUP: overview
 #+TITLE: Gabe's Emacs Configuration
 #+CREATOR: Gabriel Pinkard
+* Custom Variables
+#+BEGIN_SRC emacs-lisp
+  ;; Default font size to use for most faces.
+  (setq gabe/default-font-size 140)
+
+  ;; Default font size of ace window leading character.
+  (setq gabe/default-aw-font-size 500)
+
+  ;; Default font to use for a number of faces.
+  (setq gabe/default-font "RobotoMono Nerd Font Mono")
+
+  ;; Holds state on whether a demap buffer exists or not. This is uesed in
+  ;; gabe/split-*-and-follow functions to not mess up the rebalancing of windows.
+  (setq gabe/demap-is-open nil)
+
+  ;; Language modes to enable eglot for.
+  (setq gabe/supported-lsp-modes '(rust-mode typescript-mode elisp-mode))
+#+END_SRC
 * User Interface 
 User interface configurations (i.e. tool bar, cursor, etc.).
 ** tool bar
@@ -83,7 +101,7 @@ Configurations for tab/offset size for various languages.
 Enable line numbers when we are in a programming mode.
 #+BEGIN_SRC emacs-lisp
   (when (version<= "26.0.50" emacs-version)
-    (add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode))))
+    (add-hook 'prog-mode-hook #'display-line-numbers-mode))
 #+END_SRC
 ** remember place in file
 Have emacs remember the last cursor position of a file you visited.
@@ -123,22 +141,22 @@ Disable the audio beep for keyboard-quit
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function 'ignore)
 #+END_SRC
-** programming mode hooks
-Highlight current line when in prog mode.
+** hightlight line mode
+Modes to enable hl-line-mode in.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook (lambda () (hl-line-mode)))
+  (add-hook 'prog-mode-hook #'hl-line-mode)
+
+  (add-hook 'dired-mode-hook #'hl-line-mode)
+
+  (add-hook 'package-menu-mode #'hl-line-mode)
+
+  (add-hook 'ibuffer-hook #'hl-line-mode)
 #+END_SRC
 * Dired
 Settings for directory editor.
-** auto revert
-Make dired refresh directory contents on changes.
 #+BEGIN_SRC emacs-lisp
+  ;; Make dired refresh directory contents on changes.
   (setq global-auto-revert-non-file-buffers t)
-#+END_SRC
-** hooks
-Enable hl-line-mode in dired buffers.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'dired-mode-hook (lambda () (hl-line-mode)))
 #+END_SRC
 * OSX
 This configuration targets gnu/linux, but I often have to use a mac for work. These
@@ -181,10 +199,6 @@ Bind C-x C-b to ibuffer instead of list-buffers.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
-Highlight current line when in ibuffer.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'ibuffer-hook (lambda () (hl-line-mode)))
-#+END_SRC
 Disable confirmation messages when killing a buffer in ibuffer.
 #+BEGIN_SRC emacs-lisp
   (setq ibuffer-expert t)
@@ -199,10 +213,6 @@ Returns true if a demap buffer is open
     (let ((minimap-buffer (get-buffer "*Minimap*")))
       (and minimap-buffer
 	   (if (get-buffer-window minimap-buffer) t nil))))
-
-  ;; Holds state on whether a demap buffer exists or not. This is uesed in
-  ;; gabe/split-*-and-follow functions to not mess up the rebalancing of windows.
-  (setq gabe/demap-is-open nil)
 #+END_SRC
 ** split and follow windows
 Functions for following a window after split.
@@ -406,21 +416,17 @@ A *magical* git porcelain.
   (use-package magit
     :ensure t)
 #+END_SRC
-** switch window
+** ace window
 Faster window switching.
 #+BEGIN_SRC emacs-lisp
-  (use-package switch-window
+  (use-package ace-window
     :ensure t
-    :config
-    (setq switch-window-input-style 'minibuffer)
-    (setq switch-window-increase 4)
-    (setq switch-window-threshold 2)
-    (setq switch-window-shortcut-style 'qwerty)
-    (setq switch-window-qwerty-shortcuts
-	  '("a" "s" "d" "f" "g" "h" "j" "k" "l"))
-    (setq switch-window-shortcut-appearance 'asciiart)
     :bind
-    ([remap other-window] . switch-window))
+    ([remap other-window] . ace-window)
+    :config
+    (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+    (set-face-attribute 'aw-leading-char-face nil
+			:height gabe/default-aw-font-size))
 #+END_SRC
 ** which key
 Package that shows completions of key-chords in a minibuffer.
@@ -434,47 +440,41 @@ Package that shows completions of key-chords in a minibuffer.
     (setq which-key-show-docstrings t)
     (setq which-key-idle-delay 1.5))
 #+END_SRC
-** lsp
-Language server protocol implimentation for emacs.
+** eglot
+Emacs Polyglot (LSP).
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
+  (use-package eglot
     :ensure t
-    :init
-    (setq lsp-keymap-prefix "C-c p l")
     :hook
-    (js-mode . lsp-deferred)
-    (typescript-mode . lsp-deferred)
-    (typescript-ts-mode . lsp-deferred)
-    (rust-mode . lsp-deferred)
-    (lsp-mode . lsp-enable-which-key-integration)
-    (lsp-after-apply-edits . (lambda (operation-name)
-			       (when (eq operation-name 'rename)
-				 (save-buffer)))))
-#+END_SRC
-** lsp ui
-User interface elements for lsp-mode.
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-ui
-    :ensure t
+    ((rust-mode typescript-ts-mode js-ts-mode elisp-mode) . eglot-ensure)
     :config
-    (setq lsp-ui-doc-enable t)
-    (setq lsp-ui-doc-position 'at-point)
-    (setq lsp-ui-doc-delay 0.8)
-    (setq lsp-ui-doc-show-with-cursor t)
-    (setq lsp-ui-doc-show-with-mouse t)
-    (setq lsp-ui-doc-use-childframe t)
-    (setq lsp-ui-sideline-enable nil))
+    (setq eglot-inlay-hints-mode nil)
+    (setq eglot-code-action-indicator ">>>")
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+		   '(rust-mode . ("rust-analyzer"
+				  :initializationOptions (:procMacro (:enable t)
+								     :cargo (:buildScripts (:enable t) :features "all")))))
+      (add-to-list 'eglot-server-programs
+		   '(typescript-ts-mode . ("typescript-language-server" "--stdio"))))
+    :bind
+    ("C-c e r" . eglot-rename)
+    ("C-c e f" . eglot-format)
+    ("C-c e c" . eglot-code-actions)
+    ("C-c e o" . eglot-code-actions-organize-imports)
+    ("C-c e h s" . eglot-show-type-hierarchy)
+    ("C-c e h t" . eglot-call-type-hierarchy))
 #+END_SRC
-** dap
-Debug adapter protocol implimentation for emacs.
+** eldoc box
+Display eldoc messages in posframe box.
 #+BEGIN_SRC emacs-lisp
-  (use-package dap-mode
+  (use-package eldoc-box
     :ensure t
+    :after eglot
+    :hook
+    (eglot-managed-mode . eldoc-box-hover-mode)
     :config
-    (setq dap-auto-configure-features '(sessions locals controls tooltip))
-  
-    ;; javascrip/typescript
-    (require 'dap-node))
+    (setq eldoc-box-fringe-use-same-bg nil))
 #+END_SRC
 ** company mode
 COMPlete ANYthing text completion framework.
@@ -491,6 +491,15 @@ Syntax checker for emacs.
     :ensure t
     :hook
     (prog-mode . flycheck-mode))
+#+END_SRC
+** flycheck eglot
+Make eglot use flycheck instead of flymake.
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck-eglot
+    :ensure t
+    :after (flycheck eglot)
+    :config
+    (global-flycheck-eglot-mode 1))
 #+END_SRC
 ** vterm
 A faster, more responsive terminal in emacs. May need to install whatever the libvterm package
@@ -561,6 +570,10 @@ Programming language modes.
   ;; markdown
   (use-package markdown-mode
     :ensure t)
+
+  ;; toml
+  (use-package toml-mode
+    :ensure t)
 #+END_SRC
 ** rainbow mode
 Package that sets background of hex color codes the the color they represent.
@@ -569,6 +582,14 @@ Package that sets background of hex color codes the the color they represent.
     :ensure t
     :hook
     (prog-mode . rainbow-mode))
+#+END_SRC
+** rainbow delimiters
+Highlight matching parens, braces, etc. using pretty colors.
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :ensure t
+    :hook
+    ((prog-mode org-mode) . rainbow-delimiters-mode))
 #+END_SRC
 ** elfeed
 RSS feed reader for emacs.
@@ -619,7 +640,7 @@ Emacs start screen replacement.
     (setq dashboard-icon-type 'nerd-icons)
     (setq dashboard-set-heading-icons nil)
     (setq dashboard-set-file-icons t)
-    (setq dashboard-startup-banner "~/.emacs.d/assets/kim.png"))
+    (setq dashboard-startup-banner "~/.emacs.d/assets/hobbes.png"))
 #+END_SRC
 ** demap (minimap)
 Minimap showing file on the side of the buffer (like sublime).
@@ -652,6 +673,16 @@ Dynamically change the cursor foreground and background color for maximum visibi
     :config
     (crystal-point-enable))
 #+END_SRC
+** indent bars
+Indentation guide bars.
+#+BEGIN_SRC emacs-lisp
+  (use-package indent-bars
+    :ensure t
+    :config
+    (setq indent-bars-treesit-support t)
+    :hook
+    (prog-mode-hook . indent-bars-mode))
+#+END_SRC
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
@@ -666,26 +697,26 @@ Color theme to use.
 Faces to use.
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil
-		      :font "RobotoMono Nerd Font Mono"
-		      :height 140
+		      :font gabe/default-font
+		      :height gabe/default-font-size
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch nil
-		      :font "RobotoMono Nerd Font Mono"
-		      :height 140
+		      :font gabe/default-font
+		      :height gabe/default-font-size
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'fixed-pitch-serif nil
-		      :font "RobotoMono Nerd Font Mono"
-		      :height 140
+		      :font gabe/default-font
+		      :height gabe/default-font-size
 		      :weight 'regular
 		      :width 'regular)
 
   (set-face-attribute 'variable-pitch nil
-		      :font "RobotoMono Nerd Font Mono"
-		      :height 140
+		      :font gabe/default-font
+		      :height gabe/default-font-size
 		      :weight 'regular
 		      :width 'regular)
 #+END_SRC
