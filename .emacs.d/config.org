@@ -4,7 +4,7 @@
 * Custom Variables
 #+BEGIN_SRC emacs-lisp
   ;; Default font size to use for most faces.
-  (setq gabe/default-font-size 140)
+  (setq-default gabe/default-font-size 120)
 
   ;; Default font size of ace window leading character.
   (setq gabe/default-aw-font-size 500)
@@ -15,9 +15,6 @@
   ;; Holds state on whether a demap buffer exists or not. This is uesed in
   ;; gabe/split-*-and-follow functions to not mess up the rebalancing of windows.
   (setq gabe/demap-is-open nil)
-
-  ;; Language modes to enable eglot for.
-  (setq gabe/supported-lsp-modes '(rust-mode typescript-mode elisp-mode))
 #+END_SRC
 * User Interface 
 User interface configurations (i.e. tool bar, cursor, etc.).
@@ -148,7 +145,7 @@ Modes to enable hl-line-mode in.
 
   (add-hook 'dired-mode-hook #'hl-line-mode)
 
-  (add-hook 'package-menu-mode #'hl-line-mode)
+  (add-hook 'package-menu-hook #'hl-line-mode)
 
   (add-hook 'ibuffer-hook #'hl-line-mode)
 #+END_SRC
@@ -258,6 +255,46 @@ Open the configuration file in the current frame.
     (find-file "~/.emacs.d/config.org"))
 
   (global-set-key (kbd "C-c c e") 'gabe/open-config)
+#+END_SRC
+** set font size
+Interactive function which sets the gabe/default-font-size variable to
+set the font size globaly.
+#+BEGIN_SRC emacs-lisp
+  (defun gabe/set-font-size (size)
+    (interactive "nFont Size: ")
+    (setq gabe/default-font-size size)
+    (gabe/load-custom-face-attributes))
+
+  (global-set-key (kbd "C-c c f") 'gabe/set-font-size)
+#+END_SRC
+** load custom faces
+Sets custom face values using the set-face-attribute function.
+#+BEGIN_SRC emacs-lisp
+  (defun gabe/load-custom-face-attributes ()
+    (interactive)
+    (set-face-attribute 'default nil
+    		      :font gabe/default-font
+    		      :height gabe/default-font-size
+    		      :weight 'regular
+    		      :width 'regular)
+
+    (set-face-attribute 'fixed-pitch nil
+    		      :font gabe/default-font
+    		      :height gabe/default-font-size
+    		      :weight 'regular
+    		      :width 'regular)
+
+    (set-face-attribute 'fixed-pitch-serif nil
+    		      :font gabe/default-font
+    		      :height gabe/default-font-size
+    		      :weight 'regular
+    		      :width 'regular)
+
+    (set-face-attribute 'variable-pitch nil
+    		      :font gabe/default-font
+    		      :height gabe/default-font-size
+    		      :weight 'regular
+    		      :width 'regular))
 #+END_SRC
 * Packages
 ** package archives
@@ -426,7 +463,7 @@ Faster window switching.
     :config
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
     (set-face-attribute 'aw-leading-char-face nil
-			:height gabe/default-aw-font-size))
+  		      :height gabe/default-aw-font-size))
 #+END_SRC
 ** which key
 Package that shows completions of key-chords in a minibuffer.
@@ -446,17 +483,17 @@ Emacs Polyglot (LSP).
   (use-package eglot
     :ensure t
     :hook
-    ((rust-mode typescript-ts-mode js-ts-mode elisp-mode) . eglot-ensure)
+    ((rust-mode typescript-ts-mode js-ts-mode typescript-mode elisp-mode) . eglot-ensure)
+    (eglot-managed-mode . (lambda () eglot-inlay-hints-mode -1))
     :config
-    (setq eglot-inlay-hints-mode nil)
-    (setq eglot-code-action-indicator ">>>")
     (with-eval-after-load 'eglot
       (add-to-list 'eglot-server-programs
-		   '(rust-mode . ("rust-analyzer"
-				  :initializationOptions (:procMacro (:enable t)
-								     :cargo (:buildScripts (:enable t) :features "all")))))
+  		 '(rust-mode . ("rust-analyzer"
+  				:initializationOptions (:procMacro (:enable t)
+  								   :cargo (:buildScripts (:enable t) :features "all")))))
       (add-to-list 'eglot-server-programs
-		   '(typescript-ts-mode . ("typescript-language-server" "--stdio"))))
+  		 '(typescript-ts-mode . ("typescript-language-server" "--stdio"))))
+    (setq eglot-code-action-indicator ">>>")
     :bind
     ("C-c e r" . eglot-rename)
     ("C-c e f" . eglot-format)
@@ -488,18 +525,18 @@ COMPlete ANYthing text completion framework.
 Syntax checker for emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure t
-    :hook
-    (prog-mode . flycheck-mode))
+    :ensure t)
+    ;; :hook
+    ;; (prog-mode . flycheck-mode))
 #+END_SRC
 ** flycheck eglot
 Make eglot use flycheck instead of flymake.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck-eglot
     :ensure t
-    :after (flycheck eglot)
-    :config
-    (global-flycheck-eglot-mode 1))
+    :after (flycheck eglot))
+    ;; :config
+    ;; (global-flycheck-eglot-mode 1))
 #+END_SRC
 ** vterm
 A faster, more responsive terminal in emacs. May need to install whatever the libvterm package
@@ -516,6 +553,11 @@ is on the OS.
     :ensure t
     :bind
     ("C-c <return>" . multi-vterm))
+
+  (use-package vterm-toggle
+    :ensure t
+    :bind
+    ("C-c <space>" . vterm-toggle-cd))
 #+END_SRC
 ** exec from shell
 Make emacs use environment variables from the shell.
@@ -535,9 +577,9 @@ Programming language modes.
 
   ;; rust
   (use-package rust-mode
-    :ensure t
-    :config
-    (setq rust-format-on-save t))
+    :ensure t)
+    ;; :config
+    ;; (setq rust-format-on-save t))
 
   ;; clojure
   (use-package clojure-mode
@@ -573,7 +615,11 @@ Programming language modes.
 
   ;; toml
   (use-package toml-mode
-    :ensure t)
+    :ensure t
+    :hook
+    (toml-mode . (lambda ()
+		   (hl-line-mode)
+		   (display-line-numbers-mode))))
 #+END_SRC
 ** rainbow mode
 Package that sets background of hex color codes the the color they represent.
@@ -582,14 +628,6 @@ Package that sets background of hex color codes the the color they represent.
     :ensure t
     :hook
     (prog-mode . rainbow-mode))
-#+END_SRC
-** rainbow delimiters
-Highlight matching parens, braces, etc. using pretty colors.
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-delimiters
-    :ensure t
-    :hook
-    ((prog-mode org-mode) . rainbow-delimiters-mode))
 #+END_SRC
 ** elfeed
 RSS feed reader for emacs.
@@ -604,26 +642,23 @@ RSS feed reader for emacs.
     (setq elfeed-search-filter "@4-months-ago +unread")
     (setq elfeed-show-truncate-long-urls t)
     (setq elfeed-feeds
-	    '(("https://xkcd.com/atom.xml" comics)
-	      ("https://www.smbc-comics.com/comic/rss" comics)
-	      ("https://planet.emacslife.com/atom.xml" emacs)
-	      ("https://static.fsf.org/fsforg/rss/blogs.xml" fsf)
-	      ("https://static.fsf.org/fsforg/rss/news.xml" fsf)
-	      ("https://protesilaos.com/news.xml" prot news)
-	      ("https://protesilaos.com/politics.xml" prot politics)
-	      ("https://protesilaos.com/codelog.xml" prot emacs code)
-	      ("https://theintercept.com/feed/?rss" the_intercept politics)
-	      ("https://fivethirtyeight.com/politics/feed/" fivethirtyeight politics)
-	      ("https://defence-blog.com/feed/" military politics news)
-	      ("https://www.nasa.gov/rss/dyn/breaking_news.rss" space nasa)
-	      ("https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss" space nasa)
-	      ("http://blogs.nasa.gov/stationreport/feed/" space nasa iss)
-	      ("http://www.nasa.gov/rss/dyn/chandra_images.rss" space nasa chandra_mission)
-	      ("https://www.nasa.gov/rss/dyn/mission_pages/kepler/news/kepler-newsandfeatures-RSS.rss" space nasa keplar_mission)
-	      ("https://www.phoronix.com/rss.php" linux news)
-	      ("https://www.archlinux.org/feeds/news/" linux arch)
-	      ("https://www.linuxfoundation.org/feed/" linux))))
-  
+  	    '(("https://xkcd.com/atom.xml" comics)
+  	      ("https://www.smbc-comics.com/comic/rss" comics)
+  	      ("https://planet.emacslife.com/atom.xml" emacs)
+  	      ("https://static.fsf.org/fsforg/rss/blogs.xml" fsf)
+  	      ("https://static.fsf.org/fsforg/rss/news.xml" fsf)
+  	      ("https://protesilaos.com/news.xml" prot news)
+  	      ("https://protesilaos.com/politics.xml" prot politics)
+  	      ("https://protesilaos.com/codelog.xml" prot emacs code)
+  	      ("https://www.nasa.gov/rss/dyn/breaking_news.rss" space nasa)
+  	      ("https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss" space nasa)
+  	      ("http://blogs.nasa.gov/stationreport/feed/" space nasa iss)
+  	      ("http://www.nasa.gov/rss/dyn/chandra_images.rss" space nasa chandra_mission)
+  	      ("https://www.nasa.gov/rss/dyn/mission_pages/kepler/news/kepler-newsandfeatures-RSS.rss" space nasa keplar_mission)
+  	      ("https://www.phoronix.com/rss.php" linux news)
+  	      ("https://www.archlinux.org/feeds/news/" linux arch)
+  	      ("https://www.linuxfoundation.org/feed/" linux))))
+
 #+END_SRC
 ** dashboard
 Emacs start screen replacement.
@@ -665,13 +700,22 @@ Better padding around buffers.
     ;; :init
     ;; (spacious-padding-mode))
 #+END_SRC
+** life calendar
+#+BEGIN_SRC emacs-lisp
+  (use-package life-calendar
+    :ensure t
+    :config
+    (setq life-calendar-birthday "1996-11-12")
+    (setq life-calendar-years 95)
+    (setq life-calendar-week-start-day 'birthday))
+#+END_SRC
 ** crystal point
 Dynamically change the cursor foreground and background color for maximum visibility.
 #+BEGIN_SRC emacs-lisp
   (use-package crystal-point
-    :ensure t
-    :config
-    (crystal-point-enable))
+    :ensure t)
+    ;; :config
+    ;; (crystal-point-enable))
 #+END_SRC
 ** indent bars
 Indentation guide bars.
@@ -680,43 +724,26 @@ Indentation guide bars.
     :ensure t
     :config
     (setq indent-bars-treesit-support t)
-    :hook
-    (prog-mode-hook . indent-bars-mode))
+    (setq indent-bars-pattern "|")
+    (setq indent-bars-width-frac 0.4)
+    (setq bars-pad-frac 0.1)
+    (setq indent-bars-zigzag 0.1)
+    (setq indent-bars-color-by-depth nil)
+    (setq indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1))
+    (setq indent-bars-highlight-current-depth '(:face default :blen 0.4)))
+    ;; :hook
+    ;; (prog-mode-hook . indent-bars-mode))
 #+END_SRC
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
-  (use-package catppuccin-theme
-    :ensure t
-    :config
-    (setq catppuccin-flavor 'frappe))
-
-  (load-theme 'catppuccin t)
+  (use-package modus-themes
+     :ensure t
+     :config
+     (load-theme 'modus-operandi-tinted t))
 #+END_SRC
 * Faces
-Faces to use.
+Load faces by calling gabe/load-custom-face-attributes.
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil
-		      :font gabe/default-font
-		      :height gabe/default-font-size
-		      :weight 'regular
-		      :width 'regular)
-
-  (set-face-attribute 'fixed-pitch nil
-		      :font gabe/default-font
-		      :height gabe/default-font-size
-		      :weight 'regular
-		      :width 'regular)
-
-  (set-face-attribute 'fixed-pitch-serif nil
-		      :font gabe/default-font
-		      :height gabe/default-font-size
-		      :weight 'regular
-		      :width 'regular)
-
-  (set-face-attribute 'variable-pitch nil
-		      :font gabe/default-font
-		      :height gabe/default-font-size
-		      :weight 'regular
-		      :width 'regular)
+  (gabe/load-custom-face-attributes)
 #+END_SRC
