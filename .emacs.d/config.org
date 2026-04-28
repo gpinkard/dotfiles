@@ -4,10 +4,7 @@
 * Custom Variables
 #+BEGIN_SRC emacs-lisp
   ;; Default font size to use for most faces.
-  (setq-default gabe/default-font-size 120)
-
-  ;; Default font size of ace window leading character.
-  (setq gabe/default-aw-font-size 500)
+  (setq gabe/font-size 120)
 
   ;; Default font to use for a number of faces.
   (setq gabe/default-font "RobotoMono Nerd Font Mono")
@@ -15,6 +12,15 @@
   ;; Holds state on whether a demap buffer exists or not. This is uesed in
   ;; gabe/split-*-and-follow functions to not mess up the rebalancing of windows.
   (setq gabe/demap-is-open nil)
+
+  ;; Whether or not to enable hl-line-mode for a variety of modes.
+  (setq gabe/enable-hl-line-mode t)
+
+  ;; Whether or not to enable line numbers for a variety of modes.
+  (setq gabe/enable-line-numbers t)
+
+  ;; This config files filepath.
+  (setq gabe/emacs-config-path (format "%s%s" (pwd) "config.org"))
 #+END_SRC
 * User Interface 
 User interface configurations (i.e. tool bar, cursor, etc.).
@@ -36,11 +42,11 @@ Disable the scroll bar.
 ** cursor
 Blinking cursor configurations.
 #+BEGIN_SRC emacs-lisp
-  ;; enable blinking cursor
+  ;; disable blinking cursor
   (blink-cursor-mode 0)
 
   ;; blink indefinitely
-  (setq blink-cursor-blinks 0)
+  ;; (setq blink-cursor-blinks 0)
 
   ;; time to start blinking
   (setq blink-cursor-delay 0.3)
@@ -58,6 +64,17 @@ Disable the startup screen.
 Stop emacs from using UI dialog boxes.
 #+BEGIN_SRC emacs-lisp
   (setq use-dialog-box nil)
+#+END_SRC
+** time
+Display current time in the modeline.
+#+BEGIN_SRC emacs-lisp
+  (display-time-mode 1)
+#+END_SRC
+** echo area
+Configurations for the echo area.
+#+BEGIN_SRC emacs-lisp
+  ;; disable the "You can run the command {x} with keybinding {y}" messages
+  (setq suggest-key-bindings nil)
 #+END_SRC
 * Editing
 Configurations that impact the editing experience and general feel of emacs.
@@ -83,22 +100,34 @@ Set default coding system to UTF-8.
 Configurations for tab/offset size for various languages.
 #+BEGIN_SRC emacs-lisp
   ;; C/C++ indentation level
-  (setq-default c-basic-offset 8)
+  (add-hook 'c-mode-hook 'c++-mode-hook
+  	  (lambda ()
+  	    (setq-local c-basic-offset 8)))
 
   ;; Java indentation level
-  (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
+  (add-hook 'java-mode-hook
+  	  (lambda ()
+  	    (setq-local c-basic-offset 4)))
 
   ;; JavaScript indentation level
-  (setq js-indent-level 2)
+  (add-hook 'js-mode-hook 'js-ts-mode-hook 'typescript-ts-mode-hook
+  	  (lambda ()
+  	    (setq-local js-indent-level 2)))
 
-  ;; TypeScript indentation level
-  (setq typescript-indent-level 2)
+  ;; Odin indentation level
+  (add-hook 'odin-ts-mode-hook
+  	  (lambda ()
+  	    (setq-local indent-tabs-mode t)
+  	    (setq-local tab-width 4)))
 #+END_SRC
 ** line numbers
 Enable line numbers when we are in a programming mode.
 #+BEGIN_SRC emacs-lisp
-  (when (version<= "26.0.50" emacs-version)
-    (add-hook 'prog-mode-hook #'display-line-numbers-mode))
+  (when (and (version<= "26.0.50" emacs-version) gabe/enable-line-numbers)
+    (add-hook 'markdown-mode-hook #'display-line-numbers-mode)
+    (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+    (add-hook 'toml-mode-hook #'display-line-numbers-mode)
+    (add-hook 'yaml-mode-hook #'display-line-numbers-mode))
 #+END_SRC
 ** remember place in file
 Have emacs remember the last cursor position of a file you visited.
@@ -141,13 +170,15 @@ Disable the audio beep for keyboard-quit
 ** hightlight line mode
 Modes to enable hl-line-mode in.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook #'hl-line-mode)
-
-  (add-hook 'dired-mode-hook #'hl-line-mode)
-
-  (add-hook 'package-menu-hook #'hl-line-mode)
-
-  (add-hook 'ibuffer-hook #'hl-line-mode)
+  (when gabe/enable-hl-line-mode
+    (add-hook 'dired-mode-hook #'hl-line-mode)
+    (add-hook 'ibuffer-hook #'hl-line-mode)
+    (add-hook 'markdown-mode-hook #'hl-line-mode)
+    (add-hook 'toml-mode-hook #'hl-line-mode)
+    (add-hook 'org-mode-hook #'hl-line-mode)
+    (add-hook 'package-menu-mode-hook #'hl-line-mode)
+    (add-hook 'prog-mode-hook #'hl-line-mode)
+    (add-hook 'yaml-mode-hook #'hl-line-mode))
 #+END_SRC
 * Dired
 Settings for directory editor.
@@ -243,7 +274,9 @@ Reload the configuration file.
 #+BEGIN_SRC emacs-lisp
   (defun gabe/reload-config ()
     (interactive)
-    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+    (message "reloading config...")
+    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
+    (message "done..."))
 
   (global-set-key (kbd "C-c c r") 'gabe/reload-config)
 #+END_SRC
@@ -256,45 +289,48 @@ Open the configuration file in the current frame.
 
   (global-set-key (kbd "C-c c e") 'gabe/open-config)
 #+END_SRC
-** set font size
-Interactive function which sets the gabe/default-font-size variable to
-set the font size globaly.
-#+BEGIN_SRC emacs-lisp
-  (defun gabe/set-font-size (size)
-    (interactive "nFont Size: ")
-    (setq gabe/default-font-size size)
-    (gabe/load-custom-face-attributes))
-
-  (global-set-key (kbd "C-c c f") 'gabe/set-font-size)
-#+END_SRC
 ** load custom faces
 Sets custom face values using the set-face-attribute function.
 #+BEGIN_SRC emacs-lisp
   (defun gabe/load-custom-face-attributes ()
     (interactive)
+    ;; make ace-window face larger
+    (custom-set-faces '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 5.0)))))
+    
     (set-face-attribute 'default nil
     		      :font gabe/default-font
-    		      :height gabe/default-font-size
+    		      :height gabe/font-size
     		      :weight 'regular
     		      :width 'regular)
 
     (set-face-attribute 'fixed-pitch nil
     		      :font gabe/default-font
-    		      :height gabe/default-font-size
+    		      :height gabe/font-size
     		      :weight 'regular
     		      :width 'regular)
 
     (set-face-attribute 'fixed-pitch-serif nil
     		      :font gabe/default-font
-    		      :height gabe/default-font-size
+    		      :height gabe/font-size
     		      :weight 'regular
     		      :width 'regular)
 
     (set-face-attribute 'variable-pitch nil
     		      :font gabe/default-font
-    		      :height gabe/default-font-size
+    		      :height gabe/font-size
     		      :weight 'regular
     		      :width 'regular))
+#+END_SRC
+** set font size
+Interactive function which sets the gabe/font-size variable to.
+set the font size globaly.
+#+BEGIN_SRC emacs-lisp
+  (defun gabe/set-font-size (size)
+    (interactive "nFont Size: ")
+    (setq gabe/font-size size)
+    (gabe/load-custom-face-attributes))
+
+  (global-set-key (kbd "C-c c f") 'gabe/set-font-size)
 #+END_SRC
 * Packages
 ** package archives
@@ -358,7 +394,9 @@ Vertical completion framework that works nicely with native emacs completions.
     (vertico-indexed-mode)
     (vertico-mouse-mode)
     :custom
-    (vertico-cycle t))
+    (vertico-count 20)
+    (vertico-cycle t)
+    (vertico-resize t))
 #+END_SRC
 ** savehist
 Saves minibuffer history to an external file. Vertico uses this to sort the position
@@ -376,9 +414,7 @@ Adds useful information to minibuffer completions.
     :after vertico
     :ensure t
     :init
-    (marginalia-mode)
-    :custom
-    (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil)))
+    (marginalia-mode))
 #+END_SRC
 ** orderless
 A better (orderless) completion style.
@@ -413,6 +449,14 @@ Better search and navigation commands (similar to Counsel package).
     :bind
     ("C-c p c v" . consult-vc-modified-files))
 #+END_SRC
+** consult symbol
+Search accross all emacs symbols (functions, variables, macros, etc.) using consult.
+#+BEGIN_SRC emacs-lisp
+  (use-package consult-symbol
+    :ensure t
+    :bind
+    ("C-c p c s" . consult-symbol))
+#+END_SRC
 ** affe
 Asynchronous Fuzzy Finder for Emacs.
 #+BEGIN_SRC emacs-lisp
@@ -445,7 +489,13 @@ A package that allows you to jump to text quickly.
   (use-package avy
     :ensure t
     :bind
-    ("C-;" . avy-goto-char-2))
+    ("C-;" . avy-goto-char))
+#+END_SRC
+** multiple cursors
+Multiple cursors for editing multiple lines at once.
+#+BEGIN_SRC emacs-lisp
+  (use-package multiple-cursors
+    :ensure t)
 #+END_SRC
 ** magit
 A *magical* git porcelain.
@@ -454,16 +504,14 @@ A *magical* git porcelain.
     :ensure t)
 #+END_SRC
 ** ace window
-Faster window switching.
+Better window switching (as well as other window options).
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
     :ensure t
-    :bind
-    ([remap other-window] . ace-window)
     :config
     (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-    (set-face-attribute 'aw-leading-char-face nil
-  		      :height gabe/default-aw-font-size))
+    :bind
+    ("C-x o" . ace-window))
 #+END_SRC
 ** which key
 Package that shows completions of key-chords in a minibuffer.
@@ -477,13 +525,100 @@ Package that shows completions of key-chords in a minibuffer.
     (setq which-key-show-docstrings t)
     (setq which-key-idle-delay 1.5))
 #+END_SRC
+** language specific modes
+Programming language modes.
+#+BEGIN_SRC emacs-lisp
+  ;; clojure
+  (use-package clojure-mode
+    :ensure t)
+  (use-package cider
+    :ensure t
+    :hook
+    (clojure-mode . cider-mode))
+
+  ;; crystal
+  (use-package crystal-mode
+    :ensure t)
+
+  ;; docker
+  (use-package dockerfile-mode
+    :ensure t)
+
+  ;; golang
+  (use-package go-ts-mode
+    :ensure t)
+
+  ;; graphql
+  (use-package graphql-mode
+    :ensure t)
+
+  ;; markdown
+  (use-package markdown-mode
+    :ensure t)
+
+  ;; odin
+  (use-package odin-ts-mode
+    :vc
+    (:url "https://github.com/Sampie159/odin-ts-mode")
+    :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.odin\\'" . odin-ts-mode)))
+
+  ;; python
+  (use-package python-mode
+    :ensure t)
+
+  ;; ruby
+  (use-package ruby-mode
+    :ensure t)
+
+  ;; rust
+  (use-package rust-mode
+    :ensure t)
+
+  ;; toml
+  (use-package toml-mode
+    :ensure t)
+
+  ;; typescript
+  (use-package typescript-ts-mode
+    :ensure t)
+
+  ;; yaml
+  (use-package yaml-mode
+    :ensure t)
+
+  ;; zig
+  (use-package zig-ts-mode
+    :ensure t)
+
+  ;; treesitter grammars
+  ;; after editing run M-x treesit-install-language-grammar RET {language} RET
+  (setq treesit-language-source-alist
+        '((go "https://github.com/tree-sitter/tree-sitter-go")
+  	(odin "https://github.com/tree-sitter-grammars/tree-sitter-odin")
+  	(rust "https://github.com/tree-sitter/tree-sitter-rust")
+  	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+  	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+  	(zig "https://github.com/tree-sitter/zig-tree-sitter")))
+#+END_SRC
+** flymake
+#+BEGIN_SRC emacs-lisp
+  (use-package flymake
+    :ensure t
+    :hook
+    (prog-mode . flymake-mode)
+    :bind
+    ("C-c f n" . flymake-goto-next-error)
+    ("C-c f p" . flymake-goto-prev-errror))
+#+END_SRC
 ** eglot
 Emacs Polyglot (LSP).
 #+BEGIN_SRC emacs-lisp
   (use-package eglot
     :ensure t
     :hook
-    ((rust-mode typescript-ts-mode js-ts-mode typescript-mode elisp-mode) . eglot-ensure)
+    ((rust-mode typescript-ts-mode js-ts-mode elisp-mode) . eglot-ensure)
     (eglot-managed-mode . (lambda () eglot-inlay-hints-mode -1))
     :config
     (with-eval-after-load 'eglot
@@ -492,7 +627,10 @@ Emacs Polyglot (LSP).
   				:initializationOptions (:procMacro (:enable t)
   								   :cargo (:buildScripts (:enable t) :features "all")))))
       (add-to-list 'eglot-server-programs
-  		 '(typescript-ts-mode . ("typescript-language-server" "--stdio"))))
+  		 '(typescript-ts-mode . ("typescript-language-server" "--stdio")))
+
+      (add-to-list 'eglot-server-programs
+    		 '(js-ts-mode . ("typescript-language-server" "--stdio"))))
     (setq eglot-code-action-indicator ">>>")
     :bind
     ("C-c e r" . eglot-rename)
@@ -521,23 +659,6 @@ COMPlete ANYthing text completion framework.
     :hook
     (prog-mode . company-mode))
 #+END_SRC
-** flycheck
-Syntax checker for emacs.
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :ensure t)
-    ;; :hook
-    ;; (prog-mode . flycheck-mode))
-#+END_SRC
-** flycheck eglot
-Make eglot use flycheck instead of flymake.
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck-eglot
-    :ensure t
-    :after (flycheck eglot))
-    ;; :config
-    ;; (global-flycheck-eglot-mode 1))
-#+END_SRC
 ** vterm
 A faster, more responsive terminal in emacs. May need to install whatever the libvterm package
 is on the OS.
@@ -545,19 +666,45 @@ is on the OS.
   ;; vterm package itself
   (use-package vterm
     :ensure t
+    :bind
+    ("C-c <return>" . vterm)
     :config
-    (setq vterm-always-compile-module t))
+    (setq vterm-always-compile-module t)
+    (setq vterm-term-environment-variable "eterm-color"))
 
-  ;; package that enables multiple vterm instances
-  (use-package multi-vterm
+  ;; ;; package that enables multiple vterm instances
+  ;; (use-package multi-vterm
+  ;;   :ensure t
+  ;;   :bind
+  ;;   ("C-c <return>" . multi-vterm))
+
+  ;; (use-package vterm-toggle
+  ;;   :ensure t
+  ;;   :bind
+  ;;   ("C-c <space>" . vterm-toggle-cd))
+#+END_SRC
+** vterm editor
+Edit shell commands in a buffer and send to vterm.
+#+BEGIN_SRC emacs-lisp
+  (use-package vterm-editor
     :ensure t
     :bind
-    ("C-c <return>" . multi-vterm))
-
-  (use-package vterm-toggle
+    (:map vterm-mode-map
+  	("C-c e" . vterm-editor-open)))
+#+END_SRC
+** popterm
+Toggle a terminal in a posframe.
+#+BEGIN_SRC emacs-lisp
+  (use-package popterm
     :ensure t
     :bind
-    ("C-c <space>" . vterm-toggle-cd))
+    ("C-c SPC" . popterm-toggle)
+    :config
+    (setq popterm-backend 'vterm)
+    (setq popterm-display-method 'posframe)
+    (setq popterm-scope 'project)
+    (setq popterm-auto-cd t)
+    (popterm-global-mode 1))
 #+END_SRC
 ** exec from shell
 Make emacs use environment variables from the shell.
@@ -567,59 +714,6 @@ Make emacs use environment variables from the shell.
     :init
     (when (memq window-system '(mac ns x))
       (exec-path-from-shell-initialize)))
-#+END_SRC
-** language specific modes
-Programming language modes.
-#+BEGIN_SRC emacs-lisp
-  ;; golang
-  (use-package go-mode
-    :ensure t)
-
-  ;; rust
-  (use-package rust-mode
-    :ensure t)
-    ;; :config
-    ;; (setq rust-format-on-save t))
-
-  ;; clojure
-  (use-package clojure-mode
-    :ensure t)
-  (use-package cider
-    :ensure t
-    :hook
-    (clojure-mode . cider-mode))
-
-  ;; typescript
-  (use-package typescript-mode
-    :ensure t)
-
-  ;; python
-  (use-package python-mode
-    :ensure t)
-
-  ;; graphql
-  (use-package graphql-mode
-    :ensure t)
-
-  ;; docker
-  (use-package dockerfile-mode
-    :ensure t)
-
-  ;; yaml
-  (use-package yaml-mode
-    :ensure t)
-
-  ;; markdown
-  (use-package markdown-mode
-    :ensure t)
-
-  ;; toml
-  (use-package toml-mode
-    :ensure t
-    :hook
-    (toml-mode . (lambda ()
-		   (hl-line-mode)
-		   (display-line-numbers-mode))))
 #+END_SRC
 ** rainbow mode
 Package that sets background of hex color codes the the color they represent.
@@ -660,6 +754,14 @@ RSS feed reader for emacs.
   	      ("https://www.linuxfoundation.org/feed/" linux))))
 
 #+END_SRC
+** hackernews
+Hacker news client
+#+BEGIN_SRC emacs-lisp
+  (use-package hackernews-modern
+    :ensure t
+    :bind
+    ("C-c p n" . hackernews-modern))
+#+END_SRC
 ** dashboard
 Emacs start screen replacement.
 #+BEGIN_SRC emacs-lisp
@@ -669,12 +771,23 @@ Emacs start screen replacement.
     (dashboard-setup-startup-hook)
     (setq dashboard-banner-logo-title "=== Gabe's Editor Macros ===")
     (setq dashboard-items '((projects . 5)
-			      (recents . 5)))
+  			  (recents . 5)))
     (setq dashboard-set-navigator t)
     (setq dashboard-display-icons-p t)
     (setq dashboard-icon-type 'nerd-icons)
     (setq dashboard-set-heading-icons nil)
     (setq dashboard-set-file-icons t)
+    (setq dashboard-footer-messages '("If a man knows not to which port he sails, no wind is favorable."
+  				    "Pain is the touchstone of all growth."
+  				    "What one programmer can do in one month, two programmers can do in two months."
+  				    "Code is read much more often than it is written."
+  				    "I may not be totally perfect, but parts of me are excellent."
+  				    "Nothing is ever a total loss; it can always serve as a bad example."
+  				    "Life is really simple, but we insist on making it complicated."
+  				    "God drives the shortbus."
+  				    "Indecision with the passing of time becomes decision."
+  				    "Keep cool, but don't freeze."
+  				    "Nothing great is created suddenly."))
     (setq dashboard-startup-banner "~/.emacs.d/assets/hobbes.png"))
 #+END_SRC
 ** demap (minimap)
@@ -709,38 +822,22 @@ Better padding around buffers.
     (setq life-calendar-years 95)
     (setq life-calendar-week-start-day 'birthday))
 #+END_SRC
-** crystal point
-Dynamically change the cursor foreground and background color for maximum visibility.
+** dad jokes
+What it says on the tin.
 #+BEGIN_SRC emacs-lisp
-  (use-package crystal-point
-    :ensure t)
-    ;; :config
-    ;; (crystal-point-enable))
-#+END_SRC
-** indent bars
-Indentation guide bars.
-#+BEGIN_SRC emacs-lisp
-  (use-package indent-bars
+  (use-package dad-joke
     :ensure t
-    :config
-    (setq indent-bars-treesit-support t)
-    (setq indent-bars-pattern "|")
-    (setq indent-bars-width-frac 0.4)
-    (setq bars-pad-frac 0.1)
-    (setq indent-bars-zigzag 0.1)
-    (setq indent-bars-color-by-depth nil)
-    (setq indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1))
-    (setq indent-bars-highlight-current-depth '(:face default :blen 0.4)))
-    ;; :hook
-    ;; (prog-mode-hook . indent-bars-mode))
+    :bind
+    ("C-c p j" . dad-joke))
 #+END_SRC
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
-  (use-package modus-themes
-     :ensure t
-     :config
-     (load-theme 'modus-operandi-tinted t))
+  (use-package doom-themes
+    :ensure t)
+
+  ;; (load-theme 'doom-sourcerer t)
+  (load-theme 'doom-tomorrow-night t)
 #+END_SRC
 * Faces
 Load faces by calling gabe/load-custom-face-attributes.
