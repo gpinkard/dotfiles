@@ -499,7 +499,15 @@ A package that allows you to jump to text quickly.
 Multiple cursors for editing multiple lines at once.
 #+BEGIN_SRC emacs-lisp
   (use-package multiple-cursors
-    :ensure t)
+    :ensure t
+    :bind
+    ("C-c p m e" . mc/edit-lines)
+    ("C-c p m l a" . mc/mark-all-like-this)
+    ("C-c p m l n" . mc/mark-next-like-this)
+    ("C-c p m l p" . mc/mark-previous-like-this)
+    ("C-c p m w a" . mc/mark-all-like-this-word)
+    ("C-c p m w n" . mc/mark-all-next-like-this-word)
+    ("C-c p m w p" . mc/mark-all-previous-like-this-word))
 #+END_SRC
 ** magit
 A *magical* git porcelain.
@@ -710,6 +718,17 @@ Toggle a terminal in a posframe.
     (setq popterm-auto-cd t)
     (popterm-global-mode 1))
 #+END_SRC
+** demap (minimap)
+Minimap showing file on the side of the buffer (like sublime).
+#+BEGIN_SRC emacs-lisp
+  (use-package demap
+    :ensure t
+    :bind
+    ("C-c p d" . demap-toggle)
+    :config
+    (setq demap-minimap-window-side 'left)
+    (setq demap-minimap-window-width 18))
+#+END_SRC
 ** exec from shell
 Make emacs use environment variables from the shell.
 #+BEGIN_SRC emacs-lisp
@@ -726,6 +745,25 @@ Package that sets background of hex color codes the the color they represent.
     :ensure t
     :hook
     (prog-mode . rainbow-mode))
+#+END_SRC
+** denote
+Sane note taking package.
+#+BEGIN_SRC emacs-lisp
+  (use-package denote
+    :ensure t
+    :hook
+    (dired-mode . denote-dired-mode)
+    :bind
+    ("C-c p n n" . denote)
+    ("C-c p n r" . denote-rename-file)
+    ("C-c p n l" . denote-link)
+    ("C-c p n d" . denote-dired)
+    ("C-c p n g" . denote-grep)
+    :config
+    (setq denote-directory (expand-file-name "~/notes"))
+    (setq denote-known-keywords '("work" "personal" "programming"))
+    (setq denote-file-type 'org)
+    (setq denote-rename-buffer-mode 1))
 #+END_SRC
 ** elfeed
 RSS feed reader for emacs.
@@ -764,7 +802,7 @@ Hacker news client
   (use-package hackernews-modern
     :ensure t
     :bind
-    ("C-c p n" . hackernews-modern))
+    ("C-c p h" . hackernews-modern))
 #+END_SRC
 ** dashboard
 Emacs start screen replacement.
@@ -793,17 +831,6 @@ Emacs start screen replacement.
   				    "Keep cool, but don't freeze."
   				    "Nothing great is created suddenly."))
     (setq dashboard-startup-banner "~/.emacs.d/assets/hobbes.png"))
-#+END_SRC
-** demap (minimap)
-Minimap showing file on the side of the buffer (like sublime).
-#+BEGIN_SRC emacs-lisp
-  (use-package demap
-    :ensure t
-    :bind
-    ("C-c p m" . demap-toggle)
-    :config
-    (setq demap-minimap-window-side 'left)
-    (setq demap-minimap-window-width 18))
 #+END_SRC
 ** spacious padding
 Better padding around buffers.
@@ -837,10 +864,10 @@ What it says on the tin.
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
-  (use-package color-theme-sanityinc-tomorrow
+  (use-package doric-themes
     :ensure t)
 
-  (load-theme 'sanityinc-tomorrow-night t)
+  (load-theme 'doric-valley t)
 #+END_SRC
 * Faces
 Load faces by calling gabe/load-custom-face-attributes.
