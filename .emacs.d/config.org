@@ -1,6 +1,10 @@
 #+STARTUP: overview
 #+TITLE: Gabe's Emacs Configuration
 #+CREATOR: Gabriel Pinkard
+* Cookies
+#+BEGIN_SRC emacs-lisp
+  ;; -*- lexical-binding: t; -*-
+#+END_SRC
 * Custom Variables
 #+BEGIN_SRC emacs-lisp
   ;; Default font size to use for most faces.
@@ -833,11 +837,10 @@ What it says on the tin.
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
-  (use-package doom-themes
+  (use-package color-theme-sanityinc-tomorrow
     :ensure t)
 
-  ;; (load-theme 'doom-sourcerer t)
-  (load-theme 'doom-tomorrow-night t)
+  (load-theme 'sanityinc-tomorrow-night t)
 #+END_SRC
 * Faces
 Load faces by calling gabe/load-custom-face-attributes.
