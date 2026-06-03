@@ -18,13 +18,10 @@
   (setq gabe/demap-is-open nil)
 
   ;; Whether or not to enable hl-line-mode for a variety of modes.
-  (setq gabe/enable-hl-line-mode t)
+  (setq gabe/enable-hl-line-mode nil)
 
   ;; Whether or not to enable line numbers for a variety of modes.
   (setq gabe/enable-line-numbers t)
-
-  ;; This config files filepath.
-  (setq gabe/emacs-config-path (format "%s%s" (pwd) "config.org"))
 #+END_SRC
 * User Interface 
 User interface configurations (i.e. tool bar, cursor, etc.).
@@ -46,11 +43,11 @@ Disable the scroll bar.
 ** cursor
 Blinking cursor configurations.
 #+BEGIN_SRC emacs-lisp
-  ;; disable blinking cursor
-  (blink-cursor-mode 0)
+  ;; enable blinking cursor
+  (blink-cursor-mode 1)
 
   ;; blink indefinitely
-  ;; (setq blink-cursor-blinks 0)
+  (setq blink-cursor-blinks 0)
 
   ;; time to start blinking
   (setq blink-cursor-delay 0.3)
@@ -103,8 +100,13 @@ Set default coding system to UTF-8.
 ** tabs/offset
 Configurations for tab/offset size for various languages.
 #+BEGIN_SRC emacs-lisp
-  ;; C/C++ indentation level
-  (add-hook 'c-mode-hook 'c++-mode-hook
+  ;; C indentation level
+  (add-hook 'c-mode-hook
+  	  (lambda ()
+  	    (setq-local c-basic-offset 8)))
+
+  ;; C++ indentation level
+  (add-hook 'cpp-mode-hook
   	  (lambda ()
   	    (setq-local c-basic-offset 8)))
 
@@ -113,7 +115,7 @@ Configurations for tab/offset size for various languages.
   	  (lambda ()
   	    (setq-local c-basic-offset 4)))
 
-  ;; JavaScript indentation level
+  ;; JavaScript/Typescript indentation level
   (add-hook 'js-mode-hook 'js-ts-mode-hook 'typescript-ts-mode-hook
   	  (lambda ()
   	    (setq-local js-indent-level 2)))
@@ -715,7 +717,7 @@ Toggle a terminal in a posframe.
     (setq popterm-backend 'vterm)
     (setq popterm-display-method 'posframe)
     (setq popterm-scope 'project)
-    (setq popterm-auto-cd t)
+    (setq popterm-auto-cd nil)
     (popterm-global-mode 1))
 #+END_SRC
 ** demap (minimap)
@@ -763,6 +765,8 @@ Sane note taking package.
     (setq denote-directory (expand-file-name "~/notes"))
     (setq denote-known-keywords '("work" "personal" "programming"))
     (setq denote-file-type 'org)
+    (setq denote-infer-keywords t)
+    (setq denote-sort-keywords t)
     (setq denote-rename-buffer-mode 1))
 #+END_SRC
 ** elfeed
@@ -829,6 +833,7 @@ Emacs start screen replacement.
   				    "God drives the shortbus."
   				    "Indecision with the passing of time becomes decision."
   				    "Keep cool, but don't freeze."
+  				    "Easy does it."
   				    "Nothing great is created suddenly."))
     (setq dashboard-startup-banner "~/.emacs.d/assets/hobbes.png"))
 #+END_SRC
@@ -861,13 +866,18 @@ What it says on the tin.
     :bind
     ("C-c p j" . dad-joke))
 #+END_SRC
+** chess
+#+BEGIN_SRC emacs-lisp
+  (use-package chess
+    :ensure t)
+#+END_SRC
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
   (use-package doric-themes
     :ensure t)
 
-  (load-theme 'doric-valley t)
+  (load-theme 'doric-light t)
 #+END_SRC
 * Faces
 Load faces by calling gabe/load-custom-face-attributes.
