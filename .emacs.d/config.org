@@ -13,10 +13,6 @@
   ;; Default font to use for a number of faces.
   (setq gabe/default-font "Hack")
 
-  ;; Holds state on whether a demap buffer exists or not. This is uesed in
-  ;; gabe/split-*-and-follow functions to not mess up the rebalancing of windows.
-  (setq gabe/demap-is-open nil)
-
   ;; Whether or not to enable hl-line-mode for a variety of modes.
   (setq gabe/enable-hl-line-mode t)
 
@@ -249,39 +245,24 @@ Disable confirmation messages when killing a buffer in ibuffer.
 #+END_SRC
 * My Functions
 Custom functions I have written for various tasks.
-** demap is open
-Returns true if a demap buffer is open
-#+BEGIN_SRC emacs-lisp
-  ;; Returns true if there is a demap buffer open, else nil.
-  (defun gabe/demap-buffer-is-open-p ()
-    (let ((minimap-buffer (get-buffer "*Minimap*")))
-      (and minimap-buffer
-	   (if (get-buffer-window minimap-buffer) t nil))))
-#+END_SRC
 ** split and follow windows
 Functions for following a window after split.
 #+BEGIN_SRC emacs-lisp
   ;; Better horizontal split.
   (defun gabe/split-horizontally-and-follow ()
     (interactive)
-    (setq gabe/demap-is-open (gabe/demap-buffer-is-open-p))
-    (if gabe/demap-is-open (demap-toggle))
     (split-window-below)
     (balance-windows)
-    (other-window 1)
-    (if gabe/demap-is-open (demap-toggle)))
+    (other-window 1))
 
   (global-set-key (kbd "C-x 2") 'gabe/split-horizontally-and-follow)
 
   ;; Better vertical split.
   (defun gabe/split-vertically-and-follow ()
     (interactive)
-    (setq gabe/demap-is-open (gabe/demap-buffer-is-open-p))
-    (if gabe/demap-is-open (demap-toggle))
     (split-window-right)
     (balance-windows)
-    (other-window 1)
-    (if gabe/demap-is-open (demap-toggle)))
+    (other-window 1))
 
   (global-set-key (kbd "C-x 3") 'gabe/split-vertically-and-follow)
 #+END_SRC
@@ -751,17 +732,6 @@ Toggle a terminal in a posframe.
     (setq popterm-scope 'project)
     (setq popterm-auto-cd nil)
     (popterm-global-mode 1))
-#+END_SRC
-** demap (minimap)
-Minimap showing file on the side of the buffer (like sublime).
-#+BEGIN_SRC emacs-lisp
-  (use-package demap
-    :ensure t
-    :bind
-    ("C-c p d" . demap-toggle)
-    :config
-    (setq demap-minimap-window-side 'left)
-    (setq demap-minimap-window-width 18))
 #+END_SRC
 ** exec from shell
 Make emacs use environment variables from the shell.
