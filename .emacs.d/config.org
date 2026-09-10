@@ -11,14 +11,14 @@
   (setq gabe/font-size 120)
 
   ;; Default font to use for a number of faces.
-  (setq gabe/default-font "RobotoMono Nerd Font Mono")
+  (setq gabe/default-font "Hack")
 
   ;; Holds state on whether a demap buffer exists or not. This is uesed in
   ;; gabe/split-*-and-follow functions to not mess up the rebalancing of windows.
   (setq gabe/demap-is-open nil)
 
   ;; Whether or not to enable hl-line-mode for a variety of modes.
-  (setq gabe/enable-hl-line-mode nil)
+  (setq gabe/enable-hl-line-mode t)
 
   ;; Whether or not to enable line numbers for a variety of modes.
   (setq gabe/enable-line-numbers t)
@@ -43,13 +43,13 @@ Disable the scroll bar.
 ** cursor
 Blinking cursor configurations.
 #+BEGIN_SRC emacs-lisp
-  ;; enable blinking cursor
-  (blink-cursor-mode 1)
+  ;; disable blinking cursor
+  (blink-cursor-mode 0)
 
-  ;; blink indefinitely
+  ;; blink indefinitely when blinking enabled
   (setq blink-cursor-blinks 0)
 
-  ;; time to start blinking
+  ;; time to start blinking when blinking enabled
   (setq blink-cursor-delay 0.3)
 #+END_SRC
 Set cursor shape.
@@ -115,10 +115,15 @@ Configurations for tab/offset size for various languages.
   	  (lambda ()
   	    (setq-local c-basic-offset 4)))
 
-  ;; JavaScript/Typescript indentation level
-  (add-hook 'js-mode-hook 'js-ts-mode-hook 'typescript-ts-mode-hook
-  	  (lambda ()
-  	    (setq-local js-indent-level 2)))
+  ;; JavaScript/TypeScript
+  (dolist (hook '(js-mode-hook
+  		js-ts-mode-hook
+  		typescript-ts-mode-hook
+  		typescript-mode-hook))
+    (add-hook hook (lambda ()
+  		   (setq-local js-indent-level 2)
+  		   (setq-local typescript-ts-indent-offset 2)
+  		   (setq-local tab-width 2))))
 
   ;; Odin indentation level
   (add-hook 'odin-ts-mode-hook
@@ -134,6 +139,11 @@ Enable line numbers when we are in a programming mode.
     (add-hook 'prog-mode-hook #'display-line-numbers-mode)
     (add-hook 'toml-mode-hook #'display-line-numbers-mode)
     (add-hook 'yaml-mode-hook #'display-line-numbers-mode))
+#+END_SRC
+** line wrap
+Wrap long lines visually.
+#+BEGIN_SRC emacs-lisp
+  (global-visual-line-mode t)
 #+END_SRC
 ** remember place in file
 Have emacs remember the last cursor position of a file you visited.
@@ -345,11 +355,13 @@ Setup the package archives to use.
   (require 'package)
 
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ;;("melpa-stable" . "https://stable.melpa.org/packages/")
-			   ("org" . "https://orgmode.org/elpa/")
-			   ("elpa" . "https://elpa.gnu.org/packages/")))
+  			   ;;("melpa-stable" . "https://stable.melpa.org/packages/")
+  			   ("org" . "https://orgmode.org/elpa/")
+  			   ("elpa" . "https://elpa.gnu.org/packages/")))
 
   (package-initialize)
+
+  ;; (setq package-install-upgrade-built-in t)
 #+END_SRC
 ** use package
 Package that is a macro for installing and configuring packages.
@@ -483,8 +495,9 @@ Package for easily finding files and switching between projects.
     :init
     (projectile-mode +1)
     :config
-    (setq projectile-indexing-method 'alien)
+    ;; (setq projectile-indexing-method 'alien)
     (setq projectile-sort-order 'recentf)
+    (setq projectile-enable-caching t)
     (setq projectile-project-search-path '("~/dotfiles" "~/Projects" "~/.emacs.d"))
     :bind
     ("C-c p p" . projectile-command-map))
@@ -495,7 +508,15 @@ A package that allows you to jump to text quickly.
   (use-package avy
     :ensure t
     :bind
-    ("C-;" . avy-goto-char))
+    ("C-;" . avy-goto-char-2))
+#+END_SRC
+** repeat mode
+Repeat commands easily.
+#+BEGIN_SRC emacs-lisp
+  (use-package repeat
+    :ensure t
+    :config
+    (repeat-mode 1))
 #+END_SRC
 ** multiple cursors
 Multiple cursors for editing multiple lines at once.
@@ -545,10 +566,6 @@ Programming language modes.
   ;; clojure
   (use-package clojure-mode
     :ensure t)
-  (use-package cider
-    :ensure t
-    :hook
-    (clojure-mode . cider-mode))
 
   ;; crystal
   (use-package crystal-mode
@@ -583,8 +600,12 @@ Programming language modes.
     :ensure t)
 
   ;; ruby
-  (use-package ruby-mode
+  (use-package ruby-ts-mode
     :ensure t)
+  (use-package ruby-end
+    :ensure t
+    :hook
+    (ruby-mode . ruby-end-mode))
 
   ;; rust
   (use-package rust-mode
@@ -624,7 +645,8 @@ Programming language modes.
     (prog-mode . flymake-mode)
     :bind
     ("C-c f n" . flymake-goto-next-error)
-    ("C-c f p" . flymake-goto-prev-errror))
+    ("C-c f p" . flymake-goto-prev-error)
+    ("C-c f d" . flymake-show-buffer-diagnostics))
 #+END_SRC
 ** eglot
 Emacs Polyglot (LSP).
@@ -632,8 +654,8 @@ Emacs Polyglot (LSP).
   (use-package eglot
     :ensure t
     :hook
-    ((rust-mode typescript-ts-mode js-ts-mode elisp-mode) . eglot-ensure)
-    (eglot-managed-mode . (lambda () eglot-inlay-hints-mode -1))
+    ((rust-mode typescript-ts-mode typescript-mode js-ts-mode elisp-mode) . eglot-ensure)
+    (eglot-managed-mode . (lambda () (add-hook 'before-save-hook #'eglot-format-buffer nil t)))
     :config
     (with-eval-after-load 'eglot
       (add-to-list 'eglot-server-programs
@@ -645,7 +667,10 @@ Emacs Polyglot (LSP).
 
       (add-to-list 'eglot-server-programs
     		 '(js-ts-mode . ("typescript-language-server" "--stdio"))))
-    (setq eglot-code-action-indicator ">>>")
+    (advice-add 'eglot-rename :after (lambda (&rest _) (projectile-save-project-buffers)))
+    (setq eglot-autoshutdown t)
+    (setq eglot-sync-connect nil)
+    (setq eglot-report-progress t)
     :bind
     ("C-c e r" . eglot-rename)
     ("C-c e f" . eglot-format)
@@ -665,6 +690,17 @@ Display eldoc messages in posframe box.
     :config
     (setq eldoc-box-fringe-use-same-bg nil))
 #+END_SRC
+** dape
+Debugger adapter protocol package (Debugger Adapter Protocol for Emacs).
+#+BEGIN_SRC emacs-lisp
+  (use-package dape
+    :ensure t
+    :hook
+    (kill-emacs . dape-breakpoint-save)
+    (after-init . dape-breakpoint-load)
+    :config
+    (add-hook 'dape-start-hook (lambda () (save-some-buffers t t))))
+#+END_SRC
 ** company mode
 COMPlete ANYthing text completion framework.
 #+BEGIN_SRC emacs-lisp
@@ -680,22 +716,18 @@ is on the OS.
   ;; vterm package itself
   (use-package vterm
     :ensure t
-    :bind
-    ("C-c <return>" . vterm)
     :config
     (setq vterm-always-compile-module t)
     (setq vterm-term-environment-variable "eterm-color"))
-
-  ;; ;; package that enables multiple vterm instances
-  ;; (use-package multi-vterm
-  ;;   :ensure t
-  ;;   :bind
-  ;;   ("C-c <return>" . multi-vterm))
-
-  ;; (use-package vterm-toggle
-  ;;   :ensure t
-  ;;   :bind
-  ;;   ("C-c <space>" . vterm-toggle-cd))
+#+END_SRC
+** multi vterm
+Enables spawning multiple vterm instances instead of
+jumping to an existing vterm buffer.
+#+BEGIN_SRC emacs-lisp
+  (use-package multi-vterm
+    :ensure t
+    :bind
+    ("C-c <return>" . multi-vterm))
 #+END_SRC
 ** vterm editor
 Edit shell commands in a buffer and send to vterm.
@@ -877,7 +909,7 @@ Color theme to use.
   (use-package doric-themes
     :ensure t)
 
-  (load-theme 'doric-light t)
+  (load-theme 'doric-borage t)
 #+END_SRC
 * Faces
 Load faces by calling gabe/load-custom-face-attributes.
