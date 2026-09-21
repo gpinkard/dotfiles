@@ -11,7 +11,7 @@
   (setq gabe/font-size 120)
 
   ;; Default font to use for a number of faces.
-  (setq gabe/default-font "Hack")
+  (setq gabe/default-font "RobotoMono Nerd Font Mono")
 
   ;; Whether or not to enable hl-line-mode for a variety of modes.
   (setq gabe/enable-hl-line-mode t)
@@ -183,14 +183,16 @@ Disable the audio beep for keyboard-quit
 Modes to enable hl-line-mode in.
 #+BEGIN_SRC emacs-lisp
   (when gabe/enable-hl-line-mode
-    (add-hook 'dired-mode-hook #'hl-line-mode)
-    (add-hook 'ibuffer-hook #'hl-line-mode)
-    (add-hook 'markdown-mode-hook #'hl-line-mode)
-    (add-hook 'toml-mode-hook #'hl-line-mode)
-    (add-hook 'org-mode-hook #'hl-line-mode)
-    (add-hook 'package-menu-mode-hook #'hl-line-mode)
-    (add-hook 'prog-mode-hook #'hl-line-mode)
-    (add-hook 'yaml-mode-hook #'hl-line-mode))
+    (dolist (hook '(dired-mode-hook
+  		  ibuffer-hook
+  		  markdown-mode-hook
+  		  toml-mode-hook
+  		  org-mode-hook
+  		  package-menu-mode-hook
+  		  prog-mode-hook
+  		  nxml-mode-hook
+  		  yaml-mode-hook))
+      (add-hook hook (lambda () (hl-line-mode)))))
 #+END_SRC
 * Dired
 Settings for directory editor.
@@ -293,25 +295,35 @@ Sets custom face values using the set-face-attribute function.
     (interactive)
     ;; make ace-window face larger
     (custom-set-faces '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 5.0)))))
-    
+
+    ;; elfeed faces
+    (set-face-attribute 'elfeed-search-unread-title-face nil
+                        :inherit 'font-lock-keyword-face :foreground nil)
+    (set-face-attribute 'elfeed-search-date-face nil
+                        :inherit 'font-lock-variable-name-face :foreground nil)
+    (set-face-attribute 'elfeed-search-title-face nil
+                        :inherit 'default :foreground nil)
+    (set-face-attribute 'elfeed-search-feed-face nil
+                        :inherit 'font-lock-string-face :foreground nil)
+    (set-face-attribute 'elfeed-search-tag-face nil
+                        :inherit 'font-lock-type-face :foreground nil)
+
+    ;; general
     (set-face-attribute 'default nil
     		      :font gabe/default-font
     		      :height gabe/font-size
     		      :weight 'regular
     		      :width 'regular)
-
     (set-face-attribute 'fixed-pitch nil
     		      :font gabe/default-font
     		      :height gabe/font-size
     		      :weight 'regular
     		      :width 'regular)
-
     (set-face-attribute 'fixed-pitch-serif nil
     		      :font gabe/default-font
     		      :height gabe/font-size
     		      :weight 'regular
     		      :width 'regular)
-
     (set-face-attribute 'variable-pitch nil
     		      :font gabe/default-font
     		      :height gabe/font-size
@@ -699,6 +711,8 @@ is on the OS.
     :ensure t
     :config
     (setq vterm-always-compile-module t)
+    (setq vterm-timer-delay 0.01)
+    (setq vterm-max-scrollback 750)
     (setq vterm-term-environment-variable "eterm-color"))
 #+END_SRC
 ** multi vterm
@@ -784,22 +798,22 @@ RSS feed reader for emacs.
     (setq elfeed-search-filter "@4-months-ago +unread")
     (setq elfeed-show-truncate-long-urls t)
     (setq elfeed-feeds
-  	    '(("https://xkcd.com/atom.xml" comics)
-  	      ("https://www.smbc-comics.com/comic/rss" comics)
-  	      ("https://planet.emacslife.com/atom.xml" emacs)
-  	      ("https://static.fsf.org/fsforg/rss/blogs.xml" fsf)
-  	      ("https://static.fsf.org/fsforg/rss/news.xml" fsf)
-  	      ("https://protesilaos.com/news.xml" prot news)
-  	      ("https://protesilaos.com/politics.xml" prot politics)
-  	      ("https://protesilaos.com/codelog.xml" prot emacs code)
-  	      ("https://www.nasa.gov/rss/dyn/breaking_news.rss" space nasa)
-  	      ("https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss" space nasa)
-  	      ("http://blogs.nasa.gov/stationreport/feed/" space nasa iss)
-  	      ("http://www.nasa.gov/rss/dyn/chandra_images.rss" space nasa chandra_mission)
-  	      ("https://www.nasa.gov/rss/dyn/mission_pages/kepler/news/kepler-newsandfeatures-RSS.rss" space nasa keplar_mission)
-  	      ("https://www.phoronix.com/rss.php" linux news)
-  	      ("https://www.archlinux.org/feeds/news/" linux arch)
-  	      ("https://www.linuxfoundation.org/feed/" linux))))
+  	'(("https://xkcd.com/atom.xml" comics)
+  	  ("https://www.smbc-comics.com/comic/rss" comics)
+  	  ("https://planet.emacslife.com/atom.xml" emacs)
+  	  ("https://static.fsf.org/fsforg/rss/blogs.xml" fsf)
+  	  ("https://static.fsf.org/fsforg/rss/news.xml" fsf)
+  	  ("https://protesilaos.com/news.xml" prot news)
+  	  ("https://protesilaos.com/politics.xml" prot politics)
+  	  ("https://protesilaos.com/codelog.xml" prot emacs code)
+  	  ("https://www.nasa.gov/rss/dyn/breaking_news.rss" space nasa)
+  	  ("https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss" space nasa)
+  	  ("http://blogs.nasa.gov/stationreport/feed/" space nasa iss)
+  	  ("http://www.nasa.gov/rss/dyn/chandra_images.rss" space nasa chandra_mission)
+  	  ("https://www.nasa.gov/rss/dyn/mission_pages/kepler/news/kepler-newsandfeatures-RSS.rss" space nasa keplar_mission)
+  	  ("https://www.phoronix.com/rss.php" linux news)
+  	  ("https://www.archlinux.org/feeds/news/" linux arch)
+  	  ("https://www.linuxfoundation.org/feed/" linux))))
 
 #+END_SRC
 ** hackernews
@@ -876,10 +890,10 @@ What it says on the tin.
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
-  (use-package doric-themes
+  (use-package nightpanel-theme
     :ensure t)
 
-  (load-theme 'doric-borage t)
+  (load-theme 'nightpanel t)
 #+END_SRC
 * Faces
 Load faces by calling gabe/load-custom-face-attributes.
