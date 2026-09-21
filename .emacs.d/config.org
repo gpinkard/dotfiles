@@ -96,15 +96,11 @@ Set default coding system to UTF-8.
 ** tabs/offset
 Configurations for tab/offset size for various languages.
 #+BEGIN_SRC emacs-lisp
-  ;; C indentation level
-  (add-hook 'c-mode-hook
-  	  (lambda ()
-  	    (setq-local c-basic-offset 8)))
-
-  ;; C++ indentation level
-  (add-hook 'cpp-mode-hook
-  	  (lambda ()
-  	    (setq-local c-basic-offset 8)))
+  (dolist (hook '(c-mode-hook
+  		c++-mode-hook))
+    (add-hook hook (lambda ()
+  		   (setq-local c-basic-offset 8)
+  		   (setq-local c-ts-mode-indent-offset 8))))
 
   ;; Java indentation level
   (add-hook 'java-mode-hook
@@ -131,10 +127,11 @@ Configurations for tab/offset size for various languages.
 Enable line numbers when we are in a programming mode.
 #+BEGIN_SRC emacs-lisp
   (when (and (version<= "26.0.50" emacs-version) gabe/enable-line-numbers)
-    (add-hook 'markdown-mode-hook #'display-line-numbers-mode)
-    (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-    (add-hook 'toml-mode-hook #'display-line-numbers-mode)
-    (add-hook 'yaml-mode-hook #'display-line-numbers-mode))
+    (dolist (hook '(markdown-mode-hook
+  		  prog-mode-hook
+  		  toml-mode-hook
+  		  yaml-mode-hook))
+      (add-hook hook (lambda () (display-line-numbers-mode)))))
 #+END_SRC
 ** line wrap
 Wrap long lines visually.
