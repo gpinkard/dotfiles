@@ -191,6 +191,12 @@ Modes to enable hl-line-mode in.
   		  yaml-mode-hook))
       (add-hook hook (lambda () (hl-line-mode)))))
 #+END_SRC
+** tab for completion
+Enable indentation and completion using the TAB key (completion is bound to M-TAB by default).
+#+BEGIN_SRC emacs-lisp
+  (setq tab-always-indent 'complete)
+  (setq c-tab-always-indent 'complete)
+#+END_SRC
 * Dired
 Settings for directory editor.
 #+BEGIN_SRC emacs-lisp
@@ -293,18 +299,6 @@ Sets custom face values using the set-face-attribute function.
     ;; make ace-window face larger
     (custom-set-faces '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 5.0)))))
 
-    ;; elfeed faces
-    (set-face-attribute 'elfeed-search-unread-title-face nil
-                        :inherit 'font-lock-keyword-face :foreground nil)
-    (set-face-attribute 'elfeed-search-date-face nil
-                        :inherit 'font-lock-variable-name-face :foreground nil)
-    (set-face-attribute 'elfeed-search-title-face nil
-                        :inherit 'default :foreground nil)
-    (set-face-attribute 'elfeed-search-feed-face nil
-                        :inherit 'font-lock-string-face :foreground nil)
-    (set-face-attribute 'elfeed-search-tag-face nil
-                        :inherit 'font-lock-type-face :foreground nil)
-
     ;; general
     (set-face-attribute 'default nil
     		      :font gabe/default-font
@@ -350,8 +344,6 @@ Setup the package archives to use.
   			   ("elpa" . "https://elpa.gnu.org/packages/")))
 
   (package-initialize)
-
-  ;; (setq package-install-upgrade-built-in t)
 #+END_SRC
 ** use package
 Package that is a macro for installing and configuring packages.
@@ -431,7 +423,8 @@ A better (orderless) completion style.
     :ensure t
     :custom
     (completion-styles '(orderless basic))
-    (completion-category-overrides '((file (styles basic partial-completion)))))
+    (completion-pcm-leading-wildcard t)
+    (completion-category-overrides '((file (styles partial-completion)))))
 #+END_SRC
 ** consult
 Better search and navigation commands (similar to Counsel package).
@@ -464,6 +457,30 @@ Search accross all emacs symbols (functions, variables, macros, etc.) using cons
     :ensure t
     :bind
     ("C-c p c s" . consult-symbol))
+#+END_SRC
+** corfu
+Completion at point (COmpletion in Region FUnction).
+#+BEGIN_SRC emacs-lisp
+  (use-package corfu
+    :ensure t
+    :init
+    (global-corfu-mode)
+    :custom
+    (corfu-auto t)
+    (corfu-auto-delay 0.2)
+    (corfu-auto-prefix 2)
+    (corfu-cycle t))
+#+END_SRC
+** cape
+#+BEGIN_SRC emacs-lisp
+  (use-package cape
+    :ensure t
+    :bind
+    ("M-<tab>" . cape-prefix-map)
+    :init
+    (add-hook 'completion-at-point-functions #'cape-dabbrev)
+    (add-hook 'completion-at-point-functions #'cape-file)
+    (add-hook 'completion-at-point-functions #'cape-elisp-block))
 #+END_SRC
 ** affe
 Asynchronous Fuzzy Finder for Emacs.
@@ -553,14 +570,6 @@ Package that shows completions of key-chords in a minibuffer.
 ** language specific modes
 Programming language modes.
 #+BEGIN_SRC emacs-lisp
-  ;; clojure
-  (use-package clojure-mode
-    :ensure t)
-
-  ;; crystal
-  (use-package crystal-mode
-    :ensure t)
-
   ;; docker
   (use-package dockerfile-mode
     :ensure t)
@@ -584,18 +593,6 @@ Programming language modes.
     :ensure t
     :config
     (add-to-list 'auto-mode-alist '("\\.odin\\'" . odin-ts-mode)))
-
-  ;; python
-  (use-package python-mode
-    :ensure t)
-
-  ;; ruby
-  (use-package ruby-ts-mode
-    :ensure t)
-  (use-package ruby-end
-    :ensure t
-    :hook
-    (ruby-mode . ruby-end-mode))
 
   ;; rust
   (use-package rust-mode
@@ -690,14 +687,6 @@ Debugger adapter protocol package (Debugger Adapter Protocol for Emacs).
     (after-init . dape-breakpoint-load)
     :config
     (add-hook 'dape-start-hook (lambda () (save-some-buffers t t))))
-#+END_SRC
-** company mode
-COMPlete ANYthing text completion framework.
-#+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :hook
-    (prog-mode . company-mode))
 #+END_SRC
 ** vterm
 A faster, more responsive terminal in emacs. May need to install whatever the libvterm package
@@ -859,8 +848,6 @@ Better padding around buffers.
     ("C-c p s" . spacious-padding-mode)
     :config
     (setq spacious-padding-subtle-mode-line t))
-    ;; :init
-    ;; (spacious-padding-mode))
 #+END_SRC
 ** life calendar
 #+BEGIN_SRC emacs-lisp
@@ -887,10 +874,10 @@ What it says on the tin.
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
-  (use-package nightpanel-theme
+  (use-package doric-themes
     :ensure t)
 
-  (load-theme 'nightpanel t)
+  (load-theme 'doric-pine t)
 #+END_SRC
 * Faces
 Load faces by calling gabe/load-custom-face-attributes.
