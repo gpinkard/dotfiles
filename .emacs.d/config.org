@@ -7,19 +7,22 @@
 #+END_SRC
 * Custom Variables
 #+BEGIN_SRC emacs-lisp
-  ;; Default font size to use for most faces.
-  (setq gabe/font-size 120)
+  (defvar gabe/font-size 120
+    "Default font size to use for most faces.")
 
-  ;; Default font to use for a number of faces.
-  (setq gabe/default-font "RobotoMono Nerd Font Mono")
+  (defvar gabe/default-font "RobotoMono Nerd Font Mono"
+    "Default font to use for most faces.")
 
-  ;; Whether or not to enable hl-line-mode for a variety of modes.
-  (setq gabe/enable-hl-line-mode t)
+  (defvar gabe/enable-hl-line-mode t
+    "Whether or not to enable hl-line-mode for a variety of modes.")
 
-  ;; Whether or not to enable line numbers for a variety of modes.
-  (setq gabe/enable-line-numbers t)
+  (defvar gabe/enable-line-numbers t
+    "Whether or not to enable line numbers for a variety of modes.")
+
+  (defvar gabe/org-bullets (list "" "󰪥" "" "" "")
+    "Icons used for org heading bullets, cycled by level.")
 #+END_SRC
-* User Interface 
+* User Interface
 User interface configurations (i.e. tool bar, cursor, etc.).
 ** tool bar
 Disable the tool bar.
@@ -139,9 +142,9 @@ Wrap long lines visually.
   (global-visual-line-mode t)
 #+END_SRC
 ** remember place in file
-Have emacs remember the last cursor position of a file you visited.
+Have emacs remember the last cursor position of a file you visited (disabled).
 #+BEGIN_SRC emacs-lisp
-  (save-place-mode t)
+  ;; (save-place-mode t)
 #+END_SRC
 ** automatically refresh buffers
 Automatically refresh buffers on file changes (i.e. git checkout).
@@ -211,10 +214,18 @@ configurations make using emacs for osx more bareable.
 #+END_SRC
 * Org
 Configurations for org mode.
-** source code editing
-Force org to edit src blocks in the same window.
 #+BEGIN_SRC emacs-lisp
+  ;; force org to edit src blocks in the same window
   (setq org-src-window-setup 'other-window)
+
+  ;; show entities as UTF8 chars
+  (setq org-pretty-entities t)
+
+  ;; hide all but the last star, so only one bullet shows per heading
+  (setq org-hide-leading-stars t)
+
+  ;; ellipsis used in org outline
+  (setq org-ellipsis " 󰜴")
 #+END_SRC
 * Browser/EWW
 Configurations for browsers in emacs, and the emacs web wowser.
@@ -331,6 +342,30 @@ set the font size globaly.
     (gabe/load-custom-face-attributes))
 
   (global-set-key (kbd "C-c c f") 'gabe/set-font-size)
+#+END_SRC
+** org bullets
+Pretty bullets for org mode.
+#+BEGIN_SRC emacs-lisp
+  (defun gabe/org-bullet-icon ()
+    "Return the bullet icon for the heading font-lock just matched."
+    (let ((level (- (match-end 1) (match-beginning 1))))
+      (nth (mod (1- level) (length gabe/org-bullets)) gabe/org-bullets)))
+
+  (defun gabe/org-pretty-bullets ()
+    "Display the last star of each org heading as a nerd icon."
+    ;; let font-lock remove the icon when a heading is edited or deleted
+    (setq-local font-lock-extra-managed-props
+                (append font-lock-extra-managed-props '(composition)))
+    (font-lock-add-keywords
+     nil
+     '(("^\\(\\*+\\) "
+        (1 (progn
+             (compose-region (1- (match-end 1)) (match-end 1)
+                             (gabe/org-bullet-icon))
+             nil)))))   ; return nil so org's own heading faces still apply
+    (font-lock-flush))
+
+  (add-hook 'org-mode-hook #'gabe/org-pretty-bullets)
 #+END_SRC
 * Packages
 ** package archives
@@ -717,7 +752,7 @@ Edit shell commands in a buffer and send to vterm.
     :ensure t
     :bind
     (:map vterm-mode-map
-  	("C-c e" . vterm-editor-open)))
+   	("C-c e" . vterm-editor-open)))
 #+END_SRC
 ** popterm
 Toggle a terminal in a posframe.
@@ -874,10 +909,10 @@ What it says on the tin.
 ** theme
 Color theme to use.
 #+BEGIN_SRC emacs-lisp
-  (use-package doric-themes
-    :ensure t)
-
-  (load-theme 'doric-pine t)
+  (use-package au-themes
+    :vc (:url "https://github.com/szymonwilczek/au-themes")
+    :config
+    (load-theme 'au-parchment-day t))
 #+END_SRC
 * Faces
 Load faces by calling gabe/load-custom-face-attributes.
