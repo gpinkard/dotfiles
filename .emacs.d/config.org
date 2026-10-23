@@ -61,7 +61,7 @@ Disable the startup screen.
   (setq inhibit-startup-message t)
 #+END_SRC
 ** dialog prompts
-Stop emacs from using UI dialog boxes.
+Stop Emacs from using UI dialog boxes.
 #+BEGIN_SRC emacs-lisp
   (setq use-dialog-box nil)
 #+END_SRC
@@ -77,7 +77,7 @@ Configurations for the echo area.
   (setq suggest-key-bindings nil)
 #+END_SRC
 * Editing
-Configurations that impact the editing experience and general feel of emacs.
+Configurations that impact the editing experience and general feel of Emacs.
 ** parens/braces/quotes/etc.
 Show matching parens, quotes, braces, etc.
 #+BEGIN_SRC emacs-lisp
@@ -155,13 +155,13 @@ Automatically refresh buffers on file changes (i.e. git checkout).
   (setq auto-revert-verbose t)
 #+END_SRC
 ** scrolling
-Configurations that effect how emacs scrolls text.
+Configurations that effect how Emacs scrolls text.
 #+BEGIN_SRC emacs-lisp
   ;; scroll line by line instead of half a buffer at a time
   (setq scroll-conservatively 100)
 #+END_SRC
 ** alias yes-or-no-p
-Alias 'yes' and 'no' to 'y' and 'n' for all emacs confirmation flows.
+Alias 'yes' and 'no' to 'y' and 'n' for all Emacs confirmation flows.
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
@@ -208,7 +208,7 @@ Settings for directory editor.
 #+END_SRC
 * OSX
 This configuration targets gnu/linux, but I often have to use a mac for work. These
-configurations make using emacs for osx more bareable.
+configurations make using Emacs for osx more bareable.
 #+BEGIN_SRC emacs-lisp
   (setq mac-command-modifier 'meta)
 #+END_SRC
@@ -228,7 +228,7 @@ Configurations for org mode.
   (setq org-ellipsis " 󰜴")
 #+END_SRC
 * Browser/EWW
-Configurations for browsers in emacs, and the emacs web wowser.
+Configurations for browsers in Emacs, and the emacs web wowser.
 #+BEGIN_SRC emacs-lisp
   ;; set default browser to eww
   (setq browse-url-browser-function 'eww-browse-url)
@@ -237,7 +237,7 @@ Configurations for browsers in emacs, and the emacs web wowser.
   (setq eww-search-prefix "https://duckduckgo.com/html?q=")
 #+END_SRC
 * Terminal
-Configurations for the built in terminals in emacs.
+Configurations for the built in terminals in Emacs.
 ** ansi-term
 Force ansi-term to use zsh.
 #+BEGIN_SRC emacs-lisp
@@ -264,8 +264,8 @@ Custom functions I have written for various tasks.
 ** split and follow windows
 Functions for following a window after split.
 #+BEGIN_SRC emacs-lisp
-  ;; Better horizontal split.
   (defun gabe/split-horizontally-and-follow ()
+    "Follow to new window on horizontal split."
     (interactive)
     (split-window-below)
     (balance-windows)
@@ -273,8 +273,8 @@ Functions for following a window after split.
 
   (global-set-key (kbd "C-x 2") 'gabe/split-horizontally-and-follow)
 
-  ;; Better vertical split.
   (defun gabe/split-vertically-and-follow ()
+    "Follow to new window on horizontal split."
     (interactive)
     (split-window-right)
     (balance-windows)
@@ -286,6 +286,7 @@ Functions for following a window after split.
 Reload the configuration file.
 #+BEGIN_SRC emacs-lisp
   (defun gabe/reload-config ()
+    "Reload the config file.  Use after making changes to the config to reflect them without restarting Emacs."
     (interactive)
     (message "reloading config...")
     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
@@ -297,6 +298,7 @@ Reload the configuration file.
 Open the configuration file in the current frame.
 #+BEGIN_SRC emacs-lisp
   (defun gabe/open-config ()
+    "Open the config file (~/.emacs.d/config.org)."
     (interactive)
     (find-file "~/.emacs.d/config.org"))
 
@@ -306,6 +308,7 @@ Open the configuration file in the current frame.
 Sets custom face values using the set-face-attribute function.
 #+BEGIN_SRC emacs-lisp
   (defun gabe/load-custom-face-attributes ()
+    "Sets the font size for a number of faces at once based on the value of gabe/font-size."
     (interactive)
     ;; make ace-window face larger
     (custom-set-faces '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 5.0)))))
@@ -337,6 +340,7 @@ Interactive function which sets the gabe/font-size variable to.
 set the font size globaly.
 #+BEGIN_SRC emacs-lisp
   (defun gabe/set-font-size (size)
+    "Interactively set the font size.  First sets the gabe/font-size variable to the specified value, then calls gabe/load-custom-face-attributes"
     (interactive "nFont Size: ")
     (setq gabe/font-size size)
     (gabe/load-custom-face-attributes))
@@ -366,6 +370,15 @@ Pretty bullets for org mode.
     (font-lock-flush))
 
   (add-hook 'org-mode-hook #'gabe/org-pretty-bullets)
+#+END_SRC
+** purge cookies
+Delete cookies saved by emacs.
+#+BEGIN_SRC emacs-lisp
+  (defun gabe/purge-cookies ()
+    "Delete Emacs HTTP cookies."
+    (interactive)
+    (delete-file "~/.emacs.d/url/cookies")
+    (message "Cookies purged."))
 #+END_SRC
 * Packages
 ** package archives
@@ -420,7 +433,7 @@ Package that is a macro for installing and configuring packages.
     (marginalia-mode . nerd-icons-completion-marginalia-setup))
 #+END_SRC
 ** vertico
-Vertical completion framework that works nicely with native emacs completions.
+Vertical completion framework that works nicely with native Emacs completions.
 #+BEGIN_SRC emacs-lisp
   (use-package vertico
     :ensure t
@@ -486,7 +499,7 @@ Better search and navigation commands (similar to Counsel package).
     ("C-c p c v" . consult-vc-modified-files))
 #+END_SRC
 ** consult symbol
-Search accross all emacs symbols (functions, variables, macros, etc.) using consult.
+Search accross all Emacs symbols (functions, variables, macros, etc.) using consult.
 #+BEGIN_SRC emacs-lisp
   (use-package consult-symbol
     :ensure t
@@ -578,7 +591,9 @@ Multiple cursors for editing multiple lines at once.
 A *magical* git porcelain.
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t)
+    :ensure t
+    :config
+    (magit-auto-revert-mode 1))
 #+END_SRC
 ** ace window
 Better window switching (as well as other window options).
@@ -724,7 +739,7 @@ Debugger adapter protocol package (Debugger Adapter Protocol for Emacs).
     (add-hook 'dape-start-hook (lambda () (save-some-buffers t t))))
 #+END_SRC
 ** vterm
-A faster, more responsive terminal in emacs. May need to install whatever the libvterm package
+A faster, more responsive terminal in Emacs. May need to install whatever the libvterm package
 is on the OS.
 #+BEGIN_SRC emacs-lisp
   ;; vterm package itself
@@ -769,7 +784,7 @@ Toggle a terminal in a posframe.
     (popterm-global-mode 1))
 #+END_SRC
 ** exec from shell
-Make emacs use environment variables from the shell.
+Make Emacs use environment variables from the shell.
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :ensure t
@@ -807,7 +822,7 @@ Sane note taking package.
     (setq denote-rename-buffer-mode 1))
 #+END_SRC
 ** elfeed
-RSS feed reader for emacs.
+RSS feed reader for Emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package elfeed
     :ensure t
@@ -912,7 +927,7 @@ Color theme to use.
   (use-package au-themes
     :vc (:url "https://github.com/szymonwilczek/au-themes")
     :config
-    (load-theme 'au-parchment-day t))
+    (load-theme 'au-salina-night t))
 #+END_SRC
 * Faces
 Load faces by calling gabe/load-custom-face-attributes.
