@@ -19,6 +19,11 @@
   (defvar gabe/enable-line-numbers t
     "Whether or not to enable line numbers for a variety of modes.")
 
+  (defvar gabe/enable-icons t
+    "Whether or not to enable icons.")
+  ;; override value if graphics are not enabled
+  (setq gabe/enable-icons (and gabe/enable-icons (display-graphic-p)))
+
   (defvar gabe/org-bullets (list "" "󰪥" "" "" "")
     "Icons used for org heading bullets, cycled by level.")
 #+END_SRC
@@ -405,32 +410,32 @@ Package that is a macro for installing and configuring packages.
 #+END_SRC
 ** icons
 #+BEGIN_SRC emacs-lisp
-  (use-package nerd-icons
-    :ensure t)
-    ;; :config
-    ;; (setq nerd-icons-font-family "RobotoMono Nerd Font Mono"))
-
-  (use-package nerd-icons-dired
-    :ensure t
-    :hook
-    (dired-mode . nerd-icons-dired-mode))
-
-  (use-package nerd-icons-ibuffer
-    :ensure t
-    :hook
-    (ibuffer-mode . nerd-icons-ibuffer-mode)
-    :config
-    (setq nerd-icons-ibuffer-icon t)
-    (setq nerd-icons-ibuffer-human-readable-size t)
-    (setq nerd-ibuffer-color-icon t))
-
-  (use-package nerd-icons-completion
-    :ensure t
-    :after marginalia
-    :config
-    (nerd-icons-completion-mode)
-    :hook
-    (marginalia-mode . nerd-icons-completion-marginalia-setup))
+  (if gabe/enable-icons
+      (progn
+        (use-package nerd-icons
+  	:ensure t)
+        
+        (use-package nerd-icons-dired
+  	:ensure t
+  	:hook
+  	(dired-mode . nerd-icons-dired-mode))
+        
+        (use-package nerd-icons-ibuffer
+  	:ensure t
+  	:hook
+  	(ibuffer-mode . nerd-icons-ibuffer-mode)
+  	:config
+  	(setq nerd-icons-ibuffer-icon t)
+  	(setq nerd-icons-ibuffer-human-readable-size t)
+  	(setq nerd-ibuffer-color-icon t))
+        
+        (use-package nerd-icons-completion
+  	:ensure t
+  	:after marginalia
+  	:config
+  	(nerd-icons-completion-mode)
+  	:hook
+  	(marginalia-mode . nerd-icons-completion-marginalia-setup))))
 #+END_SRC
 ** vertico
 Vertical completion framework that works nicely with native Emacs completions.
@@ -871,10 +876,6 @@ Emacs start screen replacement.
     (setq dashboard-items '((projects . 5)
   			  (recents . 5)))
     (setq dashboard-set-navigator t)
-    (setq dashboard-display-icons-p t)
-    (setq dashboard-icon-type 'nerd-icons)
-    (setq dashboard-set-heading-icons nil)
-    (setq dashboard-set-file-icons t)
     (setq dashboard-footer-messages '("If a man knows not to which port he sails, no wind is favorable."
   				    "Pain is the touchstone of all growth."
   				    "What one programmer can do in one month, two programmers can do in two months."
@@ -887,7 +888,13 @@ Emacs start screen replacement.
   				    "Keep cool, but don't freeze."
   				    "Easy does it."
   				    "Nothing great is created suddenly."))
-    (setq dashboard-startup-banner "~/.emacs.d/assets/hobbes.png"))
+    (setq dashboard-startup-banner "~/.emacs.d/assets/hobbes.png")
+    (if gabe/enable-icons
+        (progn
+  	(setq dashboard-display-icons-p t)
+  	(setq dashboard-icon-type 'nerd-icons)
+  	(setq dashboard-set-heading-icons nil)
+  	(setq dashboard-set-file-icons t))))
 #+END_SRC
 ** spacious padding
 Better padding around buffers.
