@@ -230,7 +230,9 @@ Configurations for org mode.
   (setq org-hide-leading-stars t)
 
   ;; ellipsis used in org outline
-  (setq org-ellipsis " 󰜴")
+  (if gabe/enable-icons
+      (setq org-ellipsis " 󰜴")
+    (setq org-ellipsis "..."))
 #+END_SRC
 * Browser/EWW
 Configurations for browsers in Emacs, and the emacs web wowser.
@@ -374,7 +376,8 @@ Pretty bullets for org mode.
              nil)))))   ; return nil so org's own heading faces still apply
     (font-lock-flush))
 
-  (add-hook 'org-mode-hook #'gabe/org-pretty-bullets)
+  (when gabe/enable-icons
+    (add-hook 'org-mode-hook #'gabe/org-pretty-bullets))
 #+END_SRC
 ** purge cookies
 Delete cookies saved by emacs.
@@ -410,32 +413,31 @@ Package that is a macro for installing and configuring packages.
 #+END_SRC
 ** icons
 #+BEGIN_SRC emacs-lisp
-  (if gabe/enable-icons
-      (progn
-        (use-package nerd-icons
-  	:ensure t)
-        
-        (use-package nerd-icons-dired
-  	:ensure t
-  	:hook
-  	(dired-mode . nerd-icons-dired-mode))
-        
-        (use-package nerd-icons-ibuffer
-  	:ensure t
-  	:hook
-  	(ibuffer-mode . nerd-icons-ibuffer-mode)
-  	:config
-  	(setq nerd-icons-ibuffer-icon t)
-  	(setq nerd-icons-ibuffer-human-readable-size t)
-  	(setq nerd-ibuffer-color-icon t))
-        
-        (use-package nerd-icons-completion
-  	:ensure t
-  	:after marginalia
-  	:config
-  	(nerd-icons-completion-mode)
-  	:hook
-  	(marginalia-mode . nerd-icons-completion-marginalia-setup))))
+  (when gabe/enable-icons  
+    (use-package nerd-icons
+      :ensure t)
+    
+    (use-package nerd-icons-dired
+      :ensure t
+      :hook
+      (dired-mode . nerd-icons-dired-mode))
+    
+    (use-package nerd-icons-ibuffer
+      :ensure t
+      :hook
+      (ibuffer-mode . nerd-icons-ibuffer-mode)
+      :config
+      (setq nerd-icons-ibuffer-icon t)
+      (setq nerd-icons-ibuffer-human-readable-size t)
+      (setq nerd-ibuffer-color-icon t))
+    
+    (use-package nerd-icons-completion
+      :ensure t
+      :after marginalia
+      :config
+      (nerd-icons-completion-mode)
+      :hook
+      (marginalia-mode . nerd-icons-completion-marginalia-setup)))
 #+END_SRC
 ** vertico
 Vertical completion framework that works nicely with native Emacs completions.
@@ -889,12 +891,11 @@ Emacs start screen replacement.
   				    "Easy does it."
   				    "Nothing great is created suddenly."))
     (setq dashboard-startup-banner "~/.emacs.d/assets/hobbes.png")
-    (if gabe/enable-icons
-        (progn
-  	(setq dashboard-display-icons-p t)
-  	(setq dashboard-icon-type 'nerd-icons)
-  	(setq dashboard-set-heading-icons nil)
-  	(setq dashboard-set-file-icons t))))
+    (when gabe/enable-icons
+      (setq dashboard-display-icons-p t)
+      (setq dashboard-icon-type 'nerd-icons)
+      (setq dashboard-set-heading-icons nil)
+      (setq dashboard-set-file-icons t)))
 #+END_SRC
 ** spacious padding
 Better padding around buffers.
